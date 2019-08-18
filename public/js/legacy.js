@@ -100,7 +100,7 @@ function search(needle, row, pos, headerColumns, dataColumns) {
       var regex = new RegExp(row[dataColumn])
       var matches = needle.match(regex)
       if (matches && matches[0] == needle) {
-        var result = row
+        var result = Object.assign({}, row)
         headerColumns.forEach(function(headerColumn) {
           result[headerColumn] = row[headerColumn]
         })
