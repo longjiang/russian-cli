@@ -24,6 +24,21 @@ export default new Router({
           }
         ]
       }
+    },
+    {
+      path: '/endings',
+      name: 'endings',
+      props: true,
+      component: () => import('./views/Endings.vue'),
+      meta: {
+        title: 'Lookup Case Endings | Russian Zero to Hero',
+        metaTags: [
+          {
+            name: 'description',
+            content: 'Figure out the dictionary form and case by looking up the ending.'
+          }
+        ]
+      }
     }
   ]
 })
