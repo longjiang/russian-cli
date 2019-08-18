@@ -8,11 +8,12 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      redirect: '/noun-cases'
+      redirect: '/cases/nouns/'
     },
     {
-      path: '/noun-cases',
+      path: '/cases/nouns/:args?',
       name: 'noun-cases',
+      props: true,
       component: () => import('./views/NounCases.vue'),
       meta: {
         title: 'Learn Russian Noun Cases | Russian Zero to Hero',

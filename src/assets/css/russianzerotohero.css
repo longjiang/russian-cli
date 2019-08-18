@@ -1,0 +1,185 @@
+.results-1,
+.results-2 {
+  padding: 1rem 0;
+}
+
+.noun {
+  color: #5c9258;
+}
+
+.adjective {
+  color: #885b9a;
+}
+
+.verb {
+  color: #ad8e57;
+}
+
+.top-bar {
+  background-color: #3a3a3a;
+  color: white;
+}
+
+.top-bar a {
+  color: #fd5112;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.declined-word {
+  box-shadow: 0.3rem 0.3rem 1rem #0000003b;
+  margin: 1.6rem 0;
+  border-radius: 0.5rem;
+  position: relative;
+}
+
+.speak {
+  background: #f1f1f1;
+  border: none;
+  border-top-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  padding: 0.2rem 1rem 0.5rem;
+}
+
+.speak img {
+  max-height: 1.3rem;
+  opacity: 0.5;
+}
+
+.declined-word-inner {
+  display: flex;
+  padding: 2rem;
+  align-items: center;
+}
+
+.hint {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  background: #f1f1f1;
+  color: #9a9a9a;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.example-image-wrapper {
+  flex: 1;
+  text-align: center;
+  margin-right: 2rem;
+}
+
+.example-wrapper {
+  flex: 3;
+}
+
+.example-translation {
+  color: #999;
+}
+
+.blank {
+  background: #596394;
+  padding: 0.1rem 0.4rem;
+  color: white;
+  border-radius: 0.2rem;
+  font-weight: normal;
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.blank.answered {
+  background: #5a9459;
+}
+
+.transparent {
+  visibility: hidden;
+}
+
+.answer {
+  position: absolute;
+  left: 0.4rem;
+  width: 100%;
+  text-align: left;
+  display: inline-block;
+}
+
+.hidden {
+  display: none;
+}
+
+.type-nav-item {
+  padding: 0.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  color: #826b62;
+}
+
+.type-nav-item.current {
+  background: #826b61;
+  cursor: inherit;
+  color: white;
+  border-radius: 0.3rem;
+}
+
+.mt1 {
+  margin-top: 1rem;
+}
+
+.mt2 {
+  margin-top: 2rem;
+}
+
+[data-case] {
+  background-color: #e4e4e4;
+  position: relative;
+}
+
+[data-case*='nominative'] {
+  background-color: #fff0c2;
+}
+
+[data-case*='genitive'] {
+  background-color: #e6ffc2;
+}
+
+[data-case*='dative'] {
+  background-color: #c2f3ff;
+}
+
+[data-case*='accusative'] {
+  background-color: #ffd6d6;
+}
+
+[data-case*='instrumental'] {
+  background-color: #d0f7f3;
+}
+
+[data-case*='prepositional'] {
+  background-color: #dbe4fb;
+}
+
+[data-case*='locative'] {
+  background-color: #fac2ff;
+}
+
+.popup {
+  padding: 1rem;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  background: white;
+  top: 1.2rem;
+  left: 0;
+  z-index: 1;
+}
+
+#legend div {
+  display: inline-block;
+  padding: 0 0.5rem;
+}
+
+#analyzed {
+  overflow: visible;
+}

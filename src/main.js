@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.css'
+import '@/assets/css/russianzerotohero.css'
 import Vue from 'vue'
 import RussianZeroToHero from './RussianZeroToHero'
 
