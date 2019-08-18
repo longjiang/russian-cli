@@ -7,7 +7,7 @@
         v-for="row in data"
         v-if="row[type + ' example']"
       >
-        <button class="speak"><font-awesome-icon icon="volume-up" /></button>
+        <button class="speak" @click="speak(row[`${type} example sentence`])"><font-awesome-icon icon="volume-up" /></button>
         <div class="declined-word-inner">
           <div class="example-image-wrapper">
             <img
@@ -60,6 +60,17 @@ export default {
     data: {
       type: Array
     }
+  },
+  methods: {
+    speak(sentence) {
+      speakRussian(sentence)
+    }
+  },
+  mounted() {
+    addBlankEventHandlers()
+  },
+  updated() {
+    addBlankEventHandlers()
   }
 }
 </script>

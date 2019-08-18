@@ -252,7 +252,7 @@ function lookupPrepositions(ending, files) {
 
 function process(index) {
   var ending = $('#search-field-' + index).val()
-  messages = lookup(ending, files)
+  let messages = lookup(ending, files)
   $('.result-list-' + index).html('')
   $('.result-heading-' + index).html(
     '<p>A word ending in <b>"-' + ending + '"</b> can be: </p>'
@@ -266,7 +266,7 @@ function process(index) {
 
 function processPrepositions(index) {
   var ending = $('#search-field-' + index).val()
-  messages = lookupPrepositions(ending, files)
+  let messages = lookupPrepositions(ending, files)
   $('.result-list-' + index).html('')
   messages.forEach(function(message) {
     $('.result-list-' + index).append(
@@ -299,13 +299,6 @@ function attachIndexEventListeners() {
   $('#search-field-3').on('keyup', function() {
     processPrepositions(3)
   })
-}
-
-function showType(type) {
-  $('.type').addClass('hidden')
-  $('.type[data-type="' + type + '"]').removeClass('hidden')
-  $('.type-nav-item').removeClass('current')
-  $('.type-nav-item[data-type="' + type + '"]').addClass('current')
 }
 
 function formatExampleSentenceHtml(types, data) {
@@ -363,25 +356,6 @@ function addBlankEventHandlers() {
   })
 }
 
-function addNavEventHandlers() {
-  $('.type-nav-item').click(function() {
-    var type = $(this).attr('data-type')
-    showType(type)
-  })
-}
-
-function addSpeakEventHandlers() {
-  $('.speak').click(function() {
-    var $sentence = $(this)
-      .parent()
-      .find('.example')
-      .clone()
-    $sentence.find('.question').remove()
-    var sentence = $sentence.text()
-    speakRussian(sentence)
-  })
-}
-
 function loadAllCsvsThen(callback) {
   var loaded = 0
   files.forEach(function(file) {
@@ -415,28 +389,10 @@ function getFileByPos(pos) {
   return result
 }
 
-function nounCases() {
-  loadAllCsvsThen(function() {
-    var nounFile = getFileByPos('noun')
-    var types = nounFile.dataColumns
-    var nounCasesApp = new Vue({
-      el: '#noun-cases',
-      data: {
-        data: formatExampleSentenceHtml(types, nounFile.data),
-        types: types
-      }
-    })
-    addBlankEventHandlers()
-    addNavEventHandlers()
-    addSpeakEventHandlers()
-    showType(types[0])
-  })
-}
-
 function analyzer() {
   loadAllCsvsThen(function() {
-    adjFile = getFileByPos('adjective')
-    nounFile = getFileByPos('noun')
+    let adjFile = getFileByPos('adjective')
+    let nounFile = getFileByPos('noun')
     var analyzerApp = new Vue({
       el: '#analyzer',
       data: {
@@ -447,7 +403,7 @@ function analyzer() {
       methods: {
         analyze: function() {
           var text = $('#text').val()
-          html = markCases(text)
+          let html = markCases(text)
           this.markedText = html.replace(/\n/g, '<br>')
         }
       },
@@ -523,7 +479,7 @@ function markCases(text) {
 
 function caseMarkedOver(event) {
   event.stopPropagation()
-  messages = [
+  let messages = [
     '<span data-case="' +
       $(this).attr('data-case') +
       '">' +
@@ -543,7 +499,7 @@ function caseMarkedOver(event) {
           $(this).attr('data-hint')
       )
     })
-  $ul = $('<ul></ul>')
+  let $ul = $('<ul></ul>')
   messages.forEach(function(message) {
     $ul.append($('<li>' + message + '</li>'))
   })
@@ -551,7 +507,7 @@ function caseMarkedOver(event) {
 }
 
 function showPopup(html, element) {
-  $popup = $('#popup')
+  let $popup = $('#popup')
   $popup.html(html)
   var rect = element.getBoundingClientRect()
   $popup.css('top', rect.bottom)
@@ -592,7 +548,7 @@ function makeEndingComboTable(adjTable, nounTable) {
         if (adjRow.gender === gender) {
           nounTable.forEach(function(nounRow) {
             if (nounRow.gender === gender) {
-              resultRow = {
+              let resultRow = {
                 gender: gender,
                 caseNumberCombo: caseNumberCombo,
                 nounEnding: nounRow[caseNumberCombo],
