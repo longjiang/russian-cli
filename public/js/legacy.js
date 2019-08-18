@@ -275,32 +275,6 @@ function processPrepositions(index) {
   })
 }
 
-function attachIndexEventListeners() {
-  $('#lookup-1').click(function() {
-    process(1)
-  })
-
-  $('#search-field-1').on('keyup', function() {
-    process(1)
-  })
-
-  $('#lookup-2').click(function() {
-    process(2)
-  })
-
-  $('#search-field-2').on('keyup', function() {
-    process(2)
-  })
-
-  $('#lookup-3').click(function() {
-    processPrepositions(3)
-  })
-
-  $('#search-field-3').on('keyup', function() {
-    processPrepositions(3)
-  })
-}
-
 function formatExampleSentenceHtml(types, data) {
   types.forEach(function(type) {
     data.forEach(function(row) {
@@ -373,12 +347,6 @@ function loadAllCsvsThen(callback) {
   })
 }
 
-function index() {
-  loadAllCsvsThen(function() {
-    attachIndexEventListeners()
-  })
-}
-
 function getFileByPos(pos) {
   var result
   files.forEach(function(file) {
@@ -387,34 +355,6 @@ function getFileByPos(pos) {
     }
   })
   return result
-}
-
-function analyzer() {
-  loadAllCsvsThen(function() {
-    let adjFile = getFileByPos('adjective')
-    let nounFile = getFileByPos('noun')
-    var analyzerApp = new Vue({
-      el: '#analyzer',
-      data: {
-        adjTable: adjFile.data,
-        nounTable: nounFile.data,
-        markedText: ''
-      },
-      methods: {
-        analyze: function() {
-          var text = $('#text').val()
-          let html = markCases(text)
-          this.markedText = html.replace(/\n/g, '<br>')
-        }
-      },
-      updated: function() {
-        $('.case-marked').hover(caseMarkedOver)
-        $('.case-marked').mouseout(function() {
-          $('.popup').addClass('hidden')
-        })
-      }
-    })
-  })
 }
 
 function getHintText(row) {
@@ -435,9 +375,9 @@ function getHintText(row) {
   )
 }
 
-function markCases(text) {
+function markCases(text, adjTable, nounTable) {
   // goes through a table that converts regex pattern to case/number combos
-  var endingComboTable = makeEndingComboTable(adjFile.data, nounFile.data)
+  var endingComboTable = makeEndingComboTable(adjTable, nounTable)
   endingComboTable.forEach(function(row) {
     var pattern =
       '([\\wа-я]+' +

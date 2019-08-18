@@ -39,6 +39,21 @@ export default new Router({
           }
         ]
       }
+    },
+    {
+      path: '/analyzer',
+      name: 'analyzer',
+      props: true,
+      component: () => import('./views/Analyzer.vue'),
+      meta: {
+        title: 'Analyze Cases in Russian Text | Russian Zero to Hero',
+        metaTags: [
+          {
+            name: 'description',
+            content: 'Take a piece of russian text and figure out the case of each adjective + noun combo.'
+          }
+        ]
+      }
     }
   ]
 })
