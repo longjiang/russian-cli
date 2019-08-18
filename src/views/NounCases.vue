@@ -48,7 +48,11 @@ export default {
   },
   methods: {
     route() {
-      this.type = this.args.replace('_', ' ')
+      if (this.args) {
+        this.type = this.args.replace('_', ' ')
+      } else {
+        location.hash = `#/cases/nouns/${this.types[0].replace(' ', '_')}`
+      }
     }
   },
   watch: {
