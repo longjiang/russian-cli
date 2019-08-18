@@ -1,14 +1,19 @@
 <template>
   <div id="russian-zero-to-hero">
-    <div class="container-fluid bg-dark pt-4 pb-4 pl-0 pr-0">
+    <div class="container-fluid bg-dark pt-4 pl-0 pr-0">
       <div class="container">
-        <div class="row">
+        <div class="row mb-4">
           <div class="col-sm-12">
             <img
               src="@/assets/img/logo-ru-zth-light.png"
               alt="Russian Zero to Hero"
               class="logo"
             />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <Nav />
           </div>
         </div>
       </div>
@@ -56,8 +61,11 @@
 </template>
 
 <script>
+import Nav from '@/components/Nav'
 export default {
-  components: {}
+  components: {
+    Nav
+  }
 }
 </script>
 

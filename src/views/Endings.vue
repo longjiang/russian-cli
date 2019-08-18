@@ -1,14 +1,11 @@
 <template>
   <div>
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-      <div class="container">
-        <h3>Lookup Russian Case Ending</h3>
+    <div class="container main mt-5 mb-5">
+      <div class="row">
+        <div class="col-sm-12">
+          <h3 class="mb-5">Lookup Russian Case Ending</h3>
+        </div>
       </div>
-    </div>
-
-    <div class="container">
-      <!-- Example row of columns -->
       <div class="row">
         <div class="col-md-4" role="form">
           <div class="input-group mb-3">
@@ -27,7 +24,8 @@
           </div>
           <div v-if="ending1" class="results-1">
             <p class="result-heading-1">
-              A word ending in <b>"-{{ ending1 }}"</b> can be:
+              A word ending in
+              <b>"-{{ ending1 }}"</b> can be:
             </p>
             <ul class="result-list-1">
               <li
@@ -56,7 +54,8 @@
           </div>
           <div v-if="ending2" class="results-2">
             <p class="result-heading-2">
-              A word ending in <b>"-{{ ending2 }}"</b> can be:
+              A word ending in
+              <b>"-{{ ending2 }}"</b> can be:
             </p>
             <ul class="result-list-2">
               <li
@@ -85,7 +84,8 @@
           </div>
           <div v-if="preposition" class="results-3">
             <p class="result-heading-3">
-              Prepositions matching <b>"{{ preposition }}"</b>:
+              Prepositions matching
+              <b>"{{ preposition }}"</b>:
             </p>
             <ul class="result-list-3">
               <li
