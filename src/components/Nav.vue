@@ -2,36 +2,27 @@
   <nav class="tabs">
     <router-link
       class="tab"
-      :to="{ name: 'endings' }"
-      title="Figure out the dictionary form and case by looking up the ending."
-    >
-      Case Ending Lookup
-    </router-link>
-    <router-link
-      class="tab"
       :to="{ name: 'noun-cases' }"
       title="Learn how to decline Russian nouns."
-    >
-      Noun Cases
-    </router-link>
+    >Noun Cases</router-link>
     <router-link
       class="tab"
       :to="{ name: 'analyzer' }"
       title="Take a piece of russian text and figure out the case of each adjective + noun combo."
-    >
-      Case Analyzer
-    </router-link>
+    >Case Analyzer</router-link>
+    <router-link
+      class="tab"
+      :to="{ name: 'endings' }"
+      title="Figure out the dictionary form and case by looking up the ending."
+    >Case Ending Lookup</router-link>
   </nav>
 </template>
 
 <script>
-export default {
-  
-}
+export default {}
 </script>
 
 <style>
-  
 .tabs {
   white-space: nowrap;
   overflow: scroll;

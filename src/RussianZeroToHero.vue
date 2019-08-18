@@ -4,11 +4,9 @@
       <div class="container">
         <div class="row mb-4">
           <div class="col-sm-12">
-            <img
-              src="@/assets/img/logo-ru-zth-light.png"
-              alt="Russian Zero to Hero"
-              class="logo"
-            />
+            <router-link to="/">
+              <img src="@/assets/img/logo-ru-zth-light.png" alt="Russian Zero to Hero" class="logo" />
+            </router-link>
           </div>
         </div>
         <div class="row">
@@ -31,24 +29,29 @@
                 src="@/assets/img/logo-ru-zth-light.png"
                 alt="Russian Zero to Hero"
                 class="logo-footer"
-            /></a>
-            <a href="https://chinesezerotohero.com" target="_blank"  class="mr-4">
+              />
+            </a>
+            <a href="https://chinesezerotohero.com" target="_blank" class="mr-4">
               <img
                 src="@/assets/img/logo-zh-zth-light.png"
                 alt="Chinese Zero to Hero"
-                class="logo-footer"/></a
-            ><a href="https://yingyuyingxiong.teachable.com" target="_blank">
+                class="logo-footer"
+              />
+            </a>
+            <a href="https://yingyuyingxiong.teachable.com" target="_blank">
               <img
                 src="@/assets/img/logo-en-zth-light.png"
                 alt="English Zero to Hero"
                 class="logo-footer mr-4"
-            /></a>
+              />
+            </a>
             <a href="https://hi.zerotohero.ca" target="_blank">
               <img
                 src="@/assets/img/logo-hi-zth-light.png"
                 alt="Hindi Zero to Hero"
                 class="logo-footer"
-            /></a>
+              />
+            </a>
             <hr class="border-light" style="opacity: 0.5" />
             <p>
               <b>Zero to Hero Education, Canada.</b>
