@@ -31,24 +31,31 @@
                 class="logo-footer"
               />
             </a>
-            <a href="https://chinesezerotohero.com" target="_blank" class="mr-4">
+            <a href="https://zh.zerotohero.ca" target="_blank" class="mr-4">
               <img
                 src="@/assets/img/logo-zh-zth-light.png"
                 alt="Chinese Zero to Hero"
                 class="logo-footer"
               />
             </a>
-            <a href="https://yingyuyingxiong.teachable.com" target="_blank">
+            <a href="https://yingyuyingxiong.teachable.com" target="_blank" class="mr-4">
               <img
                 src="@/assets/img/logo-en-zth-light.png"
                 alt="English Zero to Hero"
-                class="logo-footer mr-4"
+                class="logo-footer"
               />
             </a>
-            <a href="https://hi.zerotohero.ca" target="_blank">
+            <a href="https://hi.zerotohero.ca" target="_blank" class="mr-4">
               <img
                 src="@/assets/img/logo-hi-zth-light.png"
                 alt="Hindi Zero to Hero"
+                class="logo-footer"
+              />
+            </a>
+            <a href="https://tlh.zerotohero.ca" target="_blank" class="mr-4">
+              <img
+                src="@/assets/img/logo-tlh-zth-light.png"
+                alt="Klingon Zero to Hero"
                 class="logo-footer"
               />
             </a>
