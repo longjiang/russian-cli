@@ -1,7 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 import '@/assets/css/russianzerotohero.css'
 import Vue from 'vue'
+import BootstrapVue from 'bootstrap-vue'
 import RussianZeroToHero from './RussianZeroToHero'
+import Annotate from '@/components/Annotate'
 
 Vue.config.productionTip = false
 
@@ -12,8 +15,10 @@ import router from './router'
 
 library.add(fas)
 
-// Vue.component('Annotate', Annotate)
+Vue.use(BootstrapVue)
+
 Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('Annotate', Annotate)
 
 // https://alligator.io/vuejs/vue-router-modify-head/
 // This callback runs before every route change, including on page load.
