@@ -46,6 +46,9 @@
     >
       <font-awesome-icon icon="video" />Audio-Visual
     </router-link>
+    <router-link class="tab" :to="{ name: 'settings' }" title="Settings">
+      <font-awesome-icon icon="cog" />Settings
+    </router-link>
   </nav>
 </template>
 

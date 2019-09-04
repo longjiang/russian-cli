@@ -66,7 +66,7 @@ export default {
     }
   ],
   corpname() {
-    return localStorage.getItem('kzhCorpname') || 'kotenten18'
+    return localStorage.getItem('rzhCorpname') || 'kotenten18'
   },
   collocationDescription(word) {
     return {
