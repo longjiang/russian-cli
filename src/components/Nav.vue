@@ -1,6 +1,24 @@
 <template>
   <nav class="tabs">
     <router-link
+      :class="{
+        tab: true,
+        'router-link-active':
+          $route.name &&
+          ($route.name === 'dictionary' ||
+            $route.name === 'compare' ||
+            $route.name === 'phrase' ||
+            $route.name === 'levels' ||
+            $route.name.startsWith('explore') ||
+            $route.name === 'learn' ||
+            $route.name === 'saved-words')
+      }"
+      :to="{ name: 'dictionary' }"
+      title="Lookup and compare words"
+    >
+      <font-awesome-icon icon="book" />Dictionary
+    </router-link>
+    <router-link
       class="tab"
       :to="{ name: 'noun-cases' }"
       title="Learn how to decline Russian nouns."

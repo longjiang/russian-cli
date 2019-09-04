@@ -1,10 +1,17 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import '@/vendor/css-spinners/spinner/heartbeat.css'
+import '@/vendor/css-spinners/spinner/inner-circles.css'
 import '@/assets/css/russianzerotohero.css'
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import RussianZeroToHero from './RussianZeroToHero'
 import Annotate from '@/components/Annotate'
+import WordList from '@/components/WordList'
+import Loader from '@/components/Loader.vue'
+import Star from '@/components/Star'
+import Speak from '@/components/Speak'
+import ShowMoreButton from '@/components/ShowMoreButton'
 
 Vue.config.productionTip = false
 
@@ -19,6 +26,12 @@ Vue.use(BootstrapVue)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('Annotate', Annotate)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('Loader', Loader)
+Vue.component('Star', Star)
+Vue.component('Speak', Speak)
+Vue.component('ShowMoreButton', ShowMoreButton)
+Vue.component('WordList', WordList)
 
 // https://alligator.io/vuejs/vue-router-modify-head/
 // This callback runs before every route change, including on page load.

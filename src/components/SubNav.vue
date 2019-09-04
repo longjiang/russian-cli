@@ -2,6 +2,31 @@
   <div>
     <nav
       class="secondary-menu text-center"
+      v-if="
+        $route.name &&
+          ($route.name === 'dictionary' ||
+            $route.name === 'compare' ||
+            $route.name === 'phrase' ||
+            $route.name === 'levels' ||
+            $route.name === 'learn' ||
+            $route.name === 'saved-words' ||
+            $route.name.startsWith('explore') ||
+            $route.name === 'pinyin-list')
+      "
+    >
+      <router-link class="secondary-menu-item" :to="{ name: 'dictionary' }">
+        <font-awesome-icon icon="font" />Lookup Words
+      </router-link>
+      <router-link class="secondary-menu-item" :to="{ name: 'phrase' }">
+        <font-awesome-icon icon="quote-left" />Lookup Phrases
+      </router-link>
+      <router-link class="secondary-menu-item" :to="{ name: 'saved-words' }">
+        <font-awesome-icon icon="star" />Saved
+        <span class="saved-words-count" v-cloak>{{ savedWordsCount() }}</span>
+      </router-link>
+    </nav>
+    <nav
+      class="secondary-menu text-center"
       v-if="$route.name && $route.name.startsWith('youtube')"
     >
       <router-link class="secondary-menu-item" :to="{ name: 'youtube-browse' }">

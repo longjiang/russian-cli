@@ -23,13 +23,6 @@ export default {
   },
   loaderMessages: [],
   lastId: 0,
-  async loaded(callback) {
-    let a = await window.annotatorLoads
-    let loadedGrammar = await window.grammarLoads
-    let loadedHanzi = await window.hanziLoads
-    let loadedUnihan = await window.unihanLoads
-    callback(a[0], a[1], loadedGrammar, loadedHanzi, loadedUnihan)
-  },
   unescape(html) {
     return $('<div/>')
       .html(html)

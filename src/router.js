@@ -4,11 +4,58 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 export default new Router({
+  scrollBehavior(to, from, savedPosition) {
+    return { x: 0, y: 168 }
+  },
   routes: [
     {
       path: '/',
       name: 'home',
       redirect: '/cases/nouns/'
+    },
+    {
+      path: '/dictionary/:method?/:args?',
+      name: 'dictionary',
+      props: true,
+      component: () => import('./views/Dictionary.vue'),
+      meta: {
+        title: 'Dictionary | Russian Zero to Hero',
+        metaTags: [
+          {
+            name: 'description',
+            content: 'Look up and learn Russian words.'
+          }
+        ]
+      }
+    },
+    {
+      path: '/phrase/:method?/:args?',
+      name: 'phrase',
+      component: () => import('./views/Phrase.vue'),
+      props: true,
+      meta: {
+        title: 'Phrase | Russian Zero to Hero',
+        metaTags: [
+          {
+            name: 'description',
+            content: 'See how Russian phrases are used in real context..'
+          }
+        ]
+      }
+    },
+    {
+      path: '/saved-words',
+      name: 'saved-words',
+      component: () => import('./views/SavedWords.vue'),
+      meta: {
+        title: 'Saved Words | Russian Zero to Hero',
+        metaTags: [
+          {
+            name: 'description',
+            content: 'Study, manage, import, export the words you saved.'
+          }
+        ]
+      }
     },
     {
       path: '/cases/nouns/:args?',
@@ -130,5 +177,19 @@ export default new Router({
         ]
       }
     },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('./views/Settings.vue'),
+      meta: {
+        title: 'Settings | Russian Zero to Hero',
+        metaTags: [
+          {
+            name: 'description',
+            content: 'Change preferences: choose a different text corpus.'
+          }
+        ]
+      }
+    }
   ]
 })
