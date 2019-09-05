@@ -44,10 +44,10 @@
           <span
             class="suggestion-word font-weight-bold mr-1"
             data-level="outside"
-            >{{ suggestion.bare }}</span
+            >{{ text }}</span
           >
-          <span class="mr-1" v-if="suggestion.hanja"
-            >[{{ suggestion.hanja }}]</span
+          <span class="mr-1" v-if="suggestion.match"
+            >{{ stylize(suggestion.match.field) }} of <b>{{ suggestion.bare }}</b></span
           >
           <span
             class="suggestion-english"
@@ -95,6 +95,7 @@
 <script>
 import { setTimeout } from 'timers'
 import Helper from '@/lib/helper'
+import OpenRussian from '@/lib/openrussian'
 
 export default {
   props: {
@@ -153,6 +154,10 @@ export default {
     }
   },
   methods: {
+    stylize(name) {
+      let stylized = OpenRussian.stylize(name)
+      return stylized
+    },
     defaultClick() {
       window.location = this.defaultURL(this.text)
     },

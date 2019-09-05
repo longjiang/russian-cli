@@ -98,9 +98,58 @@ export default {
     }
   },
   lookupFuzzy(text) {
-    return this.words
-      .filter(word => word && word.bare === text)
-      .map(word => this.augment(word))
+    let tables = [
+      {
+        name: 'adjectives',
+        fields: [
+          'incomparable',
+          'short_f',
+          'short_m',
+          'short_n',
+          'short_pl',
+          'superlative'
+        ]
+      },
+      {
+        name: 'conjugations',
+        fields: ['pl1', 'pl2', 'pl3', 'sg1', 'sg2', 'sg3']
+      },
+      {
+        name: 'declensions',
+        fields: ['acc', 'dat', 'gen', 'inst', 'nom', 'prep']
+      },
+      {
+        name: 'verbs',
+        fields: [
+          'aspect',
+          'imperative_pl',
+          'imperative_sg',
+          'partner',
+          'past_f',
+          'past_m',
+          'past_n',
+          'past_pl'
+        ]
+      }
+    ]
+    let words = this.words.filter(word => word && word.bare === text)
+    for (let table of tables) {
+      for (let index in this[table.name]) {
+        let row = this[table.name][index]
+        for (let field of table.fields) {
+          if (row[field] && row[field].replace("'", '') === text) {
+            let word = this.get(row.word_id)
+            word.match = {
+              table: table.name,
+              field: field,
+              row: row
+            }
+            words.push(word)
+          }
+        }
+      }
+    }
+    return words.map(word => this.augment(word))
   },
   randomArrayItem(array, start = 0, length = false) {
     length = length || array.length
@@ -115,5 +164,40 @@ export default {
   },
   random() {
     return this.augment(this.randomProperty(this.words))
+  },
+  stylize(name) {
+    const stylize = {
+      adjectives: 'adjectives',
+      incomparable: 'incomparable',
+      short_f: 'short feminine',
+      short_m: 'short masculine',
+      short_n: 'short neuter',
+      short_pl: 'short plural',
+      superlative: 'superlative',
+      conjugations: 'conjugation',
+      pl1: 'plural',
+      pl2: 'plural',
+      pl3: 'plural',
+      sg1: 'singular',
+      sg2: 'singular',
+      sg3: 'singular',
+      declensions: 'declension',
+      acc: 'accusative',
+      dat: 'dative',
+      gen: 'genitive',
+      inst: 'instrumental',
+      nom: 'nominative',
+      prep: 'prepositional',
+      verbs: 'verb',
+      aspect: 'aspect',
+      imperative_pl: 'imperative plural',
+      imperative_sg: 'imperative singular',
+      partner: 'partner',
+      past_f: 'past (feminine)',
+      past_m: 'past (masculine)',
+      past_n: 'past (neuter)',
+      past_pl: 'past (plural)'
+    }
+    return stylize[name]
   }
 }
