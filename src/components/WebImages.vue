@@ -22,7 +22,7 @@
           />
         </a>
       </div>
-      <hr/>
+      <hr />
       <div class="mt-2">
         Image search by
         <a :href="`https://image.so.com/i?q=${text}&src=srp`">
@@ -42,7 +42,6 @@ import WordPhotos from '@/lib/word-photos'
 import Config from '@/lib/config'
 import Vue from 'vue'
 
-
 export default {
   props: {
     text: {
@@ -56,21 +55,32 @@ export default {
       default: undefined
     }
   },
-  mounted() {
-    if (this.entry) {
-      Vue.set(this.entry, 'images', this.images)
-    }
-    WordPhotos.getWebImages(this.text, images => {
-      WordPhotos.testImages(images.slice(0, this.limit), image => {
-        this.images.push(image)
-        $('meta[property=og\\:image]').attr(
-          'content',
-          `${Config.imageProxy}?${this.images[0].img}`
-        )
-        this.webImagesKey++
-        this.imgKey++
+  methods: {
+    update() {
+      if (this.entry) {
+        Vue.set(this.entry, 'images', this.images)
+      }
+      this.images = []
+      WordPhotos.getWebImages(this.text, images => {
+        WordPhotos.testImages(images.slice(0, this.limit), image => {
+          this.images.push(image)
+          $('meta[property=og\\:image]').attr(
+            'content',
+            `${Config.imageProxy}?${this.images[0].img}`
+          )
+          this.webImagesKey++
+          this.imgKey++
+        })
       })
-    })
+    }
+  },
+  watch: {
+    text() {
+      this.update()
+    }
+  },
+  mounted() {
+    this.update()
   },
   data() {
     return {

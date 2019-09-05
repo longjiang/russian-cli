@@ -105,7 +105,7 @@ export default {
       let forms = (await this.$openRussian)
         .wordForms(this.word)
         .map(form => form.form.replace(/'/g, ''))
-      this.words = forms
+      this.words = [this.word.bare].concat(forms)
       SketchEngine.concordance(this.word.bare, response => {
         this.examples = response
         this.concordanceKey += 1
