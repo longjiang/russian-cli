@@ -42,7 +42,7 @@
                   class="logo-footer"
               /></a>
             </div>
-            <hr class="border-light mt-4 mb-4" style="opacity: 0.5" />
+            <hr class="border-light mt-0 mb-4" style="opacity: 0.5" />
             <p>
               <b>Zero to Hero Education, Canada.</b>
             </p>

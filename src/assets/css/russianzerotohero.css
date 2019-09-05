@@ -330,6 +330,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   max-height: 4rem;
 }
 
+.logo-footer {
+  height: 4rem;
+  margin-bottom: 2rem
+}
+
 
 .highlight {
   font-weight: bold;
