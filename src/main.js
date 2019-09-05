@@ -4,6 +4,7 @@ import '@/vendor/css-spinners/spinner/heartbeat.css'
 import '@/vendor/css-spinners/spinner/inner-circles.css'
 import '@/assets/css/russianzerotohero.css'
 import Vue from 'vue'
+import VTooltip from 'v-tooltip'
 import BootstrapVue from 'bootstrap-vue'
 import RussianZeroToHero from './RussianZeroToHero'
 import Test from './Test'
@@ -30,6 +31,7 @@ library.add(fas)
 library.add(fab)
 
 Vue.use(BootstrapVue)
+Vue.use(VTooltip)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('Annotate', Annotate)

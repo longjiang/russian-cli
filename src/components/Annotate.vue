@@ -1,20 +1,39 @@
 <template>
   <component :is="tag">
-    <slot></slot>
+    <slot v-if="annotatedSlots.length === 0"></slot>
+    <v-runtime-template
+      v-for="template of annotatedSlots"
+      :template="template"
+    />
   </component>
 </template>
 
 <script>
+import wordblock from '@/components/WordBlock'
+import VRuntimeTemplate from 'v-runtime-template'
+
 export default {
+  components: {
+    wordblock,
+    VRuntimeTemplate
+  },
   props: {
     tag: {
       default: 'span'
     }
   },
+  data() {
+    return {
+      annotatedSlots: []
+    }
+  },
   methods: {
     annotate() {
       if (this.$slots.default) {
-        this.recursive(this.$slots.default[0].elm)
+        for (let slot of this.$slots.default) {
+          let $before = $(slot.elm)
+          this.annotatedSlots.push($(this.recursive($before[0]))[0].outerHTML)
+        }
       }
     },
     breakSentences(text) {
@@ -23,10 +42,7 @@ export default {
       return sentences
     },
     markRussianWords(text) {
-      let html = text.replace(
-        /([\wа-я]+)/gi,
-        '<span class="word-block">$1</span>'
-      )
+      let html = text.replace(/([\wа-я]+)/gi, '<WordBlock :text="`$1`" />')
       return html
     },
     recursive(node) {
@@ -51,11 +67,7 @@ export default {
           this.recursive(n)
         }
       }
-    }
-  },
-  data() {
-    return {
-      annotated: undefined
+      return node
     }
   },
   mounted() {
