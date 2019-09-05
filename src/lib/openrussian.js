@@ -97,7 +97,7 @@ export default {
       return this.augment(word)
     }
   },
-  lookupFuzzy(text) {
+  wordForms(text) {
     let tables = [
       {
         name: 'adjectives',
@@ -132,22 +132,32 @@ export default {
         ]
       }
     ]
-    let words = this.words.filter(word => word && word.bare === text)
+    let forms = []
     for (let table of tables) {
       for (let index in this[table.name]) {
         let row = this[table.name][index]
         for (let field of table.fields) {
           if (row[field] && row[field].replace("'", '') === text) {
-            let word = this.get(row.word_id)
-            word.match = {
+            forms.push({
+              morphed: row[field],
               table: table.name,
               field: field,
+              word_id: row.word_id,
               row: row
-            }
-            words.push(word)
+            })
           }
         }
       }
+    }
+    return forms
+  },
+  lookupFuzzy(text) {
+    let words = this.words.filter(word => word && word.bare === text)
+    let forms = this.wordForms(text)
+    for (let form of forms) {
+      let word = this.get(form.word_id)
+      word.match = form
+      words.push(word)
     }
     return words.map(word => this.augment(word))
   },

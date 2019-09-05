@@ -11,7 +11,13 @@
           <li v-for="example in examples">
             <div class="pt-2 pb-2">
               <span
-                v-html="Helper.highlight(example.russian, text, level || 'outside')"
+                v-html="
+                  Helper.highlightMultiple(
+                    example.russian,
+                    words(),
+                    level || 'outside'
+                  )
+                "
               ></span>
             </div>
             <div v-if="example.english">{{ example.english }}</div>
@@ -55,7 +61,12 @@
           "
           target="_blank"
         >
-          <img src="/img/logo-tatoeba.png" alt="Tatoeba" class="logo-small mr-3" /> Tatoeba
+          <img
+            src="/img/logo-tatoeba.png"
+            alt="Tatoeba"
+            class="logo-small mr-3"
+          />
+          Tatoeba
         </a>
       </div>
     </div>
@@ -81,6 +92,15 @@ export default {
       examples: undefined,
       concordanceKey: 0,
       SketchEngine
+    }
+  },
+  methods: {
+    async words() {
+      let forms = (await this.$openRussian)
+        .wordForms(this.text)
+        .map(form => form.morphed.replace(/'/g, ''))
+      console.log(forms)
+      return forms
     }
   },
   mounted() {
