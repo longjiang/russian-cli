@@ -92,16 +92,26 @@ export default {
   },
   collocationDescription(word) {
     return {
-      // adj_left: `adj_left`,
-      // adj_right: `adj_right`,
-      // adv_left: `adv_left`,
-      // adv_right: `adv_right`,
-      nextleft: `${word} ...`,
-      nextright: `... ${word}`
-      // noun_left: `${word} (as modifier) + Noun`,
-      // noun_right: `Adjective + ${word}`,
-      // verb_left: `verb_left`,
-      // verb_right: `verb_right`
+      object4_of: `Verb + ${word} (direct)`,
+      pp_в: `${word} в ...`,
+      object2_of: `Verb + ${word} (pl.)`,
+      pp_из: `${word} из ...`,
+      pp_obj_по: `... по ${word}`,
+      pp_по: `${word} по ...`,
+      pp_obj_к: `... к ${word}`,
+      pp_obj_от: `... от ${word}`,
+      pp_obj_за: `... за ${word}`,
+      pp_к: `${word} (pl.) к ...`,
+      pp_за: `${word} за ...`,
+      passive: `${word} (in the passive)`,
+      object3_of: `Verb + ${word} (indirect)`,
+      pp_под: `${word} под ...`,
+      pp_во: `${word} во ...`,
+      pp_у: `${word} у ...`,
+      pp_со: `${word} со ...`,
+      быть_adj: `${word} быть + adj.`,
+      pp_obj_про: `... про ${word}`,
+      pp_возле: `${word} возле ...`
     }
   },
   wsketch(term, callback) {
