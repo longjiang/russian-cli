@@ -147,10 +147,7 @@ export default {
             this.random()
           } else {
             // TODO show the entry
-            console.log(
-              (await this.$openRussian).nouns,
-              'await OpenRussian.nouns'
-            )
+            console.log((await this.$openRussian).lookup(this.args), 'lookup')
           }
         } else {
           if (!this.entry) {
