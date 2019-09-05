@@ -5,7 +5,7 @@
     :open="hover"
     style="display: inline-block"
   >
-    <div class="word-block" @mouseover="mouseover" @mouseleave="hover = false">
+    <div class="word-block" :data-hover-level="words && words.length > 0 ? words[0].level || 'outside' : 'outside'" @mouseover="mouseover" @mouseleave="hover = false">
       {{ text }}
     </div>
     <template slot="popover">
