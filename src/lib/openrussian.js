@@ -27,7 +27,7 @@ export default {
     },
     {
       name: 'conjugations',
-      fields: ['pl1', 'pl2', 'pl3', 'sg1', 'sg2', 'sg3']
+      fields: ['sg1', 'sg2', 'sg3', 'pl1', 'pl2', 'pl3']
     },
     {
       name: 'declensions',
@@ -206,20 +206,20 @@ export default {
   },
   stylize(name) {
     const stylize = {
-      adjectives: 'adjectives',
+      adjectives: 'adjective',
       incomparable: 'incomparable',
-      short_f: 'short feminine',
-      short_m: 'short masculine',
-      short_n: 'short neuter',
+      short_f: 'short (fem.)',
+      short_m: 'short (masc.)',
+      short_n: 'short (neut.)',
       short_pl: 'short plural',
       superlative: 'superlative',
       conjugations: 'conjugation',
-      pl1: 'plural',
-      pl2: 'plural',
-      pl3: 'plural',
-      sg1: 'singular',
-      sg2: 'singular',
-      sg3: 'singular',
+      pl1: 'мы',
+      pl2: 'вы',
+      pl3: 'они',
+      sg1: 'я',
+      sg2: 'ты',
+      sg3: 'он/она',
       declensions: 'declension',
       decl_sg: 'singular',
       decl_pl: 'plural',

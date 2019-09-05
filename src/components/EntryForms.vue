@@ -7,18 +7,40 @@
           class="col-sm-12 col-md-6 col-lg-4 mb-4"
           v-for="(table, tableName) in tables"
         >
-          <h6>{{ OpenRussian.stylize(tableName) }}</h6>
+          <h6>
+            {{
+              tableName === 'verbs'
+                ? Helper.ucFirst(
+                    table.find(field => field.field === 'aspect').form
+                  )
+                : ''
+            }}
+            {{ Helper.ucFirst(OpenRussian.stylize(tableName)) }}
+            {{
+              tableName === 'adjectives'
+                ? parseInt(
+                    table.find(field => field.field === 'incomparable').form
+                  ) === 0
+                  ? ' (Comprable)'
+                  : ' (Incomprable)'
+                : ''
+            }}
+          </h6>
           <hr class="mt-0 mb-3" />
           <table>
             <tbody>
-              <tr v-for="row in table">
+              <tr
+                v-for="row in table"
+                v-if="row.field !== 'aspect' && row.field !== 'incomparable'"
+              >
                 <td>
                   {{ OpenRussian.stylize(row.field) }}
                 </td>
                 <td>
-                  <b :data-level="word.level || 'outside'" class="ml-2">{{
-                    OpenRussian.accent(row.form)
-                  }}</b>
+                  <b :data-level="word.level || 'outside'" class="ml-2"
+                    >{{ OpenRussian.accent(row.form)
+                    }}{{ row.field.startsWith('imperative') ? '!' : '' }}</b
+                  >
                 </td>
               </tr>
             </tbody>
@@ -31,6 +53,7 @@
 
 <script>
 import OpenRussian from '@/lib/openrussian'
+import Helper from '@/lib/helper'
 
 export default {
   props: {
@@ -40,6 +63,7 @@ export default {
   },
   data() {
     return {
+      Helper,
       OpenRussian,
       tables: []
     }

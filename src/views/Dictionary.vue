@@ -1,5 +1,5 @@
 <template>
-  <div class="main focus" :key="`search-${args}`">
+  <div class="main focus" :key="`dictionary-${args}`">
     <div class="jumbotron jumbotron-fluid bg-white pt-5 pb-3 mb-0">
       <div class="container focus-exclude">
         <div class="row">
