@@ -88,11 +88,19 @@ export default {
     }
     return word
   },
+  get(id) {
+    return this.words[id]
+  },
   lookup(text) {
     let word = this.words.find(word => word && word.bare === text)
     if (word) {
       return this.augment(word)
     }
+  },
+  lookupFuzzy(text) {
+    return this.words
+      .filter(word => word && word.bare === text)
+      .map(word => this.augment(word))
   },
   randomArrayItem(array, start = 0, length = false) {
     length = length || array.length

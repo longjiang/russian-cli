@@ -5,14 +5,14 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    savedWords: JSON.parse(localStorage.getItem('savedKEngDicWords')) || []
+    savedWords: JSON.parse(localStorage.getItem('savedOpenRussianWords')) || []
   },
   mutations: {
     ADD_SAVED_WORD(state, id) {
       if (!state.savedWords.find(item => item === id)) {
         state.savedWords.push(id)
         localStorage.setItem(
-          'savedKEngDicWords',
+          'savedOpenRussianWords',
           JSON.stringify(state.savedWords)
         )
       }
@@ -20,10 +20,10 @@ export default new Vuex.Store({
     REMOVE_SAVED_WORD(state, id) {
       const keepers = state.savedWords.filter(item => item !== id)
       state.savedWords = keepers
-      localStorage.setItem('savedKEngDicWords', JSON.stringify(keepers))
+      localStorage.setItem('savedOpenRussianWords', JSON.stringify(keepers))
     },
     REMOVE_ALL_SAVED_WORDS(state) {
-      localStorage.removeItem('savedKEngDicWords')
+      localStorage.removeItem('savedOpenRussianWords')
       state.savedWords = []
     }
   },

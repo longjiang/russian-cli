@@ -1,5 +1,5 @@
 <template>
-  <div class="search-compare-wrapper" v-if="loaded">
+  <div class="search-compare-wrapper" v-if="!loading">
     <Search ref="search" random="true" :entry="searchEntry"></Search>
     <Search
       :class="{ 'ml-2': true, hidden: !dCompare }"
@@ -34,13 +34,17 @@ export default {
     return {
       Helper,
       Search,
-      loaded: false,
+      loading: true,
       dCompare: this.compare,
       compareHrefFunc: compareEntry => {
         const entry = this.$refs.search.entry || this.entry
         return `#/compare/cedict/${entry.identifier},${compareEntry.identifier}`
       }
     }
+  },
+  async mounted() {
+    await this.$openRussian
+    this.loading = false
   },
   methods: {
     compareClick() {

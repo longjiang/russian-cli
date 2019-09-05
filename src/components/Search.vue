@@ -46,9 +46,7 @@
             data-level="outside"
             >{{ suggestion.bare }}</span
           >
-          <span
-            class="mr-1"
-            v-if="suggestion.hanja"
+          <span class="mr-1" v-if="suggestion.hanja"
             >[{{ suggestion.hanja }}]</span
           >
           <span
@@ -63,7 +61,9 @@
         v-if="suggestions.length === 0 && type === 'dictionary'"
       >
         <span class="suggestion-not-found">
-          <b>&ldquo;{{ text }}&rdquo;</b> is not in <a href="https://github.com/garfieldnate/openrussian">KEngDic</a>. Try looking it up in
+          <b>&ldquo;{{ text }}&rdquo;</b> is not in
+          <a href="https://en.openrussian.org/dictionary">OpenRussian.org</a>.
+          Try looking it up in
           <a
             :href="`https://en.wiktionary.org/w/index.php?search=${text}`"
             target="blank"
@@ -93,7 +93,6 @@
 </template>
 
 <script>
-
 import { setTimeout } from 'timers'
 import Helper from '@/lib/helper'
 
@@ -147,11 +146,9 @@ export default {
         this.text = this.dEntry.bare
       }
     },
-    text() {
+    async text() {
       if (this.type === 'dictionary') {
-        Helper.loaded(LoadedKEngDic => {
-          this.suggestions = LoadedKEngDic.lookupFuzzy(this.text, 30)
-        })
+        this.suggestions = (await this.$openRussian).lookupFuzzy(this.text, 30)
       }
     }
   },

@@ -1,5 +1,5 @@
 <template>
-  <div class="main focus" v-cloak :key="'entry-' + entryKey">
+  <div class="main focus" :key="`search-${args}`">
     <div class="jumbotron jumbotron-fluid bg-white pt-5 pb-3 mb-0">
       <div class="container focus-exclude">
         <div class="row">
@@ -22,7 +22,7 @@
           :items="$store.state.savedWords"
           :findCurrent="item => item.join(',').replace(/ /g, '_') === entry.id"
           :url="
-            item => `#/dictionary/KEngDic/${item.join(',').replace(/ /g, '_')}`
+            item => `#/dictionary/openrussian/${item.join(',').replace(/ /g, '_')}`
           "
           title="Saved Words"
         />
@@ -91,8 +91,6 @@ import DefinitionsList from '@/components/DefinitionsList'
 import Paginator from '@/components/Paginator'
 import EntryYouTube from '@/components/EntryYouTube.vue'
 
-import Helper from '@/lib/helper'
-
 export default {
   components: {
     SearchCompare,
@@ -119,7 +117,6 @@ export default {
       character: {},
       unsplashSrcs: [],
       unsplashSearchTerm: '',
-      entryKey: 0 // used to force re-render this component
     }
   },
   methods: {
@@ -128,7 +125,6 @@ export default {
       // return this.entry && this.$store.getters.hasSavedWord(this.entry.id)
     },
     show(entry) {
-      this.entryKey += 1
       this.entry = entry
       document.title = `${entry.bare} (${entry.english}) | Russian Zero to Hero`
     },
@@ -138,7 +134,7 @@ export default {
           if (this.args === 'random') {
             this.random()
           } else {
-            this.entry = (await this.$openRussian).lookup(this.args)
+            this.entry = (await this.$openRussian).get(this.args)
           }
         } else {
           if (!this.entry) {

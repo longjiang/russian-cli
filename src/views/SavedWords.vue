@@ -113,15 +113,12 @@ export default {
     this.updateWords()
   },
   methods: {
-    updateWords() {
+    async updateWords() {
+      await this.$openRussian
       this.savedWords = []
-
-      Helper.loaded(LoadedKEngDic => {
-        this.loaded = true
-        this.savedWordIds.forEach(id => {
-          this.savedWords.push(LoadedKEngDic.get(id))
-        })
-      })
+      for (let id of this.savedWordIds) {
+        this.savedWords.push(this.$openRussian.get(id))
+      }
     },
     csv() {
       if (this.savedWords.length <= 0) {
