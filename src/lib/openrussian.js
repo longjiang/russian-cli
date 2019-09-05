@@ -10,7 +10,7 @@ export default {
     // 'sentences_words', // 43 mb!
     // 'sentences', // 48 mb!
     'translations',
-    'verbs',
+    'verbs'
     // 'words_rels' // later, or just use SketchEngine
   ],
   loadTable(table) {
@@ -40,6 +40,9 @@ export default {
         header: true,
         complete: results => {
           for (let row of results.data) {
+            if (row.accented) {
+              row.accented = row.accented.replace(/'/g, '́')
+            }
             this.words[row.id] = row
           }
           resolve(this)
@@ -73,8 +76,7 @@ export default {
       resolve(this)
     })
   },
-  lookup(text) {
-    let word = this.words.find(word => word && word.bare === text)
+  augment(word) {
     for (let table of this.tables) {
       if (table !== 'declensions') {
         word[table] = this[table][word.id]
@@ -85,5 +87,25 @@ export default {
       word.decl_pl = this.declensions[word.nouns.decl_pl_id]
     }
     return word
+  },
+  lookup(text) {
+    let word = this.words.find(word => word && word.bare === text)
+    if (word) {
+      return this.augment(word)
+    }
+  },
+  randomArrayItem(array, start = 0, length = false) {
+    length = length || array.length
+    array = array.slice(start, length)
+    let index = Math.floor(Math.random() * array.length)
+    return array[index]
+  },
+  //https://stackoverflow.com/questions/2532218/pick-random-property-from-a-javascript-object
+  randomProperty(obj) {
+    var keys = Object.keys(obj)
+    return obj[keys[(keys.length * Math.random()) << 0]]
+  },
+  random() {
+    return this.augment(this.randomProperty(this.words))
   }
 }

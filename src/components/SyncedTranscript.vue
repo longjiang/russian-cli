@@ -38,7 +38,7 @@
         ></Annotate>
       </div>
     </div>
-    <ShowMoreButton v-if="collapse" :data-bg-hsk="hsk ? hsk : 'outside'"
+    <ShowMoreButton v-if="collapse" :data-bg-level="hsk ? hsk : 'outside'"
       >Show More</ShowMoreButton
     >
   </div>

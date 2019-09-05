@@ -1,3 +1,7 @@
+html * {
+  font-family: Helvetica, sans-serif;
+}
+
 .main {
   min-height: calc(100vh - 30rem);
 }
@@ -325,4 +329,23 @@
 
 .highlight {
   font-weight: bold;
+}
+
+
+.btn-medium {
+  display: inline-block;
+  border: none;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.3rem;
+}
+
+.btn-gray {
+  background: #efefef;
+  color: #8e8e8e;
+}
+
+.btn-gray:hover {
+  color: white;
+  text-decoration: none;
+  background: #989898;
 }

@@ -21,7 +21,7 @@
         <ShowMoreButton
           :length="examples.length"
           :min="4"
-          :data-bg-hsk="level"
+          :data-bg-level="level"
         />
       </div>
       <div v-if="examples && examples.length === 0">

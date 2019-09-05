@@ -15,7 +15,7 @@
         </li>
       </ul>
       <ShowMoreButton
-        :data-bg-hsk="level"
+        :data-bg-level="level"
         :length="collocation.Words.length"
         :min="4"
       />

@@ -14,7 +14,7 @@ export default {
   methods: {
     speak(text) {
       var utterance = new SpeechSynthesisUtterance(text)
-      utterance.lang = 'zh-CN'
+      utterance.lang = 'ru'
       speechSynthesis.speak(utterance)
     }
   }

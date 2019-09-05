@@ -37,6 +37,7 @@
           <div class="col-sm-12 text-center">
             <EntryHeader :entry="entry"></EntryHeader>
             <DefinitionsList
+              v-if="entry.translations"
               class="mt-4"
               :definitions="[entry.translations.tl]"
             ></DefinitionsList>
@@ -129,9 +130,7 @@ export default {
     show(entry) {
       this.entryKey += 1
       this.entry = entry
-      document.title = `${entry.bare} (${
-        entry.english
-      }) | Russian Zero to Hero`
+      document.title = `${entry.bare} (${entry.english}) | Russian Zero to Hero`
     },
     async route() {
       if (this.method && this.args) {
@@ -139,7 +138,6 @@ export default {
           if (this.args === 'random') {
             this.random()
           } else {
-            // TODO show the entry
             this.entry = (await this.$openRussian).lookup(this.args)
           }
         } else {
@@ -149,8 +147,10 @@ export default {
         }
       }
     },
-    random() {
+    async random() {
       // TODO show random entry
+      console.log((await this.$openRussian).random())
+      this.entry = (await this.$openRussian).random()
     }
   },
   watch: {

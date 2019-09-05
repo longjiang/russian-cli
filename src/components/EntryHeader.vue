@@ -9,9 +9,7 @@
         </div>
         <div>
           <a :href="`#/dictionary/openrussian/${entry.bare}`">
-            <span class="entry-word" data-level="outside">{{
-              entry.accented
-            }}</span>
+            <span class="entry-word" :data-level="entry.level || 'outside'" v-html="entry.accented"></span>
           </a>
         </div>
         <div v-if="entry.hanja && entry.hanja !== 'NULL'" class="mt-1">
