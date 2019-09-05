@@ -4,7 +4,7 @@
     <div class="jumbotron-fluid bg-light p-4">
       <div
         class="image-wall"
-        :key="webImagesKey"
+        :key="`web-images-${text}`"
         v-cloak
         v-if="images && images.length > 0"
       >
@@ -17,7 +17,7 @@
           <img
             alt
             class="image-wall-image"
-            v-bind:key="'image-' + index"
+            :key="`web-images-${text}-${index}`"
             :src="`${Config.imageProxy}?${image.img}`"
           />
         </a>

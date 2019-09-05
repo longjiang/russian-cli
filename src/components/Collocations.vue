@@ -1,6 +1,6 @@
 <template>
-  <div :key="'collocations-' + collocationsKey">
-    <div class="widget-title">Collocations with “{{ dText }}”</div>
+  <div>
+    <div class="widget-title">Collocations with “{{ word.bare }}”</div>
     <div class="jumbotron-fluid bg-light p-4">
       <div class="row">
         <div
@@ -11,12 +11,10 @@
               sketch.Gramrels &&
               getGramrelsByName(sketch.Gramrels, name)
           "
-          v-bind:key="'collocation-' + name"
         >
           <Collocation
             v-if="sketch && sketch.Gramrels"
             class="mb-4"
-            :text="text"
             :word="word"
             :level="level"
             :title="colDesc[name]"
@@ -29,7 +27,7 @@
       <div
         v-if="sketch !== undefined && (sketch === false || !sketch.Gramrels)"
       >
-        Sorry, we could not find any “{{ text }}” collocations in this corpus
+        Sorry, we could not find any “{{ word.bare }}” collocations in this corpus
         (dataset). You can set a different corpus in
         <a href="#/settings">Settings</a>.
       </div>
@@ -41,7 +39,7 @@
           :href="
             `https://app.sketchengine.eu/#wordsketch?corpname=${encodeURIComponent(
               SketchEngine.corpname
-            )}&tab=basic&lemma=${text}&showresults=1`
+            )}&tab=basic&lemma=${word.bare}&showresults=1`
           "
         >
           <img
@@ -64,9 +62,6 @@ export default {
     word: {
       type: Object
     },
-    text: {
-      type: String
-    },
     level: {
       default: 'outside'
     }
@@ -75,6 +70,12 @@ export default {
     Collocation
   },
   methods: {
+    update() {
+      SketchEngine.wsketch(this.word.bare, response => {
+        this.sketch = response
+      })
+      this.colDesc = SketchEngine.collocationDescription(this.word.bare)
+    },
     getGramrelsByName(gramrels, name) {
       return gramrels.find(
         gram => gram.name === name && gram.Words && gram.Words.length > 0
@@ -85,17 +86,16 @@ export default {
     return {
       colDesc: undefined,
       sketch: undefined,
-      collocationsKey: 0,
-      dText: this.text || this.word.bare,
       SketchEngine
     }
   },
-  mounted() {
-    SketchEngine.wsketch(this.dText, response => {
-      this.sketch = response
-      this.collocationsKey += 1
-    })
-    this.colDesc = SketchEngine.collocationDescription(this.dText)
+  beforeMount() {
+    this.update()
+  },
+  watch: {
+    word() {
+      this.update()
+    }
   }
 }
 </script>

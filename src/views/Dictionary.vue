@@ -1,5 +1,5 @@
 <template>
-  <div class="main focus" :key="`dictionary-${args}`">
+  <div class="main focus">
     <div class="jumbotron jumbotron-fluid bg-white pt-5 pb-3 mb-0">
       <div class="container focus-exclude">
         <div class="row">
@@ -8,7 +8,11 @@
               <h2 class="mb-4">For the love of Russian words.</h2>
               <Loader ref="loader" class="mb-5" />
             </div>
-            <SearchCompare :searchEntry="entry" class="mb-5" />
+            <SearchCompare
+              :searchEntry="entry"
+              class="mb-5"
+              :key="`search-${args}`"
+            />
           </div>
         </div>
       </div>
@@ -19,6 +23,7 @@
     >
       <div class="container focus-exclude text-center text-light">
         <Paginator
+          :key="`paginator-${args}`"
           :items="$store.state.savedWords"
           :findCurrent="item => item.join(',').replace(/ /g, '_') === entry.id"
           :url="
@@ -36,8 +41,9 @@
       <div class="container mb-4">
         <div class="row">
           <div class="col-sm-12 text-center">
-            <EntryHeader :entry="entry"></EntryHeader>
+            <EntryHeader :entry="entry" :key="`header-${args}`"></EntryHeader>
             <DefinitionsList
+              :key="`def-list-${args}`"
               v-if="entry.translations"
               class="mt-4"
               :definitions="[entry.translations.tl]"
@@ -53,6 +59,7 @@
         <div class="row">
           <div class="col-sm-12">
             <WebImages
+              :key="`images-${args}`"
               class="mt-5"
               :text="entry.bare"
               :entry="entry"
@@ -61,16 +68,26 @@
             <EntryForms class="mt-5" :word="entry" />
 
             <Collocations
+              :key="`collocations-${args}`"
               class="mt-5 mb-5"
               :word="entry"
               :level="entry.level"
             />
-            <Concordance class="mt-5 mb-5" :word="entry" :level="entry.level" />
+            <Concordance
+              :key="`concordance-${args}`"
+              class="mt-5 mb-5"
+              :word="entry"
+              :level="entry.level"
+            />
           </div>
         </div>
         <div class="row">
           <div class="col-sm-12">
-            <EntryYouTube :text="entry.bare" class="mb-5" />
+            <EntryYouTube
+              :key="`youtube-${args}`"
+              :text="entry.bare"
+              class="mb-5"
+            />
           </div>
         </div>
       </div>

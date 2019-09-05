@@ -3,6 +3,9 @@
     <div class="widget-title">Word forms of “{{ word.bare }}”</div>
     <div class="jumbotron-fluid bg-light p-4">
       <div class="row">
+        <div v-if="Helper.isEmpty(tables) || tables.length === 0" class="pl-4 pr-4 text-center">
+          The word “{{ word.bare }}” seems to only take on one form.
+        </div>
         <div
           class="col-sm-12 col-md-6 col-lg-4 mb-4"
           v-for="(table, tableName) in tables"
@@ -38,7 +41,7 @@
                 </td>
                 <td>
                   <b :data-level="word.level || 'outside'" class="ml-2"
-                    >{{ OpenRussian.accent(row.form)
+                    >{{ OpenRussian.accent(row.form) || 'n/a'
                     }}{{ row.field.startsWith('imperative') ? '!' : '' }}</b
                   >
                 </td>
@@ -68,20 +71,29 @@ export default {
       tables: []
     }
   },
-  async mounted() {
-    // https://www.consolelog.io/group-by-in-javascript/
-    Array.prototype.groupBy = function(prop) {
-      return this.reduce(function(groups, item) {
-        const val = item[prop]
-        groups[val] = groups[val] || []
-        groups[val].push(item)
-        return groups
-      }, {})
+  methods: {
+    async getTables() {
+      // https://www.consolelog.io/group-by-in-javascript/
+      Array.prototype.groupBy = function(prop) {
+        return this.reduce(function(groups, item) {
+          const val = item[prop]
+          groups[val] = groups[val] || []
+          groups[val].push(item)
+          return groups
+        }, {})
+      }
+      this.tables = (await this.$openRussian)
+        .wordForms(this.word)
+        .groupBy('table')
     }
-    this.tables = (await this.$openRussian)
-      .wordForms(this.word)
-      .groupBy('table')
-    console.log(this.tables)
+  },
+  mounted() {
+    this.getTables()
+  },
+  watch: {
+    word() {
+      this.getTables()
+    }
   }
 }
 </script>

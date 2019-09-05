@@ -68,7 +68,7 @@ export default {
   },
   highlight(text, word, level = false) {
     let levelAttr = level ? ` data-level="${level}"` : ''
-    if (text) {
+    if (text && word && word.trim() !== '') {
       return text
         .replace(new RegExp(`^(${word})`, 'gi'), ' $1')
         .replace(new RegExp(`(${word})$`, 'gi'), '$1 ')
@@ -76,6 +76,8 @@ export default {
           new RegExp(`(["'“‘ ])(${word})(["'”’.!?:, ])`, 'gi'),
           `$1<span ${levelAttr} class="highlight">$2</span>$3`
         )
+    } else {
+      return text
     }
   },
   highlightMultiple(text, words, level) {
@@ -202,5 +204,11 @@ export default {
       else stack.push(parts[i])
     }
     return stack.join('/')
+  },
+  isEmpty(obj) {
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) return false
+    }
+    return true
   }
 }

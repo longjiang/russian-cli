@@ -34,9 +34,6 @@ export default {
     word: {
       type: Object
     },
-    text: {
-      type: String
-    },
     level: {
       type: String
     },
@@ -60,7 +57,7 @@ export default {
         .map(form => form.form.replace(/'/g, ''))
       this.words = forms
     } else {
-      this.words = [this.dText]
+      this.words = [this.word.bare]
     }
     if (this.collocation && this.collocation.Words) {
       this.collocation.Words = this.collocation.Words.sort(
@@ -73,7 +70,6 @@ export default {
   data() {
     return {
       Helper,
-      dText: this.text || this.word.bare,
       words: []
     }
   }

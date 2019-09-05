@@ -111,7 +111,8 @@ export default {
       pp_со: `${word} со ...`,
       быть_adj: `${word} быть + adj.`,
       pp_obj_про: `... про ${word}`,
-      pp_возле: `${word} возле ...`
+      pp_возле: `${word} возле ...`,
+      adv_modifies: `${word} ...`
     }
   },
   wsketch(term, callback) {

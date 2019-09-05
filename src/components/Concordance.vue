@@ -1,6 +1,6 @@
 <template>
   <div :key="'concordance-' + concordanceKey">
-    <div class="widget-title">Sentences with “{{ dText }}”</div>
+    <div class="widget-title">Sentences with “{{ word.bare }}”</div>
     <div class="jumbotron-fluid bg-light p-4">
       <div v-if="examples && examples.length > 0">
         <ul
@@ -31,7 +31,7 @@
         />
       </div>
       <div v-if="examples && examples.length === 0">
-        Sorry, we could not find any “{{ text }}” examples. You can set a
+        Sorry, we could not find any “{{ word.bare }}” examples. You can set a
         different corpus in <a href="#/settings">Settings</a>.
       </div>
       <hr v-if="examples && examples.length === 0" />
@@ -41,7 +41,7 @@
           :href="
             `https://app.sketchengine.eu/#concordance?corpname=${encodeURIComponent(
               SketchEngine.corpname
-            )}&tab=basic&keyword=${text}&structs=s%2Cg&refs=%3Ddoc.website&showresults=1&operations=%5B%7B%22name%22%3A%22iquery%22%2C%22arg%22%3A%22${text}%22%2C%22active%22%3Atrue%2C%22query%22%3A%7B%22queryselector%22%3A%22iqueryrow%22%2C%22iquery%22%3A%22${text}%22%7D%2C%22id%22%3A3859%7D%5D`
+            )}&tab=basic&keyword=${word.bare}&structs=s%2Cg&refs=%3Ddoc.website&showresults=1&operations=%5B%7B%22name%22%3A%22iquery%22%2C%22arg%22%3A%22${word.bare}%22%2C%22active%22%3Atrue%2C%22query%22%3A%7B%22queryselector%22%3A%22iqueryrow%22%2C%22iquery%22%3A%22${word.bare}%22%7D%2C%22id%22%3A3859%7D%5D`
           "
           target="_blank"
         >
@@ -57,7 +57,7 @@
         <p>Search for more sentences at</p>
         <a
           :href="
-            `https://tatoeba.org/eng/sentences/search?from=rus&to=eng&query=${text}`
+            `https://tatoeba.org/eng/sentences/search?from=rus&to=eng&query=${word.bare}`
           "
           target="_blank"
         >
@@ -79,9 +79,6 @@ import SketchEngine from '@/lib/sketch-engine'
 
 export default {
   props: {
-    text: {
-      type: String
-    },
     word: {
       type: Object
     },
@@ -94,24 +91,29 @@ export default {
       Helper,
       examples: undefined,
       concordanceKey: 0,
-      dText: this.text || this.word.bare,
       words: [],
       SketchEngine
     }
   },
-  async mounted() {
-    if (this.word) {
+  watch: {
+    word() {
+      this.update()
+    }
+  },
+  methods: {
+    async update() {
       let forms = (await this.$openRussian)
         .wordForms(this.word)
         .map(form => form.form.replace(/'/g, ''))
       this.words = forms
-    } else {
-      this.words = [this.dText]
+      SketchEngine.concordance(this.word.bare, response => {
+        this.examples = response
+        this.concordanceKey += 1
+      })
     }
-    SketchEngine.concordance(this.dText, response => {
-      this.examples = response
-      this.concordanceKey += 1
-    })
+  },
+  async mounted() {
+    this.update()
   }
 }
 </script>
