@@ -6,6 +6,7 @@ import '@/assets/css/russianzerotohero.css'
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import RussianZeroToHero from './RussianZeroToHero'
+import Test from './Test'
 import Annotate from '@/components/Annotate'
 import WordList from '@/components/WordList'
 import Loader from '@/components/Loader.vue'
@@ -92,8 +93,14 @@ router.beforeEach((to, from, next) => {
   next()
 })
 
-new Vue({
-  router,
-  store,
-  render: h => h(RussianZeroToHero)
-}).$mount('#russianzerotohero')
+if (location.hash === '#/test') {
+  new Vue({
+    render: h => h(Test)
+  }).$mount('#test')
+} else {
+  new Vue({
+    router,
+    store,
+    render: h => h(RussianZeroToHero)
+  }).$mount('#russianzerotohero')
+}

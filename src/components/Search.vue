@@ -82,7 +82,6 @@
       <div
         class="suggestion"
         v-if="suggestions.length === 0 && type === 'generic'"
-        @click="defaultClick"
       >
         <span class="suggestion-not-found">
           Search for <b>“{{ text }}”</b>...
@@ -118,7 +117,7 @@ export default {
     },
     defaultURL: {
       type: Function,
-      default: () => `#/view`
+      default: () => `#/di`
     },
     placeholder: {
       default: 'Look up words here...'
@@ -158,17 +157,14 @@ export default {
       let stylized = OpenRussian.stylize(name)
       return stylized
     },
-    defaultClick() {
-      window.location = this.defaultURL(this.text)
-    },
     lookupKeyupEnter() {
       const url =
-        $('.suggestion:first-child').attr('href') || this.defaultURL(this.text)
+        $('.suggestion:first-child').attr('href')
       if (url) window.location = url
     },
     lookupButtonClick() {
       const url =
-        $('.suggestion:first-child').attr('href') || this.defaultURL(this.text)
+        $('.suggestion:first-child').attr('href')
       if (url) {
         this.suggestions = []
         window.location = url
