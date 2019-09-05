@@ -13,7 +13,7 @@
       <a
         v-if="random"
         class="btn btn-secondary btn-random ml-2"
-        href="#/dictionary/kengdic/random"
+        href="#/dictionary/openrussian/random"
       >
         <font-awesome-icon icon="random" />
         <span> Random</span>
@@ -44,7 +44,7 @@
           <span
             class="suggestion-word font-weight-bold mr-1"
             data-level="outside"
-            >{{ suggestion.hangul }}</span
+            >{{ suggestion.russian }}</span
           >
           <span
             class="mr-1"
@@ -63,7 +63,7 @@
         v-if="suggestions.length === 0 && type === 'dictionary'"
       >
         <span class="suggestion-not-found">
-          <b>&ldquo;{{ text }}&rdquo;</b> is not in <a href="https://github.com/garfieldnate/kengdic">KEngDic</a>. Try looking it up in
+          <b>&ldquo;{{ text }}&rdquo;</b> is not in <a href="https://github.com/garfieldnate/openrussian">KEngDic</a>. Try looking it up in
           <a
             :href="`https://en.wiktionary.org/w/index.php?search=${text}`"
             target="blank"
@@ -112,7 +112,7 @@ export default {
       type: Function,
       default: function(entry) {
         if (entry) {
-          return `#/dictionary/kengdic/${entry.id}`
+          return `#/dictionary/openrussian/${entry.id}`
         }
       }
     },
@@ -132,7 +132,7 @@ export default {
       Helper,
       suggestions: [],
       dEntry: this.entry,
-      text: this.entry ? this.entry.hangul : this.term,
+      text: this.entry ? this.entry.russian : this.term,
       active: false,
       suggestionsKey: 0
     }
@@ -144,7 +144,7 @@ export default {
     entry() {
       if (this.entry) {
         this.dEntry = this.entry
-        this.text = this.dEntry.hangul
+        this.text = this.dEntry.russian
       }
     },
     text() {

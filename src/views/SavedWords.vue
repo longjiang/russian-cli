@@ -88,7 +88,7 @@ export default {
     return {
       loaded: false,
       savedWords: [],
-      selectedCsvOptions: ['hangul', 'hanja', 'definitions'],
+      selectedCsvOptions: ['russian', 'hanja', 'definitions'],
       csvOptions: [
         { text: 'Simplified', value: 'simplified' },
         { text: 'Traditional', value: 'traditional' },
@@ -132,8 +132,8 @@ export default {
         .map(word => {
           let textToDisplay = ''
 
-          if (this.selectedCsvOptions.includes('hangul')) {
-            textToDisplay += `${word.hangul}\t`
+          if (this.selectedCsvOptions.includes('russian')) {
+            textToDisplay += `${word.russian}\t`
           }
 
           if (this.selectedCsvOptions.includes('hanja')) {

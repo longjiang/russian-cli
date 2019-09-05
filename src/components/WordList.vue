@@ -12,11 +12,11 @@
         <Star v-if="word && star === true" :word="word" class="mr-1"></Star>
         <a
           v-if="compareWith"
-          :href="`#/compare/kengdic/${compareWith.id},${word.id}`"
+          :href="`#/compare/openrussian/${compareWith.id},${word.id}`"
           class="btn btn-small mr-2"
           >Compare</a
         >
-        <a v-if="word" :href="`#/dictionary/kengdic/${word.id}`">
+        <a v-if="word" :href="`#/dictionary/openrussian/${word.id}`">
           <span
             class="wordlist-item-word"
             data-level="outside"
@@ -27,7 +27,7 @@
             v-if="highlight && word.hanja && word.hanja !== 'NULL'"
             v-html="Helper.highlight(word.hanja, highlight, 'outside')"
           ></span
-          ><span class="wordlist-item-word ml-1">{{ word.hangul }}</span
+          ><span class="wordlist-item-word ml-1">{{ word.russian }}</span
           >&nbsp;
           <span v-if="word.english && word.english !== 'NULL'" class="wordlist-item-english">
             {{ word.english }}

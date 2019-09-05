@@ -72,9 +72,13 @@
 
 <script>
 import Nav from '@/components/Nav'
+import Vue from 'vue'
+
 export default {
   components: {
     Nav
+  },
+  mounted() {
   }
 }
 </script>

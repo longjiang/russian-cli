@@ -54,31 +54,31 @@
               v-if="entry.hanja"
               class="mb-4"
               :text="entry.hanja"
-              :pinyin="entry.hangul"
+              :pinyin="entry.russian"
             ></EntryCharacters>
 
             <WebImages
               class="mt-5"
-              :text="entry.hangul"
+              :text="entry.russian"
               :entry="entry"
               limit="10"
             ></WebImages>
 
             <Collocations
               class="mt-5 mb-5"
-              :text="entry.hangul"
+              :text="entry.russian"
               :level="entry.hsk"
             ></Collocations>
             <Concordance
               class="mt-5 mb-5"
-              :text="entry.hangul"
+              :text="entry.russian"
               :level="entry.hsk"
             ></Concordance>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-12">
-            <EntryYouTube :text="entry.hangul" class="mb-5" />
+            <EntryYouTube :text="entry.russian" class="mb-5" />
           </div>
         </div>
       </div>
@@ -96,6 +96,7 @@ import SearchCompare from '@/components/SearchCompare.vue'
 import DefinitionsList from '@/components/DefinitionsList'
 import Paginator from '@/components/Paginator'
 import EntryYouTube from '@/components/EntryYouTube.vue'
+
 import Helper from '@/lib/helper'
 
 export default {
@@ -135,17 +136,21 @@ export default {
     show(entry) {
       this.entryKey += 1
       this.entry = entry
-      document.title = `${entry.hangul} (${
+      document.title = `${entry.russian} (${
         entry.english
       }) | Russian Zero to Hero`
     },
-    route() {
+    async route() {
       if (this.method && this.args) {
-        if (this.method === 'kengdic') {
+        if (this.method === 'openrussian') {
           if (this.args === 'random') {
             this.random()
           } else {
             // TODO show the entry
+            console.log(
+              (await this.$openRussian).nouns,
+              'await OpenRussian.nouns'
+            )
           }
         } else {
           if (!this.entry) {
