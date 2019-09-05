@@ -57,18 +57,15 @@
               :text="entry.bare"
               :entry="entry"
               limit="10"
-            ></WebImages>
+            />
+            <EntryForms class="mt-5" :word="entry" />
 
             <Collocations
               class="mt-5 mb-5"
               :word="entry"
               :level="entry.level"
-            ></Collocations>
-            <Concordance
-              class="mt-5 mb-5"
-              :word="entry"
-              :level="entry.level"
-            ></Concordance>
+            />
+            <Concordance class="mt-5 mb-5" :word="entry" :level="entry.level" />
           </div>
         </div>
         <div class="row">
@@ -89,12 +86,14 @@ import EntryHeader from '@/components/EntryHeader.vue'
 import WebImages from '@/components/WebImages.vue'
 import SearchCompare from '@/components/SearchCompare.vue'
 import DefinitionsList from '@/components/DefinitionsList'
+import EntryForms from '@/components/EntryForms'
 import Paginator from '@/components/Paginator'
 import EntryYouTube from '@/components/EntryYouTube.vue'
 
 export default {
   components: {
     SearchCompare,
+    EntryForms,
     Collocations,
     Concordance,
     EntryHeader,

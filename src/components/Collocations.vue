@@ -1,6 +1,6 @@
 <template>
   <div :key="'collocations-' + collocationsKey">
-    <div class="widget-title">Collocations with “{{ text }}”</div>
+    <div class="widget-title">Collocations with “{{ dText }}”</div>
     <div class="jumbotron-fluid bg-light p-4">
       <div class="row">
         <div

@@ -66,6 +66,9 @@ export default {
       })
     })
   },
+  accent(text) {
+    return text.replace(/'/g, '́')
+  },
   loadWords() {
     return new Promise(resolve => {
       console.log('OpenRussian: Loading words')
@@ -75,7 +78,7 @@ export default {
         complete: results => {
           for (let row of results.data) {
             if (row.accented) {
-              row.accented = row.accented.replace(/'/g, '́')
+              row.accented = this.accent(row.accented)
             }
             this.words[row.id] = row
           }
@@ -218,6 +221,8 @@ export default {
       sg2: 'singular',
       sg3: 'singular',
       declensions: 'declension',
+      decl_sg: 'singular',
+      decl_pl: 'plural',
       acc: 'accusative',
       dat: 'dative',
       gen: 'genitive',
