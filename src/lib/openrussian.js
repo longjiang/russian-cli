@@ -181,7 +181,9 @@ export default {
     return matches
   },
   lookupFuzzy(text) {
-    let words = this.words.filter(word => word && word.bare === text)
+    let words = this.words.filter(
+      word => word && word.bare.toLowerCase() === text.toLowerCase()
+    )
     let matches = this.matchForms(text)
     for (let match of matches) {
       let word = this.get(match.word_id)

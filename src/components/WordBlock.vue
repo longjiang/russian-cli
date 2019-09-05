@@ -5,16 +5,14 @@
     :open="hover"
     style="display: inline-block"
   >
-    <div
-      class="word-block"
-      @mouseover="hover = true"
-      @mouseleave="hover = false"
-    >
+    <div class="word-block" @mouseover="mouseover" @mouseleave="hover = false">
       {{ text }}
     </div>
     <template slot="popover">
-      <div>
-        I'm your popup.
+      <div v-if="!loading">
+        <div v-for="word in words">
+          {{ word.bare }}
+        </div>
       </div>
     </template>
   </v-popover>
@@ -29,16 +27,24 @@ export default {
   },
   data() {
     return {
-      hover: false
+      hover: false,
+      loading: true,
+      words: []
     }
   },
   methods: {
-    construct() {
-      if (typeof this.blockOrString === 'string') {
-        this.string = this.blockOrString
-      } else if (typeof this.blockOrString === 'object') {
-        this.block = this.blockOrString
+    mouseover() {
+      this.hover = true
+      if (this.loading === true) {
+        if (this.words.length === 0) {
+          this.lookup()
+        }
       }
+    },
+    async lookup() {
+      let words = (await this.$openRussian).lookupFuzzy(this.text)
+      this.words = words
+      this.loading = false
     }
   }
 }
