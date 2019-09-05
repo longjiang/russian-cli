@@ -11,7 +11,7 @@
           <li v-for="example in examples">
             <div class="pt-2 pb-2">
               <span
-                v-html="Helper.highlight(example.russian, text, level)"
+                v-html="Helper.highlight(example.russian, text, level || 'outside')"
               ></span>
             </div>
             <div v-if="example.english">{{ example.english }}</div>
@@ -51,11 +51,11 @@
         <p>Search for more sentences at</p>
         <a
           :href="
-            `https://endic.naver.com/search.nhn?sLn=en&searchOption=all&query=${text}`
+            `https://tatoeba.org/eng/sentences/search?from=rus&to=eng&query=${text}`
           "
           target="_blank"
         >
-          <img src="img/logo-naver.svg" alt="Naver" class="logo-small" />
+          <img src="/img/logo-tatoeba.png" alt="Tatoeba" class="logo-small mr-3" /> Tatoeba
         </a>
       </div>
     </div>

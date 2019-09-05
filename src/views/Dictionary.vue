@@ -22,7 +22,8 @@
           :items="$store.state.savedWords"
           :findCurrent="item => item.join(',').replace(/ /g, '_') === entry.id"
           :url="
-            item => `#/dictionary/openrussian/${item.join(',').replace(/ /g, '_')}`
+            item =>
+              `#/dictionary/openrussian/${item.join(',').replace(/ /g, '_')}`
           "
           title="Saved Words"
         />
@@ -116,7 +117,7 @@ export default {
       characters: [],
       character: {},
       unsplashSrcs: [],
-      unsplashSearchTerm: '',
+      unsplashSearchTerm: ''
     }
   },
   methods: {
@@ -145,8 +146,9 @@ export default {
     },
     async random() {
       // TODO show random entry
-      console.log((await this.$openRussian).random())
-      this.entry = (await this.$openRussian).random()
+      location.hash = `#/dictionary/openrussian/${
+        (await this.$openRussian).random().id
+      }`
     }
   },
   watch: {

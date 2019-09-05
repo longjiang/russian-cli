@@ -2,6 +2,10 @@ html * {
   font-family: Helvetica, sans-serif;
 }
 
+body {
+  color: #666;
+}
+
 .main {
   min-height: calc(100vh - 30rem);
 }
