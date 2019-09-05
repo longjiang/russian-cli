@@ -38,7 +38,7 @@
             <EntryHeader :entry="entry"></EntryHeader>
             <DefinitionsList
               class="mt-4"
-              :definitions="[entry.english]"
+              :definitions="[entry.translations.tl]"
             ></DefinitionsList>
           </div>
         </div>
@@ -50,35 +50,28 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-12">
-            <EntryCharacters
-              v-if="entry.hanja"
-              class="mb-4"
-              :text="entry.hanja"
-              :pinyin="entry.russian"
-            ></EntryCharacters>
-
             <WebImages
               class="mt-5"
-              :text="entry.russian"
+              :text="entry.bare"
               :entry="entry"
               limit="10"
             ></WebImages>
 
             <Collocations
               class="mt-5 mb-5"
-              :text="entry.russian"
-              :level="entry.hsk"
+              :text="entry.bare"
+              :level="entry.level"
             ></Collocations>
             <Concordance
               class="mt-5 mb-5"
-              :text="entry.russian"
-              :level="entry.hsk"
+              :text="entry.bare"
+              :level="entry.level"
             ></Concordance>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-12">
-            <EntryYouTube :text="entry.russian" class="mb-5" />
+            <EntryYouTube :text="entry.bare" class="mb-5" />
           </div>
         </div>
       </div>
@@ -136,7 +129,7 @@ export default {
     show(entry) {
       this.entryKey += 1
       this.entry = entry
-      document.title = `${entry.russian} (${
+      document.title = `${entry.bare} (${
         entry.english
       }) | Russian Zero to Hero`
     },
@@ -147,7 +140,7 @@ export default {
             this.random()
           } else {
             // TODO show the entry
-            console.log((await this.$openRussian).lookup(this.args), 'lookup')
+            this.entry = (await this.$openRussian).lookup(this.args)
           }
         } else {
           if (!this.entry) {

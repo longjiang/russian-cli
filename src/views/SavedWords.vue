@@ -133,7 +133,7 @@ export default {
           let textToDisplay = ''
 
           if (this.selectedCsvOptions.includes('russian')) {
-            textToDisplay += `${word.russian}\t`
+            textToDisplay += `${word.bare}\t`
           }
 
           if (this.selectedCsvOptions.includes('hanja')) {

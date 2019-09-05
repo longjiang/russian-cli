@@ -5,68 +5,90 @@ import SketchEngine from './sketch-engine'
 export default {
   corpra: [
     {
-      language: 'Korean',
-      name: 'CHILDES Korean Corpus',
-      words: 36056,
-      code: 'childes_kor',
-      note: 'Spoken.'
-    },
-    {
-      language: 'Korean',
-      name: 'Korean Web 2012 (koTenTen12)',
-      words: 461196240,
-      code: 'kotenten12',
-      note: 'Web.'
-    },
-    {
-      language: 'Korean',
-      name: 'Korean Web 2018 (koTenTen18)',
-      words: 1668851720,
-      code: 'kotenten18',
+      language: 'Russian',
+      name: 'Russian Web 2011 (ruTenTen11)',
+      words: 14553856113,
+      code: 'rutenten11_8',
       note: 'Featured.'
     },
     {
-      language: 'Korean',
-      name: 'OPUS2 Korean',
-      words: 374850,
-      code: 'opus2_ko',
+      language: 'Russian',
+      name:
+        'Araneum Russicum Russicum Maius (Russia-only Russian, 15.03) 1,20 G',
+      words: 859319823,
+      code: 'ru_araneum_maius_ru',
+      note: 'Web.'
+    },
+    {
+      language: 'Russian',
+      name: 'CHILDES Russian Corpus',
+      words: 48791,
+      code: 'childes_rus',
+      note: 'Spoken.'
+    },
+    {
+      language: 'Russian',
+      name: 'OPUS2 Russian',
+      words: 307709872,
+      code: 'opus2_ru',
       note: 'Parallel. That means <b>English translation</b> is available.'
     },
     {
-      language: 'Korean',
-      name: 'Timestamped JSI web corpus 2014-2016 Korean',
-      words: 438816127,
-      code: 'kor_jsi_newsfeed_1',
-      note:
-        'Diachronic. That means the corpus has time information about when the text was published or used.'
+      language: 'Russian',
+      name: 'ruSkELL 1.6',
+      words: 975584449,
+      code: 'ruskell_1_6',
+      note: 'Web.'
     },
     {
-      language: 'Korean',
-      name: 'Timestamped JSI web corpus 2014-2019 Korean',
-      words: 1102664442,
-      code: 'kor_jsi_newsfeed_virt',
-      note:
-        'Diachronic. That means the corpus has time information about when the text was published or used.'
+      language: 'Russian',
+      name: 'Russian Web 2011 sample (ruTenTen11)',
+      words: 998099963,
+      code: 'rutenten11_8_1G',
+      note: 'Web.'
     },
     {
-      language: 'Korean',
-      name: 'Timestamped JSI web corpus 2019-05 Korean',
-      words: 24695254,
-      code: 'kor_jsi_newsfeed_lastmonth',
-      note:
-        'Diachronic. That means the corpus has time information about when the text was published or used.'
+      language: 'Russian',
+      name: 'Russian web corpus (v2 with lempos)',
+      words: 147930261,
+      code: 'russian_2',
+      note: 'Web.'
     },
     {
-      language: 'Korean',
-      name: 'Timestamped JSI web corpus 2019-06 Korean',
-      words: 22934151,
-      code: 'kor_jsi_newsfeed_curmonth',
+      language: 'Russian',
+      name: 'Timestamped JSI web corpus 2014-2016 Russian',
+      words: 1120731416,
+      code: 'rus_jsi_newsfeed_1',
       note:
-        'Diachronic. That means the corpus has time information about when the text was published or used.'
+        'Diachronic. That means time information is available and you can observe how the language changed over time.'
+    },
+    {
+      language: 'Russian',
+      name: 'Timestamped JSI web corpus 2014-2019 Russian',
+      words: 3196159370,
+      code: 'rus_jsi_newsfeed_virt',
+      note:
+        'Diachronic. That means time information is available and you can observe how the language changed over time.'
+    },
+    {
+      language: 'Russian',
+      name: 'Timestamped JSI web corpus 2019-07 Russian',
+      words: 98581681,
+      code: 'rus_jsi_newsfeed_lastmonth',
+      note:
+        'Diachronic. That means time information is available and you can observe how the language changed over time.'
+    },
+    {
+      language: 'Russian',
+      name: 'Timestamped JSI web corpus 2019-08 Russian',
+      words: 31695132,
+      code: 'rus_jsi_newsfeed_curmonth',
+      note:
+        'Diachronic. That means time information is available and you can observe how the language changed over time.'
     }
   ],
   corpname() {
-    return localStorage.getItem('rzhCorpname') || 'kotenten18'
+    return localStorage.getItem('rzhCorpname') || 'rutenten11_8'
   },
   collocationDescription(word) {
     return {
@@ -75,7 +97,7 @@ export default {
       // adv_left: `adv_left`,
       // adv_right: `adv_right`,
       nextleft: `${word} ...`,
-      nextright: `... ${word}`,
+      nextright: `... ${word}`
       // noun_left: `${word} (as modifier) + Noun`,
       // noun_right: `Adjective + ${word}`,
       // verb_left: `verb_left`,

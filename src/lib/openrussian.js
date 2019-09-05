@@ -80,8 +80,10 @@ export default {
         word[table] = this[table][word.id]
       }
     }
-    word.decl_sg = this.declensions[word.nouns.decl_sg_id]
-    word.decl_pl = this.declensions[word.nouns.decl_pl_id]
+    if (word.nouns) {
+      word.decl_sg = this.declensions[word.nouns.decl_sg_id]
+      word.decl_pl = this.declensions[word.nouns.decl_pl_id]
+    }
     return word
   }
 }

@@ -5,12 +5,12 @@
       <div class="entry-word-wrapper" style="display:inline-block">
         <div class="mb-2">
           <Star :word="entry"></Star>
-          <Speak class="ml-1" :text="entry.russian" />
+          <Speak class="ml-1" :text="entry.bare" />
         </div>
         <div>
-          <a :href="`#/dictionary/KEngDic/${entry.id}`">
+          <a :href="`#/dictionary/openrussian/${entry.bare}`">
             <span class="entry-word" data-level="outside">{{
-              entry.russian
+              entry.accented
             }}</span>
           </a>
         </div>

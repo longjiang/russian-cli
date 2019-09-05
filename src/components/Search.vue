@@ -44,7 +44,7 @@
           <span
             class="suggestion-word font-weight-bold mr-1"
             data-level="outside"
-            >{{ suggestion.russian }}</span
+            >{{ suggestion.bare }}</span
           >
           <span
             class="mr-1"
@@ -132,7 +132,7 @@ export default {
       Helper,
       suggestions: [],
       dEntry: this.entry,
-      text: this.entry ? this.entry.russian : this.term,
+      text: this.entry ? this.entry.bare : this.term,
       active: false,
       suggestionsKey: 0
     }
@@ -144,7 +144,7 @@ export default {
     entry() {
       if (this.entry) {
         this.dEntry = this.entry
-        this.text = this.dEntry.russian
+        this.text = this.dEntry.bare
       }
     },
     text() {

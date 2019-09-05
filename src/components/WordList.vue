@@ -27,7 +27,7 @@
             v-if="highlight && word.hanja && word.hanja !== 'NULL'"
             v-html="Helper.highlight(word.hanja, highlight, 'outside')"
           ></span
-          ><span class="wordlist-item-word ml-1">{{ word.russian }}</span
+          ><span class="wordlist-item-word ml-1">{{ word.bare }}</span
           >&nbsp;
           <span v-if="word.english && word.english !== 'NULL'" class="wordlist-item-english">
             {{ word.english }}

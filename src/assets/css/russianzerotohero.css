@@ -92,22 +92,6 @@
   position: relative;
 }
 
-.speak {
-  background: #f1f1f1;
-  border: none;
-  border-top-right-radius: 0.5rem;
-  border-bottom-left-radius: 0.5rem;
-  position: absolute;
-  top: 0;
-  right: 0;
-  cursor: pointer;
-  padding: 0.2rem 1rem 0.5rem;
-}
-
-.speak img {
-  max-height: 1.3rem;
-  opacity: 0.5;
-}
 
 .declined-word-inner {
   display: flex;
@@ -228,4 +212,117 @@
 
 #analyzed {
   overflow: visible;
+}
+
+
+.levelA1,
+[data-level='A1'],
+[data-hover-level='A1']:hover,
+[data-hover-level='A1'].saved {
+  color: #f8b51e !important;
+}
+
+.levelA2,
+[data-level='A2'],
+[data-hover-level='A2']:hover,
+[data-hover-level='A2'].saved {
+  color: #267f94 !important;
+}
+
+.levelB1,
+[data-level='B1'],
+[data-hover-level='B1']:hover,
+[data-hover-level='B1'].saved {
+  color: #fd4f1c !important;
+}
+
+.levelB2,
+[data-level='B2'],
+[data-hover-level='B2']:hover,
+[data-hover-level='B2'].saved {
+  color: #bb1718 !important;
+}
+
+.levelC1,
+[data-level='C1'],
+[data-hover-level='C1']:hover,
+[data-hover-level='C1'].saved {
+  color: #1b3e76 !important;
+}
+
+.levelC2,
+[data-level='C2'],
+[data-hover-level='C2']:hover,
+[data-hover-level='C2'].saved {
+  color: #6a3669 !important;
+}
+
+.leveloutside,
+[data-level='outside'],
+[data-hover-level='outside']:hover,
+[data-hover-level='outside'].saved {
+  color: #c59f94 !important;
+}
+
+.bg-levelA1,
+[data-bg-level='A1'] {
+  background-color: #f8b51e !important;
+  color: white !important;
+}
+
+.bg-levelA2,
+[data-bg-level='A2'] {
+  background-color: #267f94 !important;
+  color: white !important;
+}
+
+.bg-levelB1,
+[data-bg-level='B1'] {
+  background-color: #fd4f1c !important;
+  color: white !important;
+}
+
+.bg-levelB2,
+[data-bg-level='B2'] {
+  background-color: #bb1718 !important;
+  color: white !important;
+}
+
+.bg-levelC1,
+[data-bg-level='C1'] {
+  background-color: #1b3e76 !important;
+  color: white !important;
+}
+
+.bg-levelC2,
+[data-bg-level='C2'] {
+  background-color: #6a3669 !important;
+  color: white !important;
+}
+
+.bg-leveloutside,
+[data-bg-level='outside'] {
+  background-color: #c59f94 !important;
+  color: white !important;
+}
+
+
+.widget-title {
+  display: block;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  background: #4e4e4e;
+  padding: 0.2rem 1rem;
+}
+
+
+.logo-small {
+  max-width: 8rem;
+  max-height: 4rem;
+}
+
+
+.highlight {
+  font-weight: bold;
 }

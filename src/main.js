@@ -18,10 +18,15 @@ Vue.config.productionTip = false
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
+import { fab } from '@fortawesome/free-brands-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
+import { far } from '@fortawesome/free-regular-svg-icons'
 import router from './router'
+import store from './store'
 
+library.add(far)
 library.add(fas)
+library.add(fab)
 
 Vue.use(BootstrapVue)
 
@@ -87,7 +92,8 @@ router.beforeEach((to, from, next) => {
   next()
 })
 
-window.russianZeroToHeroApp = new Vue({
+new Vue({
   router,
+  store,
   render: h => h(RussianZeroToHero)
 }).$mount('#russianzerotohero')

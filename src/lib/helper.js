@@ -67,11 +67,11 @@ export default {
     })
   },
   highlight(text, word, level = false) {
-    let levelAttr = level ? ` data-hsk="${level}"` : ''
+    let levelAttr = level ? ` data-level="${level}"` : ''
     if (text) {
       return text.replace(
-        word,
-        `<span ${levelAttr} class="highlight">${word}</span>`
+        new RegExp(`(["'“‘ ])(${word})(["'”’.!?:, ])`, 'gi'),
+        `$1<span ${levelAttr} class="highlight">$2</span>$3`
       )
     }
   },
