@@ -11,14 +11,28 @@
     <template slot="popover">
       <div v-if="!loading">
         <div v-for="word in words">
-          {{ word.bare }}
+          <div>
+            <span v-for="match in word.matches"
+              >{{ OpenRussian.stylize(match.field) }}
+              {{ OpenRussian.stylize(match.table) }} of </span>
+            <b :data-level="word.level || 'outside'">{{
+              OpenRussian.accent(word.accented)
+            }}</b>
+            <Speak :text="word.bare" class="ml-1" />
+          </div>
+          <div v-if="word.translations">
+            <em>{{ word.translations.tl }}</em>
+          </div>
         </div>
+        <div v-if="words.length === 0" style="font-size: 2rem">🤷‍</div>
       </div>
     </template>
   </v-popover>
 </template>
 
 <script>
+import OpenRussian from '@/lib/openrussian'
+
 export default {
   props: {
     text: {
@@ -27,6 +41,7 @@ export default {
   },
   data() {
     return {
+      OpenRussian,
       hover: false,
       loading: true,
       words: []

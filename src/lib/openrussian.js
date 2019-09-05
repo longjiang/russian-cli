@@ -181,16 +181,35 @@ export default {
     return matches
   },
   lookupFuzzy(text) {
+    // find exact (case-insensitive matches)
+    /*
+    words = [
+      {
+        id: ...
+        bare: ...
+        matches: [
+          {...}, {...}, ...
+        ]
+        // augmented data
+      }
+    ]
+    */
     let words = this.words.filter(
       word => word && word.bare.toLowerCase() === text.toLowerCase()
     )
     let matches = this.matchForms(text)
     for (let match of matches) {
-      let word = this.get(match.word_id)
-      word.match = match
-      words.push(word)
+      let word = words.find(word => word.id === match.word_id)
+      if (!word) {
+        word = this.get(match.word_id)
+        words.push(word)
+      }
+      word.matches = word.mathces || []
+      word.matches.push(match)
     }
-    return words.map(word => this.augment(word))
+    words = words.map(word => this.augment(word))
+    console.log(words)
+    return words
   },
   randomArrayItem(array, start = 0, length = false) {
     length = length || array.length
