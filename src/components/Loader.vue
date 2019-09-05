@@ -1,5 +1,5 @@
 <template>
-  <div id="loader" v-if="test()" class="d-inline-block text-center">
+  <div id="loader" v-if="loading" class="d-inline-block text-center">
     <div class="heartbeat-loader mb-4"></div>
     <div>
       <slot>Loading</slot>
@@ -8,31 +8,20 @@
 </template>
 
 <script>
-import Helper from '@/lib/helper'
 export default {
   props: {
     sticky: {
       default: false
     }
   },
-  methods: {
-    test() {
-      if (this.sticky) {
-        return true
-      } else {
-        return !this.LoadedKEngDic
-      }
-    }
-  },
   data() {
     return {
-      LoadedKEngDic: undefined
+      loading: true
     }
   },
-  mounted() {
-    Helper.loaded(LoadedKEngDic => {
-      this.LoadedKEngDic = LoadedKEngDic
-    })
+  async mounted() {
+    await this.$openRussian
+    this.loading = false
   }
 }
 </script>

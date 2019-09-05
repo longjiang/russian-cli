@@ -6,7 +6,7 @@
           <div class="col-sm-12">
             <div class="text-center">
               <h2 class="mb-4">For the love of Russian words.</h2>
-              <!-- <Loader ref="loader" class="mb-5" /> -->
+              <Loader ref="loader" class="mb-5" />
             </div>
             <SearchCompare :searchEntry="entry" class="mb-5" />
           </div>
