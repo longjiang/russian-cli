@@ -71,6 +71,7 @@ export default {
     if (text) {
       return text
         .replace(new RegExp(`^(${word})`, 'gi'), ' $1')
+        .replace(new RegExp(`(${word})$`, 'gi'), '$1 ')
         .replace(
           new RegExp(`(["'“‘ ])(${word})(["'”’.!?:, ])`, 'gi'),
           `$1<span ${levelAttr} class="highlight">$2</span>$3`

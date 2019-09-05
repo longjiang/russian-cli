@@ -16,7 +16,8 @@
           <Collocation
             v-if="sketch && sketch.Gramrels"
             class="mb-4"
-            :word="text"
+            :text="text"
+            :word="word"
             :level="level"
             :title="colDesc[name]"
             :type="name"
@@ -60,6 +61,9 @@ import SketchEngine from '@/lib/sketch-engine'
 
 export default {
   props: {
+    word: {
+      type: Object
+    },
     text: {
       type: String
     },
@@ -82,17 +86,16 @@ export default {
       colDesc: undefined,
       sketch: undefined,
       collocationsKey: 0,
+      dText: this.text || this.word.bare,
       SketchEngine
     }
   },
   mounted() {
-    let term = this.text.replace(/하?다$/, '') // remove final 다 to get all verb forms
-
-    SketchEngine.wsketch(term, response => {
+    SketchEngine.wsketch(this.dText, response => {
       this.sketch = response
       this.collocationsKey += 1
     })
-    this.colDesc = SketchEngine.collocationDescription(this.text)
+    this.colDesc = SketchEngine.collocationDescription(this.dText)
   }
 }
 </script>

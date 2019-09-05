@@ -1,7 +1,7 @@
 <template>
   <div :id="id || `collocation-${type}`">
     <h6>{{ title }}</h6>
-    <hr class="mt-0 mb-2">
+    <hr class="mt-0 mb-2" />
     <div v-if="collocation">
       <ul class="collapsed gramrel pl-0" data-collapse-target>
         <li
@@ -10,7 +10,9 @@
           class="gramrel-item list-unstyled"
         >
           <span
-            v-html="Helper.highlight(Word.cm, word, level)"
+            v-html="
+              Helper.highlightMultiple(Word.cm, words, level || 'outside')
+            "
           ></span>
         </li>
       </ul>
@@ -30,6 +32,9 @@ import Helper from '@/lib/helper'
 export default {
   props: {
     word: {
+      type: Object
+    },
+    text: {
       type: String
     },
     level: {
@@ -48,10 +53,17 @@ export default {
       default: undefined
     }
   },
-  beforeMount() {
+  async beforeMount() {
+    if (this.word) {
+      let forms = (await this.$openRussian)
+        .wordForms(this.word)
+        .map(form => form.form.replace(/'/g, ''))
+      this.words = forms
+    } else {
+      this.words = [this.dText]
+    }
     if (this.collocation && this.collocation.Words) {
-      this.collocation.Words = this.collocation.Words
-      .sort(
+      this.collocation.Words = this.collocation.Words.sort(
         (a, b) => a.cm.length - b.cm.length
       )
         .filter(Word => !Word.cm.match(/(。|？)/))
@@ -60,7 +72,9 @@ export default {
   },
   data() {
     return {
-      Helper
+      Helper,
+      dText: this.text || this.word.bare,
+      words: []
     }
   }
 }

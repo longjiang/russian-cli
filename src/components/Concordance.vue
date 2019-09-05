@@ -14,7 +14,7 @@
                 v-html="
                   Helper.highlightMultiple(
                     example.russian,
-                    words(),
+                    words,
                     level || 'outside'
                   )
                 "
@@ -82,6 +82,9 @@ export default {
     text: {
       type: String
     },
+    word: {
+      type: Object
+    },
     level: {
       default: 'outside'
     }
@@ -91,20 +94,21 @@ export default {
       Helper,
       examples: undefined,
       concordanceKey: 0,
+      dText: this.text || this.word.bare,
+      words: [],
       SketchEngine
     }
   },
-  methods: {
-    async words() {
+  async mounted() {
+    if (this.word) {
       let forms = (await this.$openRussian)
-        .wordForms(this.text)
-        .map(form => form.morphed.replace(/'/g, ''))
-      console.log(forms)
-      return forms
+        .wordForms(this.word)
+        .map(form => form.form.replace(/'/g, ''))
+      this.words = forms
+    } else {
+      this.words = [this.dText]
     }
-  },
-  mounted() {
-    SketchEngine.concordance(this.text, response => {
+    SketchEngine.concordance(this.dText, response => {
       this.examples = response
       this.concordanceKey += 1
     })

@@ -1,17 +1,51 @@
 export default {
   words: [],
   tables: [
-    'adjectives',
     // 'categories_words2', // not sure what this does
-    'conjugations',
-    'declensions',
-    'expressions_words',
-    'nouns',
+    // 'expressions_words', // not sure what this does
     // 'sentences_words', // 43 mb!
     // 'sentences', // 48 mb!
-    'translations',
-    'verbs'
     // 'words_rels' // later, or just use SketchEngine
+    {
+      name: 'nouns',
+      fields: []
+    },
+    {
+      name: 'translations',
+      fields: []
+    },
+    {
+      name: 'adjectives',
+      fields: [
+        'incomparable',
+        'short_f',
+        'short_m',
+        'short_n',
+        'short_pl',
+        'superlative'
+      ]
+    },
+    {
+      name: 'conjugations',
+      fields: ['pl1', 'pl2', 'pl3', 'sg1', 'sg2', 'sg3']
+    },
+    {
+      name: 'declensions',
+      fields: ['acc', 'dat', 'gen', 'inst', 'nom', 'prep']
+    },
+    {
+      name: 'verbs',
+      fields: [
+        'aspect',
+        'imperative_pl',
+        'imperative_sg',
+        'partner',
+        'past_f',
+        'past_m',
+        'past_n',
+        'past_pl'
+      ]
+    }
   ],
   loadTable(table) {
     return new Promise(resolve => {
@@ -69,7 +103,7 @@ export default {
     return new Promise(async resolve => {
       let promises = [this.loadWords()]
       for (let table of this.tables) {
-        promises.push(this.loadTable(table))
+        promises.push(this.loadTable(table.name))
       }
       await Promise.all(promises)
       console.log(this)
@@ -78,8 +112,8 @@ export default {
   },
   augment(word) {
     for (let table of this.tables) {
-      if (table !== 'declensions') {
-        word[table] = this[table][word.id]
+      if (table.name !== 'declensions') {
+        word[table.name] = this[table.name][word.id]
       }
     }
     if (word.nouns) {
@@ -89,7 +123,7 @@ export default {
     return word
   },
   get(id) {
-    return this.words[id]
+    return this.augment(this.words[id])
   },
   lookup(text) {
     let word = this.words.find(word => word && word.bare === text)
@@ -97,49 +131,41 @@ export default {
       return this.augment(word)
     }
   },
-  wordForms(text) {
-    let tables = [
+  wordForms(word) {
+    let forms = []
+    for (let table of this.tables.concat([
       {
-        name: 'adjectives',
-        fields: [
-          'incomparable',
-          'short_f',
-          'short_m',
-          'short_n',
-          'short_pl',
-          'superlative'
-        ]
-      },
-      {
-        name: 'conjugations',
-        fields: ['pl1', 'pl2', 'pl3', 'sg1', 'sg2', 'sg3']
-      },
-      {
-        name: 'declensions',
+        name: 'decl_pl',
         fields: ['acc', 'dat', 'gen', 'inst', 'nom', 'prep']
       },
       {
-        name: 'verbs',
-        fields: [
-          'aspect',
-          'imperative_pl',
-          'imperative_sg',
-          'partner',
-          'past_f',
-          'past_m',
-          'past_n',
-          'past_pl'
-        ]
+        name: 'decl_sg',
+        fields: ['acc', 'dat', 'gen', 'inst', 'nom', 'prep']
       }
-    ]
-    let forms = []
-    for (let table of tables) {
+    ])) {
+      for (let field of table.fields) {
+        if (word[table.name]) {
+          for (let form of word[table.name][field].split(',')) {
+            forms.push({
+              table: table.name,
+              field: field,
+              form: form.trim()
+            })
+          }
+        }
+      }
+    }
+    return forms
+  },
+  matchForms(text) {
+    let matches = []
+    for (let table of this.tables) {
       for (let index in this[table.name]) {
         let row = this[table.name][index]
         for (let field of table.fields) {
           if (row[field] && row[field].replace("'", '') === text) {
-            forms.push({
-              morphed: row[field],
+            matches.push({
+              form: row[field],
               table: table.name,
               field: field,
               word_id: row.word_id,
@@ -149,14 +175,14 @@ export default {
         }
       }
     }
-    return forms
+    return matches
   },
   lookupFuzzy(text) {
     let words = this.words.filter(word => word && word.bare === text)
-    let forms = this.wordForms(text)
-    for (let form of forms) {
-      let word = this.get(form.word_id)
-      word.match = form
+    let matches = this.matchForms(text)
+    for (let match of matches) {
+      let word = this.get(match.word_id)
+      word.match = match
       words.push(word)
     }
     return words.map(word => this.augment(word))
