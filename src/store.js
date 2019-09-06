@@ -8,17 +8,23 @@ export default new Vuex.Store({
     savedWords: JSON.parse(localStorage.getItem('savedOpenRussianWords')) || []
   },
   mutations: {
-    ADD_SAVED_WORD(state, id) {
-      if (!state.savedWords.find(item => item === id)) {
-        state.savedWords.push(id)
+    ADD_SAVED_WORD(state, wordForms) {
+      if (
+        !state.savedWords.find(item => {
+          if (item && Array.isArray(item)) {
+            return item.join(',') === wordForms.join(',')
+          }
+        })
+      ) {
+        state.savedWords.push(wordForms)
         localStorage.setItem(
           'savedOpenRussianWords',
           JSON.stringify(state.savedWords)
         )
       }
     },
-    REMOVE_SAVED_WORD(state, id) {
-      const keepers = state.savedWords.filter(item => item !== id)
+    REMOVE_SAVED_WORD(state, wordForm) {
+      const keepers = state.savedWords.filter(item => !item.includes(wordForm))
       state.savedWords = keepers
       localStorage.setItem('savedOpenRussianWords', JSON.stringify(keepers))
     },
@@ -28,13 +34,13 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    addSavedWord({ commit, dispatch }, id) {
+    addSavedWord({ commit, dispatch }, wordForms) {
       // id = 'traditional,pinyin,index'
-      commit('ADD_SAVED_WORD', id)
+      commit('ADD_SAVED_WORD', wordForms)
       dispatch('updateSavedWordsDisplay')
     },
-    removeSavedWord({ commit, dispatch }, id) {
-      commit('REMOVE_SAVED_WORD', id)
+    removeSavedWord({ commit, dispatch }, wordForm) {
+      commit('REMOVE_SAVED_WORD', wordForm)
       dispatch('updateSavedWordsDisplay')
     },
     removeAllSavedWords({ commit, dispatch }) {
@@ -52,8 +58,8 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    hasSavedWord: state => id => {
-      let yes = state.savedWords.find(item => item === id)
+    hasSavedWord: state => text => {
+      let yes = state.savedWords.find(item => item.includes(text))
       return yes
     },
     savedWordCount: state => () => {

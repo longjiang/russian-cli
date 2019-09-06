@@ -17,9 +17,6 @@
       <router-link class="secondary-menu-item" :to="{ name: 'dictionary' }">
         <font-awesome-icon icon="font" />Lookup Words
       </router-link>
-      <router-link class="secondary-menu-item" :to="{ name: 'phrase' }">
-        <font-awesome-icon icon="quote-left" />Lookup Phrases
-      </router-link>
       <router-link class="secondary-menu-item" :to="{ name: 'saved-words' }">
         <font-awesome-icon icon="star" />Saved
         <span class="saved-words-count" v-cloak>{{ savedWordsCount() }}</span>

@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-sm-12">
         <h3 v-if="title" class="text-center">
-          Playlist: <Annotate>{{ title }}</Annotate>
+          Playlist: <Annotate><span>{{ title }}</span></Annotate>
         </h3>
         <hr />
         <p class="text-center mb-5">

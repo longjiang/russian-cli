@@ -5,13 +5,13 @@ Vue.use(Router)
 
 export default new Router({
   scrollBehavior(to, from, savedPosition) {
-    return { x: 0, y: 168 }
+    return { x: 0, y: 184 }
   },
   routes: [
     {
       path: '/',
       name: 'home',
-      redirect: '/cases/nouns/'
+      redirect: '/dictionary/'
     },
     {
       path: '/dictionary/:method?/:args?',

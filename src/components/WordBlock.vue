@@ -6,12 +6,16 @@
     style="display: inline-block"
   >
     <div
-      class="word-block"
+      :class="{
+        'word-block': true,
+        saved: saved
+      }"
       :data-hover-level="
         words && words.length > 0 ? words[0].level || 'outside' : 'outside'
       "
       @mouseover="mouseover"
       @mouseleave="hover = false"
+      @click="click"
     >
       {{ text }}
     </div>
@@ -47,6 +51,7 @@
 
 <script>
 import OpenRussian from '@/lib/openrussian'
+import Helper from '@/lib/helper'
 
 export default {
   props: {
@@ -59,6 +64,7 @@ export default {
       OpenRussian,
       hover: false,
       loading: true,
+      saved: this.$store.getters.hasSavedWord(this.text),
       words: []
     }
   },
@@ -71,6 +77,31 @@ export default {
         }
       }
     },
+    async allForms() {
+      let forms = []
+      if (this.words.length > 0) {
+        for (let word of this.words) {
+          let wordForms = (await this.$openRussian).wordForms(word) || []
+          wordForms = wordForms
+            .map(form => form.form.replace(/'/g, '').toLowerCase())
+            .filter(form => form !== '' && form !== '0' && form !== '1')
+          forms = forms.concat(wordForms)
+        }
+      }
+      if (!forms.includes(this.text.toLowerCase())) {
+        forms.push(this.text.toLowerCase())
+      }
+      return Helper.unique(forms)
+    },
+    async click() {
+      // [ [...all word forms, lowercase] ]
+      if (this.saved) {
+        this.$store.dispatch('removeSavedWord', this.text)
+      } else {
+        this.$store.dispatch('addSavedWord', await this.allForms())
+      }
+      this.saved = !this.saved
+    },
     async lookup() {
       let words = (await this.$openRussian).lookupFuzzy(this.text)
       this.words = words
@@ -81,6 +112,14 @@ export default {
 </script>
 
 <style lang="scss">
+.word-block {
+  cursor: pointer;
+}
+
+.word-block.saved {
+  font-weight: bold;
+}
+
 .tooltip-entry {
   color: #666;
 }

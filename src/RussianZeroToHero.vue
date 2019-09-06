@@ -20,6 +20,8 @@
         </div>
       </div>
     </div>
+    <SubNav class="pt-4" />
+
     <keep-alive>
       <router-view ref="routerView" />
     </keep-alive>
@@ -61,11 +63,13 @@
 
 <script>
 import Nav from '@/components/Nav'
+import SubNav from '@/components/SubNav'
 import Config from '@/lib/config'
 
 export default {
   components: {
-    Nav
+    Nav,
+    SubNav
   },
   data() {
     return {

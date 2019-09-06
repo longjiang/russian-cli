@@ -97,6 +97,7 @@ router.beforeEach((to, from, next) => {
 
 if (location.hash === '#/test') {
   new Vue({
+    store,
     render: h => h(Test)
   }).$mount('#test')
 } else {

@@ -76,7 +76,6 @@
 <script>
 import $ from 'jquery'
 import WordList from '@/components/WordList.vue'
-import Helper from '@/lib/helper'
 import { mapState } from 'vuex'
 
 export default {

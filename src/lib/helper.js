@@ -98,42 +98,6 @@ export default {
       el.innerHTML = wordArray.join(' ') + '...'
     }
   },
-  wordBlockTemplateFilter(block, textOrCandidates) {
-    if (Array.isArray(textOrCandidates)) {
-      const candidates = textOrCandidates
-      for (let candidate of candidates) {
-        const saved = Helper.saved(candidate)
-        if (saved) $(block).addClass('saved')
-      }
-      $(block).click(function() {
-        if (candidates && candidates.length > 0) {
-          if ($(this).hasClass('saved')) {
-            Helper.removeSaved(candidates[0])
-          } else {
-            Helper.addSaved(candidates[0])
-          }
-        }
-      })
-    }
-    return block
-  },
-  saved(candidate) {
-    return window.ChineseZeroToHeroApp.$store.getters.hasSavedWord(
-      candidate.identifier
-    )
-  },
-  addSaved(candidate) {
-    window.ChineseZeroToHeroApp.$store.dispatch(
-      'addSavedWord',
-      candidate.identifier
-    )
-  },
-  removeSaved(candidate) {
-    window.ChineseZeroToHeroApp.$store.dispatch(
-      'removeSavedWord',
-      candidate.identifier
-    )
-  },
   tooltipTemplateFilter() {
     return (candidates, block, html) => {
       let $newHtml = $('<div />').html(html)

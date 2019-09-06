@@ -3,7 +3,7 @@
     <img :src="channel.avatar" class="channel-avatar" alt />
     <div class="channel-body">
       <h6>
-        <Annotate>{{ channel.title }}</Annotate>
+        <Annotate><span>{{ channel.title }}</span></Annotate>
       </h6>
       <div v-if="channel.description">{{ channel.description }}</div>
     </div>

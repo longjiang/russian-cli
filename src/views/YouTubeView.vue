@@ -8,7 +8,7 @@
       </div>
       <div class="row">
         <div class="col-sm-12">
-          <h3 :key="title"><Annotate>{{ title }}</Annotate></h3>
+          <h3 :key="title"><Annotate><span>{{ title }}</span></Annotate></h3>
           <hr class="mt-0" />
           <YouTubeChannelCard v-if="channel" :channel="channel" class="mb-5" />
         </div>

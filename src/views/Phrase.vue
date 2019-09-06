@@ -47,21 +47,6 @@ export default {
     args: {
       type: String
     }
-  },
-  data() {
-    return {}
-  },
-  watch: {
-    args() {
-      if (this.$route.name === 'dictionary') {
-        this.route()
-      }
-    }
-  },
-  mounted() {
-    if (this.$route.name === 'phrase') {
-      this.route()
-    }
   }
 }
 </script>
