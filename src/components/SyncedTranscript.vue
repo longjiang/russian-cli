@@ -23,19 +23,20 @@
         }"
         v-on:click="sock(line.starttime)"
       >
-        <Annotate
-          tag="div"
-          class="transcript-line-chinese"
-          v-html="
-            highlight ? Helper.highlight(line.line, highlight, hsk) : line.line
-          "
-        ></Annotate>
+        <Annotate tag="div" class="transcript-line-chinese"
+          ><span
+            v-html="
+              highlight
+                ? Helper.highlight(line.line, highlight, hsk)
+                : line.line
+            "
+        /></Annotate>
         <Annotate
           tag="div"
           v-if="parallellines && parallellines[lineIndex]"
           class="transcript-line-english"
-          v-html="parallellines[lineIndex].line"
-        ></Annotate>
+          
+        ><span v-html="parallellines[lineIndex].line" /></Annotate>
       </div>
     </div>
     <ShowMoreButton v-if="collapse" :data-bg-level="hsk ? hsk : 'outside'"

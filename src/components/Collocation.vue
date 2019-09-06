@@ -9,11 +9,13 @@
           v-if="Word.cm"
           class="gramrel-item list-unstyled"
         >
-          <span
-            v-html="
-              Helper.highlightMultiple(Word.cm, words, level || 'outside')
-            "
-          ></span>
+          <Annotate>
+            <span
+              v-html="
+                Helper.highlightMultiple(Word.cm, words, level || 'outside')
+              "
+            ></span>
+          </Annotate>
         </li>
       </ul>
       <ShowMoreButton
