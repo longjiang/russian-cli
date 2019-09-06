@@ -3,12 +3,16 @@ import Helper from '@/lib/helper'
 export default {
   host: 'ru.wikisource.org',
   name: 'Wikisource',
-  example: 'https://ru.wikisource.org/wiki/西遊記',
+  example: 'https://ru.wikisource.org/wiki/Духовная_война/Душа_и_ее_падение',
   logo:
     'https://ru.wikisource.org/static/images/project-logos/ruwikisource-2x.png',
   async getBook(url) {
     let $bookHTML = await Helper.scrape2(url)
-    $bookHTML.find('.sisitem').remove()
+    $bookHTML
+      .find(
+        '#headertemplate, .header_notes, .ws-noexport, .mw-parser-output > table:first-of-type, .mw-editsection, #headerContainer, #toc, .sisitem, .mw-cite-backlink'
+      )
+      .remove()
     let chapters = []
     for (let a of $bookHTML.find('.mw-parser-output li a')) {
       chapters.push({
@@ -44,10 +48,11 @@ export default {
       book = await this.getBook(bookURL)
       book.url = bookURL
     }
-    $chapterHTML.find('.mw-parser-output > table:first-of-type').remove()
-    $chapterHTML.find('.mw-editsection').remove()
-    $chapterHTML.find('#headerContainer').remove()
-    $chapterHTML.find('#toc').remove()
+    $chapterHTML
+      .find(
+        '#headertemplate, .header_notes, .ws-noexport, .mw-parser-output > table:first-of-type, .mw-editsection, #headerContainer, #toc'
+      )
+      .remove()
     $chapterHTML
       .find('*')
       .contents()
@@ -77,9 +82,7 @@ export default {
       .find('.mw-parser-output > p:first-child, #toc, .mw-editsection')
       .remove()
     let list = []
-    for (let a of $html.find(
-      '.mw-parser-output li a:first-of-type:not(.new)'
-    )) {
+    for (let a of $html.find('.mw-category li a, .mw-content-ltr li a')) {
       list.push({
         url: 'https://ru.wikisource.org' + $(a).attr('href'),
         title: $(a)

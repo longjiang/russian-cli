@@ -18,13 +18,16 @@
         class="col-md-8"
         :key="'chapter-' + encodeURIComponent(chapterTitle)"
       >
-        <Annotate tag="h1">{{ chapterTitle }}</Annotate>
-        <div class="chapter-content">
+        <Annotate tag="h1"
+          ><span>{{ chapterTitle }}</span></Annotate
+        >
+        <div class="chapter-content" v-if="chapterContent">
           <SpeechBar
             :html="
               chapterContent.replace(
                 /href=&quot;([^&quot;]+)&quot;/g,
-                (match, p1) => `href=&quot;#/book/chapter/${encodeURIComponent(p1)}&quot;`
+                (match, p1) =>
+                  `href=&quot;#/book/chapter/${encodeURIComponent(p1)}&quot;`
               )
             "
           />
@@ -60,7 +63,7 @@
             <p>{{ bookAuthor }}</p>
           </Annotate>
         </a>
-        <div class="bg-light p-4 mb-3 rounded">
+        <div class="bg-light p-4 mb-3 rounded" v-if="Library.source(args)">
           <a :href="args" class="link-unstyled" target="_blank">
             Read the original on
             <img
@@ -90,7 +93,7 @@
                 `#/book/chapter/${encodeURIComponent(chapter.url)}`
             }"
             :href="`#/book/chapter/${encodeURIComponent(chapter.url)}`"
-            >{{ chapter.title }}</Annotate
+            ><span>{{ chapter.title }}</span></Annotate
           >
         </div>
       </div>

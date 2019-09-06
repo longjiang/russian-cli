@@ -23,7 +23,7 @@
       <div v-if="!loading">
         <div v-for="word in words" class="tooltip-entry">
           <div>
-            <span v-for="match in word.matches" style="color: #999"
+            <div v-for="match in word.matches" style="color: #999"
               ><b>{{ OpenRussian.stylize(match.field) }} {{ match.number }}</b>
               {{
                 match.table !== 'declensions'
@@ -31,7 +31,7 @@
                   : ''
               }}
               of
-            </span>
+            </div>
             <b
               :data-level="word.level || 'outside'"
               style="font-size: 1.5rem"
@@ -136,6 +136,7 @@ export default {
     color: white;
     border-radius: 16px;
     text-align: left;
+    max-width: 30rem;
   }
 
   .tooltip-arrow {

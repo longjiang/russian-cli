@@ -61,7 +61,7 @@ export default {
     voices() {
       return speechSynthesis
         .getVoices()
-        .filter(voice => voice.lang.startsWith('zh'))
+        .filter(voice => voice.lang.startsWith('ru'))
     }
   },
   mounted() {

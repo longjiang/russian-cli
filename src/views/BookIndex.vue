@@ -40,7 +40,7 @@
                 `#/book/chapter/${encodeURIComponent(chapter.url)}`
             }"
             :href="`#/book/chapter/${encodeURIComponent(chapter.url)}`"
-            >{{ chapter.title }}</Annotate
+            ><span>{{ chapter.title }}</span></Annotate
           >
         </div>
       </div>

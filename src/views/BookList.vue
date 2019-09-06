@@ -27,7 +27,7 @@
             class="mb-4 shadow book-thumb"
           />
           <Annotate tag="h6"><b>{{ book.title }}</b></Annotate>
-          <Annotate tag="small" v-if="book.author">{{ book.author }}</Annotate>
+          <Annotate tag="small" v-if="book.author"><span>{{ book.author }}</span></Annotate>
           </a
         >
       </li>
