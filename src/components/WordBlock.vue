@@ -4,6 +4,7 @@
     placement="top"
     :open="hover"
     style="display: inline-block"
+    v-observe-visibility="visibilityChanged"
   >
     <div
       :class="{
@@ -65,13 +66,15 @@ export default {
     }
   },
   methods: {
-    mouseover() {
-      this.hover = true
-      if (this.loading === true) {
+    visibilityChanged(isVisible) {
+      if (isVisible && this.loading === true) {
         if (this.words.length === 0) {
           this.lookup()
         }
       }
+    },
+    mouseover() {
+      this.hover = true
     },
     async allForms() {
       let forms = [this.text.toLowerCase()]

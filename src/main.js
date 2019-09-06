@@ -15,6 +15,7 @@ import Star from '@/components/Star'
 import Speak from '@/components/Speak'
 import ShowMoreButton from '@/components/ShowMoreButton'
 import OpenRussian from '@/lib/openrussian'
+import VueObserveVisibility from 'vue-observe-visibility'
 
 Vue.config.productionTip = false
 
@@ -32,6 +33,7 @@ library.add(fab)
 
 Vue.use(BootstrapVue)
 Vue.use(VTooltip)
+Vue.use(VueObserveVisibility)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('Annotate', Annotate)
