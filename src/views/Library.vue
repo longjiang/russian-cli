@@ -125,6 +125,10 @@ export default {
           url: 'https://ru.wikisource.org/wiki/Категория:Биографии'
         },
         {
+          title: 'Detective',
+          url: 'https://litnet.com/ru/top/detektivy'
+        },
+        {
           title: 'Dialogs',
           url: 'https://ru.wikisource.org/wiki/Категория:Диалоги'
         },
@@ -145,12 +149,24 @@ export default {
           url: 'https://ru.wikisource.org/wiki/Категория:Басни'
         },
         {
+          title: 'Fantacy (Фзнтези)',
+          url: 'https://litnet.com/ru/top/fentezi'
+        },
+        {
+          title: 'Fantacy (Фантастика)',
+          url: 'https://litnet.com/ru/top/fantastika'
+        },
+        {
           title: 'Fiction',
           url: 'https://ru.wikisource.org/wiki/Категория:Фантастика'
         },
         {
-          title: 'Short Stories and Novels',
-          url: 'https://ru.wikisource.org/wiki/Категория:Новеллы'
+          title: 'Historical Novel',
+          url: 'https://litnet.com/ru/top/molodejnaya-proza'
+        },
+        {
+          title: 'Mystery',
+          url: 'https://litnet.com/ru/top/mistikaujasy'
         },
         {
           title: 'Oratorical prose',
@@ -161,8 +177,24 @@ export default {
           url: 'https://ru.wikisource.org/wiki/Категория:Поэмы'
         },
         {
+          title: 'Romance',
+          url: 'https://litnet.com/ru/top/lyubovnye-romany'
+        },
+        {
+          title: 'Short Stories and Novels',
+          url: 'https://ru.wikisource.org/wiki/Категория:Новеллы'
+        },
+        {
           title: 'Tales',
           url: 'https://ru.wikisource.org/wiki/Категория:Сказки'
+        },
+        {
+          title: 'Thriller',
+          url: 'https://litnet.com/ru/top/trillery'
+        },
+        {
+          title: 'Top on Litnet',
+          url: 'https://litnet.com/ru/top/all'
         }
       ],
       sources: [],
