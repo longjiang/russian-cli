@@ -50,7 +50,7 @@ export default {
   loadTable(table) {
     return new Promise(resolve => {
       console.log(`OpenRussian: Loading table "${table}"`)
-      Papa.parse(`/data/${table}.csv`, {
+      Papa.parse(`/data/${table}.csv.txt`, {
         download: true,
         header: true,
         complete: results => {
@@ -165,7 +165,11 @@ export default {
       for (let index in this[table.name]) {
         let row = this[table.name][index]
         for (let field of table.fields) {
-          if (row[field] && row[field].replace("'", '') === text) {
+          if (
+            row[field] &&
+            row[field].replace(/ё/gi, 'е').replace("'", '') ===
+              text.replace(/ё/gi, 'е')
+          ) {
             let numbers = []
             if (table.name === 'declensions') {
               let word = this.augment(this.get(row.word_id))

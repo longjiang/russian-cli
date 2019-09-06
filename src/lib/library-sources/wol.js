@@ -14,7 +14,10 @@ export default {
       .trim()
     $chapterHTML.find('header').remove()
     for (let img of $chapterHTML.find('img')) {
-      $(img).attr('src', 'https://wol.jw.org' + $(img).attr('src'))
+      $(img).attr('src', `https://${this.host}` + $(img).attr('src'))
+    }
+    for (let a of $chapterHTML.find('a')) {
+      $(a).attr('href', `https://${this.host}` + $(a).attr('href'))
     }
     let chapter = {
       url: url,
@@ -23,7 +26,7 @@ export default {
     }
     let href = $chapterHTML.find('.navPublications a').attr('href')
     if (href) {
-      let bookURL = 'https://wol.jw.org' + href
+      let bookURL = href
       chapter.book = await this.getBook(bookURL)
     }
     return chapter

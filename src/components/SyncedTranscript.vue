@@ -31,12 +31,9 @@
                 : line.line
             "
         /></Annotate>
-        <Annotate
-          tag="div"
-          v-if="parallellines && parallellines[lineIndex]"
-          class="transcript-line-english"
-          
-        ><span v-html="parallellines[lineIndex].line" /></Annotate>
+        <div class="transcript-line-english">
+          <span v-html="parallellines[lineIndex].line" />
+        </div>
       </div>
     </div>
     <ShowMoreButton v-if="collapse" :data-bg-level="hsk ? hsk : 'outside'"
