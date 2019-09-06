@@ -5,7 +5,14 @@
     :open="hover"
     style="display: inline-block"
   >
-    <div class="word-block" :data-hover-level="words && words.length > 0 ? words[0].level || 'outside' : 'outside'" @mouseover="mouseover" @mouseleave="hover = false">
+    <div
+      class="word-block"
+      :data-hover-level="
+        words && words.length > 0 ? words[0].level || 'outside' : 'outside'
+      "
+      @mouseover="mouseover"
+      @mouseleave="hover = false"
+    >
       {{ text }}
     </div>
     <template slot="popover">
@@ -13,8 +20,14 @@
         <div v-for="word in words">
           <div>
             <span v-for="match in word.matches"
-              >{{ OpenRussian.stylize(match.field) }}
-              {{ OpenRussian.stylize(match.table) }} of </span>
+              >{{ OpenRussian.stylize(match.field) }} {{ match.number }}
+              {{
+                match.table !== 'declensions'
+                  ? OpenRussian.stylize(match.table)
+                  : ''
+              }}
+              of
+            </span>
             <b :data-level="word.level || 'outside'">{{
               OpenRussian.accent(word.accented)
             }}</b>

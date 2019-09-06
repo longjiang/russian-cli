@@ -167,8 +167,18 @@ export default {
         let row = this[table.name][index]
         for (let field of table.fields) {
           if (row[field] && row[field].replace("'", '') === text) {
+            let numbers = []
+            if (table.name === 'declensions') {
+              let word = this.augment(this.get(row.word_id))
+              if (word.decl_sg && row[field] === word.decl_sg[field])
+                numbers.push('singular')
+              if (word.decl_pl && row[field] === word.decl_pl[field])
+                numbers.push('plural')
+              console.log(numbers, 'numbers')
+            }
             matches.push({
               form: row[field],
+              number: numbers.join(' and '),
               table: table.name,
               field: field,
               word_id: row.word_id,
