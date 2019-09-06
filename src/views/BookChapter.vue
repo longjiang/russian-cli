@@ -203,7 +203,6 @@ export default {
 
 <style lang="scss">
 .chapter-content {
-  overflow: hidden;
   img {
     max-width: 100%;
     height: auto;
