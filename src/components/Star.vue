@@ -23,7 +23,14 @@
 import Helper from '@/lib/helper'
 
 export default {
-  props: ['word'],
+  props: {
+    word: {
+      type: Object
+    },
+    text: {
+      type: String
+    }
+  },
   data() {
     return {
       id: Helper.uniqueId(),
@@ -31,14 +38,30 @@ export default {
     }
   },
   methods: {
+    async allForms() {
+      let wordForms = (await this.$openRussian).wordForms(this.word) || []
+      wordForms = wordForms
+        .map(form => form.form.replace(/'/g, '').toLowerCase())
+        .filter(form => form !== '' && form !== '0' && form !== '1')
+      return Helper.unique([this.word.bare.toLowerCase()].concat(wordForms))
+    },
     saved() {
-      return this.$store.getters.hasSavedWord(this.word.id)
+      let saved = this.$store.getters.hasSavedWord(
+        this.word ? this.word.bare.toLowerCase() : this.text.toLowerCase()
+      )
+      return saved
     },
     saveWordClick() {
-      this.$store.dispatch('addSavedWord', this.word.id)
+      this.$store.dispatch(
+        'addSavedWord',
+        this.word ? this.allForms() : [this.text.toLowerCase()]
+      )
     },
     removeWordClick() {
-      this.$store.dispatch('removeSavedWord', this.word.id)
+      this.$store.dispatch(
+        'removeSavedWord',
+        this.word ? this.word.bare.toLowerCase() : this.text.toLowerCase()
+      )
     }
   }
 }

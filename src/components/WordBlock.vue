@@ -78,7 +78,7 @@ export default {
       }
     },
     async allForms() {
-      let forms = []
+      let forms = [this.text.toLowerCase()]
       if (this.words.length > 0) {
         for (let word of this.words) {
           let wordForms = (await this.$openRussian).wordForms(word) || []
@@ -87,9 +87,6 @@ export default {
             .filter(form => form !== '' && form !== '0' && form !== '1')
           forms = forms.concat(wordForms)
         }
-      }
-      if (!forms.includes(this.text.toLowerCase())) {
-        forms.push(this.text.toLowerCase())
       }
       return Helper.unique(forms)
     },

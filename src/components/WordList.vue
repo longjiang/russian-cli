@@ -18,21 +18,20 @@
         >
         <a v-if="word" :href="`#/dictionary/openrussian/${word.id}`">
           <span
-            class="wordlist-item-word"
-            data-level="outside"
-            v-if="!highlight && word.hanja && word.hanja !== 'NULL'"
-            >{{ word.hanja }}</span
-          ><span
-            class="wordlist-item-word"
-            v-if="highlight && word.hanja && word.hanja !== 'NULL'"
-            v-html="Helper.highlight(word.hanja, highlight, 'outside')"
-          ></span
-          ><span class="wordlist-item-word ml-1">{{ word.bare }}</span
+            class="wordlist-item-word ml-1"
+            :data-level="word.level || 'outside'"
+            >{{ OpenRussian.accent(word.accented) }}</span
           >&nbsp;
-          <span v-if="word.english && word.english !== 'NULL'" class="wordlist-item-english">
-            {{ word.english }}
+          <span v-if="word.translations" class="wordlist-item-english">
+            {{ word.translations.tl }}
           </span>
         </a>
+      </li>
+      <li class="wordlist-item" v-for="text in texts">
+        <Star v-if="text && star === true" :text="text" class="mr-1"></Star>
+        <span class="wordlist-item-word ml-1" data-level="outside">{{
+          text
+        }}</span>
       </li>
     </ul>
     <ShowMoreButton
@@ -44,14 +43,20 @@
 </template>
 <script>
 import Helper from '@/lib/helper'
+import OpenRussian from '@/lib/openrussian'
+
 export default {
   data() {
     return {
-      Helper
+      Helper,
+      OpenRussian
     }
   },
   props: {
     words: {
+      type: Array
+    },
+    texts: {
       type: Array
     },
     compareWith: {

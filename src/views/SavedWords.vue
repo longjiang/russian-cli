@@ -57,14 +57,7 @@
         </p>
         <div>
           <Loader />
-          <WordList :words="savedWords"></WordList>
-          <a
-            v-if="savedWordIds.length > 0"
-            class="btn btn-warning mt-4 mb-5"
-            :href="`#/learn/saved`"
-          >
-            <i class="glyphicon glyphicon-blackboard"></i> Learn These Words
-          </a>
+          <WordList :words="savedWords" :texts="savedTexts"></WordList>
         </div>
       </div>
     </div>
@@ -76,6 +69,7 @@
 <script>
 import $ from 'jquery'
 import WordList from '@/components/WordList.vue'
+import OpenRussian from '@/lib/openrussian'
 import { mapState } from 'vuex'
 
 export default {
@@ -87,36 +81,39 @@ export default {
     return {
       loaded: false,
       savedWords: [],
-      selectedCsvOptions: ['russian', 'hanja', 'definitions'],
+      savedTexts: [],
+      selectedCsvOptions: ['russian', 'english'],
       csvOptions: [
-        { text: 'Simplified', value: 'simplified' },
-        { text: 'Traditional', value: 'traditional' },
-        { text: 'Pinyin', value: 'pinyin' },
-        { text: 'Definitions', value: 'definitions' },
-        { text: 'Measure Words', value: 'measureWords' }
+        { text: 'Russian', value: 'russian' },
+        { text: 'English', value: 'english' }
       ]
     }
   },
-  computed: mapState({
-    savedWordIds: state => state.savedWords
-  }),
   watch: {
-    savedWordIds() {
-      this.updateWords()
-    },
     selectedCsvOptions() {
       $('#export-textarea').val(this.csv())
+    },
+    stateSavedWords() {
+      this.updateWords()
     }
   },
   mounted() {
     this.updateWords()
   },
+  computed: mapState({
+    stateSavedWords: state => state.savedWords
+  }),
   methods: {
     async updateWords() {
-      await this.$openRussian
       this.savedWords = []
-      for (let id of this.savedWordIds) {
-        this.savedWords.push(this.$openRussian.get(id))
+      this.savedTexts = []
+      for (let wordForms of this.$store.state.savedWords) {
+        let word = (await this.$openRussian).lookup(wordForms[0])
+        if (word) {
+          this.savedWords.push(word)
+        } else {
+          this.savedTexts.push(wordForms[0])
+        }
       }
     },
     csv() {
@@ -129,17 +126,13 @@ export default {
           let textToDisplay = ''
 
           if (this.selectedCsvOptions.includes('russian')) {
-            textToDisplay += `${word.bare}\t`
+            textToDisplay += `${OpenRussian.accent(word.accented)}\t`
           }
 
-          if (this.selectedCsvOptions.includes('hanja')) {
-            textToDisplay += `${word.hanja}\t`
-          }
-
-          if (this.selectedCsvOptions.includes('definitions')) {
-            const definitions = word.english
-
-            textToDisplay += `${definitions}\t`
+          if (this.selectedCsvOptions.includes('english')) {
+            textToDisplay += `${
+              word.translations ? word.translations.tl : ''
+            }\t`
           }
 
           return textToDisplay
