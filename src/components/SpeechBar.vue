@@ -49,55 +49,48 @@ export default {
   },
   data() {
     return {
-      sentences: [],
       current: 0,
       speechSynthesis,
       voice: 0,
       utterance: undefined,
-      speaking: false
-    }
-  },
-  computed: {
-    voices() {
-      return speechSynthesis
-        .getVoices()
-        .filter(voice => voice.lang.startsWith('ru'))
-    }
-  },
-  mounted() {
-    this.sentences = []
-    for (let annotate of this.$children) {
-      for (let sentence of $(annotate.$el).find('.sentence')) {
-        this.sentences.push(sentence)
-      }
+      speaking: false,
+      voices: []
     }
   },
   methods: {
+    getSentences() {
+      let sentences = []
+      for (let annotate of this.$children) {
+        for (let sentence of $(annotate.$el).find('.sentence')) {
+          sentences.push(sentence)
+        }
+      }
+      return sentences
+    },
+    getVoices() {
+      let voices = speechSynthesis
+        .getVoices()
+        .filter(voice => voice.lang.startsWith('ru'))
+      this.voices = voices
+    },
     setvoice(index) {
       this.voice = index
     },
     sentenceText(sentence) {
-      let text = ''
-      for (let block of $(sentence).find('.word-block, .word-block-text')) {
-        if ($(block).is('.word-block-text')) {
-          text += $(block).text()
-        } else {
-          text += $(block)
-            .find('.word-block-simplified')
-            .text()
-        }
-      }
+      let text = $(sentence).text()
       return text
     },
     update() {
-      for (let sentence of this.sentences) {
+      for (let sentence of this.getSentences() ) {
         $(sentence).removeClass('current')
       }
-      const sentence = this.sentences[this.current]
+      const sentence = this.getSentences()[this.current]
       $(sentence).addClass('current')
     },
     speak(text) {
+      if (this.voices.length === 0) this.getVoices()
       this.utterance = new SpeechSynthesisUtterance(text)
+      this.utterance.lang = 'ru'
       this.utterance.voice = this.voices[this.voice]
       speechSynthesis.speak(this.utterance)
     },
@@ -114,7 +107,7 @@ export default {
     play() {
       this.update()
       this.speaking = true
-      const sentence = this.sentences[this.current]
+      const sentence = this.getSentences()[this.current]
       let text = this.sentenceText(sentence)
       if (text.length === 0) {
         this.next()
@@ -143,7 +136,7 @@ export default {
       }
     },
     next() {
-      if (this.current + 1 < this.sentences.length) {
+      if (this.current + 1 < this.getSentences().length) {
         this.current++
         this.update()
         if (this.speaking) {

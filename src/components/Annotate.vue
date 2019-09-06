@@ -42,7 +42,7 @@ export default {
       return sentences
     },
     markRussianWords(text) {
-      let html = text.replace(/([\wа-я]+)/gi, '<WordBlock :text="`$1`" />')
+      let html = text.replace(/([\wа-я]+)/gi, '<WordBlock>$1</WordBlock>')
       return html
     },
     recursive(node) {

@@ -17,14 +17,14 @@
       @mouseleave="hover = false"
       @click="click"
     >
-      {{ text }}
+      <slot></slot>
     </div>
     <template slot="popover">
       <div v-if="!loading">
         <div v-for="word in words" class="tooltip-entry">
           <div>
-            <div v-for="match in word.matches" style="color: #999"
-              ><b>{{ OpenRussian.stylize(match.field) }} {{ match.number }}</b>
+            <div v-for="match in word.matches" style="color: #999">
+              <b>{{ OpenRussian.stylize(match.field) }} {{ match.number }}</b>
               {{
                 match.table !== 'declensions'
                   ? OpenRussian.stylize(match.table)
@@ -54,17 +54,13 @@ import OpenRussian from '@/lib/openrussian'
 import Helper from '@/lib/helper'
 
 export default {
-  props: {
-    text: {
-      type: String
-    }
-  },
   data() {
     return {
       OpenRussian,
       hover: false,
       loading: true,
-      saved: this.$store.getters.hasSavedWord(this.text),
+      text: this.$slots.default[0].text,
+      saved: this.$store.getters.hasSavedWord(this.$slots.default[0].text),
       words: []
     }
   },
@@ -95,6 +91,7 @@ export default {
       if (this.saved) {
         this.$store.dispatch('removeSavedWord', this.text)
       } else {
+        this.speak(this.text)
         this.$store.dispatch('addSavedWord', await this.allForms())
       }
       this.saved = !this.saved
@@ -103,6 +100,13 @@ export default {
       let words = (await this.$openRussian).lookupFuzzy(this.text)
       this.words = words
       this.loading = false
+    },
+    speak(text) {
+      if (!speechSynthesis.speaking) {
+        this.utterance = new SpeechSynthesisUtterance(text)
+        this.utterance.lang = 'ru'
+        speechSynthesis.speak(this.utterance)
+      }
     }
   }
 }
