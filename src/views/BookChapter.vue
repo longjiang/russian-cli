@@ -18,6 +18,12 @@
         class="col-md-8"
         :key="'chapter-' + encodeURIComponent(chapterTitle)"
       >
+        <div
+          v-if="!(chapterContent && chapterContent.length > 0)"
+          class="text-center"
+        >
+          <Loader :sticky="true" />
+        </div>
         <Annotate tag="h1"
           ><span>{{ chapterTitle }}</span></Annotate
         >

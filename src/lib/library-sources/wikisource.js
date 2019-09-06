@@ -90,6 +90,6 @@ export default {
           .trim()
       })
     }
-    return list
+    return list.filter(item => !item.title.includes('Категория:'))
   }
 }

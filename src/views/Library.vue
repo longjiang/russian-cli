@@ -27,6 +27,26 @@
           </li>
         </ul>
 
+        <h1 class="text-center" style="margin-bottom: 6rem">Easy Reads</h1>
+        <ul class="list-unstyled p-0 mb-5 booklists">
+          <li v-for="booklist in easy" class="text-center mb-5">
+            <a
+              class="link-unstyled"
+              :href="`#/book/list/${encodeURIComponent(booklist.url)}`"
+            >
+              <img
+                :src="`/img/books-${Math.floor(Math.random() * 10)}.png`"
+                class="shadowed book-thumb mb-4"
+              />
+              <h5 class="mt-3">
+                <Annotate tag="b"
+                  ><span>{{ booklist.title }}</span></Annotate
+                >
+              </h5>
+            </a>
+          </li>
+        </ul>
+
         <h1 class="text-center" style="margin-bottom: 6rem">Wikipedia</h1>
         <ul class="list-unstyled p-0 mb-5 booklists">
           <li v-for="booklist in wikipedia" class="text-center mb-5">
@@ -107,7 +127,7 @@ export default {
         }
       ],
       externalGradedReaders: [],
-      booklists: [
+      easy: [
         {
           title: 'Allegories',
           url: 'https://ru.wikisource.org/wiki/Категория:Аллегории'
@@ -116,6 +136,20 @@ export default {
           title: 'Aphorisms',
           url: 'https://ru.wikisource.org/wiki/Категория:Афоризмы'
         },
+        {
+          title: 'Children’s Stories',
+          url: 'https://librebook.me/collection/roman_vospitaniia'
+        },
+        {
+          title: 'Children’s Literature',
+          url: 'https://litnet.com/ru/top/detskaya-literatura'
+        },
+        {
+          title: 'Short Stories',
+          url: 'https://ru.wikisource.org/wiki/Категория:Сказки'
+        }
+      ],
+      booklists: [
         {
           title: 'Autobiographies',
           url: 'https://ru.wikisource.org/wiki/Категория:Автобиографии'
@@ -127,10 +161,6 @@ export default {
         {
           title: 'Business and Economics',
           url: 'https://librebook.me/collection/ocharovanie_kapitala'
-        },
-        {
-          title: 'Children’s Stories',
-          url: 'https://librebook.me/collection/roman_vospitaniia'
         },
         {
           title: 'Detective',
@@ -151,10 +181,6 @@ export default {
         {
           title: 'Essays (Очерки)',
           url: 'https://ru.wikisource.org/wiki/Категория:Очерки'
-        },
-        {
-          title: 'Fables',
-          url: 'https://ru.wikisource.org/wiki/Категория:Басни'
         },
         {
           title: 'Fantacy (Фзнтези)',
@@ -185,6 +211,10 @@ export default {
           url: 'https://litnet.com/ru/top/mistikaujasy'
         },
         {
+          title: 'Novels',
+          url: 'https://ru.wikisource.org/wiki/Категория:Новеллы'
+        },
+        {
           title: 'Oratorical prose',
           url: 'https://ru.wikisource.org/wiki/Категория:Ораторская_проза'
         },
@@ -194,19 +224,12 @@ export default {
         },
         {
           title: 'Prose',
-          url: 'https://librebook.me/collection/popadancy_v_drugie_miry__sovremennaia_russkaia_proza'
+          url:
+            'https://librebook.me/collection/popadancy_v_drugie_miry__sovremennaia_russkaia_proza'
         },
         {
           title: 'Romance',
           url: 'https://litnet.com/ru/top/lyubovnye-romany'
-        },
-        {
-          title: 'Short Stories and Novels',
-          url: 'https://ru.wikisource.org/wiki/Категория:Новеллы'
-        },
-        {
-          title: 'Tales',
-          url: 'https://ru.wikisource.org/wiki/Категория:Сказки'
         },
         {
           title: 'Thriller',
