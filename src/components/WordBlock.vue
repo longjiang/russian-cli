@@ -17,10 +17,10 @@
     </div>
     <template slot="popover">
       <div v-if="!loading">
-        <div v-for="word in words">
+        <div v-for="word in words" class="tooltip-entry">
           <div>
-            <span v-for="match in word.matches"
-              >{{ OpenRussian.stylize(match.field) }} {{ match.number }}
+            <span v-for="match in word.matches" style="color: #999"
+              ><b>{{ OpenRussian.stylize(match.field) }} {{ match.number }}</b>
               {{
                 match.table !== 'declensions'
                   ? OpenRussian.stylize(match.table)
@@ -28,9 +28,11 @@
               }}
               of
             </span>
-            <b :data-level="word.level || 'outside'">{{
-              OpenRussian.accent(word.accented)
-            }}</b>
+            <b
+              :data-level="word.level || 'outside'"
+              style="font-size: 1.5rem"
+              >{{ OpenRussian.accent(word.accented) }}</b
+            >
             <Speak :text="word.bare" class="ml-1" />
           </div>
           <div v-if="word.translations">
@@ -79,6 +81,16 @@ export default {
 </script>
 
 <style lang="scss">
+.tooltip-entry {
+  color: #666;
+}
+
+.tooltip-entry + .tooltip-entry {
+  margin-top: 1rem;
+  border-top: 1px solid #ccc;
+  padding-top: 1rem;
+}
+
 .tooltip {
   display: block !important;
   z-index: 10000;
@@ -87,7 +99,6 @@ export default {
     background: black;
     color: white;
     border-radius: 16px;
-    padding: 5px 10px 4px;
     text-align: left;
   }
 
@@ -174,13 +185,13 @@ export default {
   }
 
   &.popover {
-    $color: #ebebeb;
+    $color: white;
     border: none;
 
     .popover-inner {
       background: $color;
       color: black;
-      padding: 24px;
+      padding: 1rem;
       border-radius: 5px;
       box-shadow: 0 5px 20px rgba(black, 0.2);
     }

@@ -109,7 +109,6 @@ export default {
         promises.push(this.loadTable(table.name))
       }
       await Promise.all(promises)
-      console.log(this)
       resolve(this)
     })
   },
@@ -174,7 +173,6 @@ export default {
                 numbers.push('singular')
               if (word.decl_pl && row[field] === word.decl_pl[field])
                 numbers.push('plural')
-              console.log(numbers, 'numbers')
             }
             matches.push({
               form: row[field],
@@ -218,7 +216,6 @@ export default {
       word.matches.push(match)
     }
     words = words.map(word => this.augment(word))
-    console.log(words)
     return words
   },
   randomArrayItem(array, start = 0, length = false) {
