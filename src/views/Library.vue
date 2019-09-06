@@ -121,143 +121,18 @@ export default {
       location,
       wikipedia: [
         {
-          title: 'Categorized Articles on Wikipedia',
+          title: 'Russian Wikipedia',
           url:
-            'https://zh.wikipedia.org/wiki/Wikipedia:%E5%88%86%E9%A1%9E%E7%B4%A2%E5%BC%95'
+            'https://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F_%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D0%B0'
         }
       ],
       externalGradedReaders: [
-        {
-          title: 'Chinese Reading Practice',
-          url: 'http://chinesereadingpractice.com/',
-          description:
-            'Short writings of various kinds for beginner, intermediate and advanced levels.'
-        },
-        {
-          title: 'Du Chinese',
-          url: 'https://www.duchinese.net/lessons',
-          description: 'Graded articles, some are free, others are paid.'
-        },
-        {
-          title: 'The Chairman’s Bao',
-          url: 'https://www.thechairmansbao.com',
-          description: 'Graded articles, some are free, others are paid.'
-        },
-        {
-          title: '轻松猫 Qingsong Mao',
-          url: 'http://www.blcup.com/smartcat/index.html',
-          description:
-            'Graded Chinese readers for various levels with Audio. From BLCUP. Only audio is available on the web. Text is available for purchase from their store.'
-        },
-        {
-          title: 'A lot of resources at r/zhResources',
-          url:
-            'https://www.reddit.com/r/zhResources/collection/fb6ed9ea-c736-4fbd-901c-84aae65ebd0f/',
-          description:
-            'For more categorized reading resouces, visit the subreddit r/zhResources.'
-        }
       ],
       booklists: [
-        {
-          title: 'Biographies',
-          url: 'https://www.51shucheng.net/zhuanji'
-        },
-        {
-          title: 'Classics',
-          url: 'https://zh.wikisource.org/wiki/Portal:%E5%85%B8%E7%B1%8D'
-        },
-        {
-          title: 'Classical Novels',
-          url: 'https://zh.wikisource.org/wiki/Portal:%E5%B0%8F%E8%AF%B4'
-        },
-        {
-          title: 'Detective',
-          url: 'https://www.51shucheng.net/zhentan'
-        },
-        {
-          title: 'History',
-          url: 'https://zh.wikisource.org/wiki/Portal:%E5%8F%B2%E6%9B%B8'
-        },
-        {
-          title: 'Film Original',
-          url: 'https://www.luoxia.com/yuanzhu/'
-        },
-        {
-          title: 'Literature (Mixed)',
-          url: 'https://www.luoxia.com/jingdian/'
-        },
-        {
-          title: 'Literature (Modern and Contemporary)',
-          url: 'https://www.51shucheng.net/xiandai'
-        },
-        {
-          title: 'Mystery',
-          url: 'https://www.luoxia.com/xuanyi/'
-        },
-        {
-          title: 'Poetry',
-          url: 'https://zh.wikisource.org/wiki/Portal:%E8%AF%97%E6%AD%8C'
-        },
-        {
-          title: 'Prose',
-          url: 'https://zh.wikisource.org/wiki/Portal:%E6%95%A3%E6%96%87'
-        },
-        {
-          title: 'Religion and Scripture',
-          url: 'https://zh.wikisource.org/wiki/Portal:%E5%AE%97%E6%95%99'
-        },
-        {
-          title: 'Romance',
-          url: 'https://www.luoxia.com/yanqing/'
-        },
-        {
-          title: 'Science Fiction',
-          url: 'https://www.51shucheng.net/kehuan'
-        },
-        {
-          title: 'Translated International Classics',
-          url: 'https://www.luoxia.com/mingzhu/'
-        },
-        {
-          title: 'Young Readers',
-          url: 'https://www.51shucheng.net/qingchun'
-        }
       ],
       sources: [
-        {
-          title: 'More from Luoxia.com',
-          url: 'https://www.luoxia.com/'
-        }
       ],
       authors: [
-        {
-          title: '郭敬明',
-          url: 'https://www.51shucheng.net/zuojia/guojingming'
-        },
-        {
-          title: '韩寒',
-          url: 'https://www.51shucheng.net/zuojia/hanhan'
-        },
-        {
-          title: '金庸',
-          url: 'https://www.luoxia.com/jinyong/'
-        },
-        {
-          title: '金庸',
-          url: 'https://www.51shucheng.net/zuojia/jinyong'
-        },
-        {
-          title: '刘慈欣',
-          url: 'https://www.51shucheng.net/zuojia/liucixin'
-        },
-        {
-          title: '路遥',
-          url: 'https://www.51shucheng.net/zuojia/luyao'
-        },
-        {
-          title: '路遥',
-          url: 'https://www.51shucheng.net/zuojia/luyao'
-        }
       ]
     }
   }

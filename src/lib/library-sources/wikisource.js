@@ -1,11 +1,11 @@
 import Helper from '@/lib/helper'
 
 export default {
-  host: 'zh.wikisource.org',
+  host: 'ru.wikisource.org',
   name: 'Wikisource',
-  example: 'https://zh.wikisource.org/wiki/西遊記',
+  example: 'https://ru.wikisource.org/wiki/西遊記',
   logo:
-    'https://zh.wikisource.org/static/images/project-logos/zhwikisource-2x.png',
+    'https://ru.wikisource.org/static/images/project-logos/ruwikisource-2x.png',
   async getBook(url) {
     let $bookHTML = await Helper.scrape2(url)
     $bookHTML.find('.sisitem').remove()
@@ -40,7 +40,7 @@ export default {
     }
     const bookPath = $chapterHTML.find('.subpages a').attr('href')
     if (bookPath) {
-      const bookURL = 'https://zh.wikisource.org' + bookPath
+      const bookURL = 'https://ru.wikisource.org' + bookPath
       book = await this.getBook(bookURL)
       book.url = bookURL
     }
@@ -81,7 +81,7 @@ export default {
       '.mw-parser-output li a:first-of-type:not(.new)'
     )) {
       list.push({
-        url: 'https://zh.wikisource.org' + $(a).attr('href'),
+        url: 'https://ru.wikisource.org' + $(a).attr('href'),
         title: $(a)
           .text()
           .trim()

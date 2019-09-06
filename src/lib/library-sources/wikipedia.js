@@ -3,9 +3,9 @@ import Helper from '@/lib/helper'
 export default {
   host: /.+\.wikipedia\.org/,
   name: 'Wikipedia',
-  example: 'https://zh.wikipedia.org/wiki/%E7%86%B1%E5%B8%B6%E6%B0%A3%E6%97%8B',
+  example: 'https://ru.wikipedia.org/wiki/%E7%86%B1%E5%B8%B6%E6%B0%A3%E6%97%8B',
   logo:
-    'https://zh.wikipedia.org/static/images/project-logos/zhwiki-hans-2x.png',
+    'https://ru.wikipedia.org/static/images/project-logos/ruwiki.png',
   async getChapter(url) {
     let $chapterHTML = await Helper.scrape2(url)
     $chapterHTML.find('.mw-parser-output > table:first-of-type').remove()
@@ -66,7 +66,7 @@ export default {
     let list = []
     for (let a of $html.find('#mw-content-text a')) {
       list.push({
-        url: 'https://zh.wikipedia.org' + $(a).attr('href'),
+        url: 'https://ru.wikipedia.org' + $(a).attr('href'),
         title: $(a)
           .text()
           .trim()

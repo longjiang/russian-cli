@@ -19,30 +19,40 @@
       <font-awesome-icon icon="book" />Dictionary
     </router-link>
     <router-link
-      class="tab"
+      :class="{
+        tab: true,
+        'router-link-active':
+          $route.name &&
+          ($route.name === 'noun-cases' ||
+            $route.name === 'endings' ||
+            $route.name === 'analyzer')
+      }"
       :to="{ name: 'noun-cases' }"
-      title="Learn how to decline Russian nouns."
-      >Noun Cases</router-link
+      title="Chinese grammar cheatsheet"
     >
+      <font-awesome-icon icon="list" />Grammar
+    </router-link>
     <router-link
-      class="tab"
-      :to="{ name: 'analyzer' }"
-      title="Take a piece of russian text and figure out the case of each adjective + noun combo."
-      >Case Analyzer</router-link
+      :class="{
+        tab: true,
+        'router-link-active':
+          $route.name &&
+          ($route.name.startsWith('book') ||
+            $route.name === 'library' ||
+            $route.name === 'reader')
+      }"
+      :to="{ name: 'library' }"
+      title="Improve your Russian through reading"
     >
-    <router-link
-      class="tab"
-      :to="{ name: 'endings' }"
-      title="Figure out the dictionary form and case by looking up the ending."
-      >Case Ending Lookup</router-link
-    >
+      <font-awesome-icon icon="book-open" />Reading
+    </router-link>
     <router-link
       :class="{
         tab: true,
         'router-link-active': $route.name && $route.name.startsWith('youtube')
       }"
       :to="{ name: 'youtube-browse' }"
-      title="Learn Chinese with audio-visual material."
+      title="Learn Russian with audio-visual material."
     >
       <font-awesome-icon icon="video" />Audio-Visual
     </router-link>

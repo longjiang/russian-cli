@@ -22,6 +22,7 @@
         <span class="saved-words-count" v-cloak>{{ savedWordsCount() }}</span>
       </router-link>
     </nav>
+
     <nav
       class="secondary-menu text-center"
       v-if="$route.name && $route.name.startsWith('youtube')"
@@ -29,6 +30,35 @@
       <router-link class="secondary-menu-item" :to="{ name: 'youtube-browse' }">
         <font-awesome-icon :icon="['fab', 'youtube']" />YouTube Transcript
       </router-link>
+    </nav>
+
+    <nav
+      class="secondary-menu text-center"
+      v-if="
+        $route.name &&
+          ($route.name === 'noun-cases' ||
+            $route.name === 'analyzer' ||
+            $route.name === 'endings')
+      "
+    >
+      <router-link
+        class="secondary-menu-item"
+        :to="{ name: 'noun-cases' }"
+        title="Learn how to decline Russian nouns."
+        >Noun Cases</router-link
+      >
+      <router-link
+        class="secondary-menu-item"
+        :to="{ name: 'analyzer' }"
+        title="Take a piece of russian text and figure out the case of each adjective + noun combo."
+        >Case Analyzer</router-link
+      >
+      <router-link
+        class="secondary-menu-item"
+        :to="{ name: 'endings' }"
+        title="Figure out the dictionary form and case by looking up the ending."
+        >Case Ending Lookup</router-link
+      >
     </nav>
   </div>
 </template>

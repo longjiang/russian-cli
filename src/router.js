@@ -5,7 +5,7 @@ Vue.use(Router)
 
 export default new Router({
   scrollBehavior(to, from, savedPosition) {
-    return { x: 0, y: 184 }
+    return { x: 0, y: 0 }
   },
   routes: [
     {
@@ -103,16 +103,80 @@ export default new Router({
       }
     },
     {
+      path: '/library',
+      name: 'library',
+      component: () => import('./views/Library.vue'),
+      props: true,
+      meta: {
+        title: 'Library | Russian Zero to Hero',
+        metaTags: [
+          {
+            name: 'description',
+            content:
+              'Read free, open Russian books with pinyin annotation and save new words for review.'
+          }
+        ]
+      }
+    },
+    {
+      path: '/book/chapter/:args?',
+      name: 'book-chapter',
+      component: () => import('./views/BookChapter.vue'),
+      props: true,
+      meta: {
+        title: 'Book Chapter | Russian Zero to Hero',
+        metaTags: [
+          {
+            name: 'description',
+            content:
+              'Read free, open Russian books with pinyin annotation and save new words for review.'
+          }
+        ]
+      }
+    },
+    {
+      path: '/book/index/:args?',
+      name: 'book-index',
+      component: () => import('./views/BookIndex.vue'),
+      props: true,
+      meta: {
+        title: 'Book | Russian Zero to Hero',
+        metaTags: [
+          {
+            name: 'description',
+            content:
+              'Read free, open Russian books with pinyin annotation and save new words for review.'
+          }
+        ]
+      }
+    },
+    {
+      path: '/book/list/:args?',
+      name: 'book-list',
+      component: () => import('./views/BookList.vue'),
+      props: true,
+      meta: {
+        title: 'Books | Russian Zero to Hero',
+        metaTags: [
+          {
+            name: 'description',
+            content:
+              'Read free, open Russian books with pinyin annotation and save new words for review.'
+          }
+        ]
+      }
+    },
+    {
       path: '/youtube/search/:args?',
       name: 'youtube-search',
       component: () => import('./views/YouTubeSearch.vue'),
       props: true,
       meta: {
-        title: 'YouTube Reader | Chinese Zero to Hero',
+        title: 'YouTube Reader | Russian Zero to Hero',
         metaTags: [
           {
             name: 'description',
-            content: 'Watch Chinese YouTube videos and study the subtitles.'
+            content: 'Watch Russian YouTube videos and study the subtitles.'
           }
         ]
       }
@@ -123,11 +187,11 @@ export default new Router({
       component: () => import('./views/YouTubeView.vue'),
       props: true,
       meta: {
-        title: 'YouTube Reader | Chinese Zero to Hero',
+        title: 'YouTube Reader | Russian Zero to Hero',
         metaTags: [
           {
             name: 'description',
-            content: 'Watch Chinese YouTube videos and study the subtitles.'
+            content: 'Watch Russian YouTube videos and study the subtitles.'
           }
         ]
       }
@@ -138,11 +202,11 @@ export default new Router({
       component: () => import('./views/YouTubeBrowse.vue'),
       props: true,
       meta: {
-        title: 'Study YouTube Subtitles | Chinese Zero to Hero',
+        title: 'Study YouTube Subtitles | Russian Zero to Hero',
         metaTags: [
           {
             name: 'description',
-            content: 'Watch Chinese YouTube videos and study the subtitles.'
+            content: 'Watch Russian YouTube videos and study the subtitles.'
           }
         ]
       }
@@ -153,11 +217,11 @@ export default new Router({
       component: () => import('./views/YouTubeChannel.vue'),
       props: true,
       meta: {
-        title: 'Study YouTube Subtitles | Chinese Zero to Hero',
+        title: 'Study YouTube Subtitles | Russian Zero to Hero',
         metaTags: [
           {
             name: 'description',
-            content: 'Watch Chinese YouTube videos and study the subtitles.'
+            content: 'Watch Russian YouTube videos and study the subtitles.'
           }
         ]
       }
@@ -168,11 +232,11 @@ export default new Router({
       component: () => import('./views/YouTubePlaylist.vue'),
       props: true,
       meta: {
-        title: 'Study YouTube Subtitles | Chinese Zero to Hero',
+        title: 'Study YouTube Subtitles | Russian Zero to Hero',
         metaTags: [
           {
             name: 'description',
-            content: 'Watch Chinese YouTube videos and study the subtitles.'
+            content: 'Watch Russian YouTube videos and study the subtitles.'
           }
         ]
       }
