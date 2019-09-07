@@ -1,10 +1,10 @@
 <template>
+  <!-- v-observe-visibility="visibilityChanged" -->
   <v-popover
     offset="6"
     placement="top"
     :open="hover"
     style="display: inline-block"
-    v-observe-visibility="visibilityChanged"
   >
     <div
       :class="{
@@ -21,43 +21,38 @@
       <slot></slot>
     </div>
     <template slot="popover">
-      <div v-if="!loading">
-        <div v-for="word in words" class="tooltip-entry">
-          <div>
-            <div v-for="match in word.matches" style="color: #999">
-              <b>{{ OpenRussian.stylize(match.field) }} {{ match.number }}</b>
-              {{
-                match.table !== 'declensions'
-                  ? OpenRussian.stylize(match.table)
-                  : ''
-              }}
-              of
-            </div>
-            <b
-              :data-level="word.level || 'outside'"
-              style="font-size: 1.5rem"
-              >{{ OpenRussian.accent(word.accented) }}</b
-            >
-            <Speak :text="word.bare" class="ml-1" />
+      <div v-for="word in words" class="tooltip-entry">
+        <div>
+          <div v-for="match in word.matches" style="color: #999">
+            <b>{{ match.field }} {{ match.number }}</b>
+            {{ match.table !== 'declensions' ? match.table : '' }}
+            of
           </div>
-          <div v-if="word.translations">
-            <em>{{ word.translations.tl }}</em>
-          </div>
+          <b :data-level="word.level || 'outside'" style="font-size: 1.5rem">{{
+            word.accented
+          }}</b>
+          <Speak :text="word.bare" class="ml-1" />
         </div>
-        <div v-if="words.length === 0" style="font-size: 2rem">🤷‍</div>
+        <div v-if="word.translations">
+          <em>{{ word.translations.tl }}</em>
+        </div>
+      </div>
+      <div v-if="loading === true">
+        💭 Thinking...
+      </div>
+      <div v-if="words.length === 0 && loading === false">
+        🤷‍ No clue
       </div>
     </template>
   </v-popover>
 </template>
 
 <script>
-import OpenRussian from '@/lib/openrussian'
 import Helper from '@/lib/helper'
 
 export default {
   data() {
     return {
-      OpenRussian,
       hover: false,
       loading: true,
       text: this.$slots.default[0].text,
@@ -66,17 +61,28 @@ export default {
     }
   },
   methods: {
+    async stylize(name) {
+      let result = await (await this.$openRussian).stylize(name)
+      // return result
+    },
+    async accent(accented) {
+      let result = await (await this.$openRussian).accent(accented)
+      // return result
+    },
     visibilityChanged(isVisible) {
       if (isVisible && this.loading === true) {
-        this.loading = false
         if (this.words.length === 0) {
-          console.log('lookup', this.text)
-          // this.lookup()
+          this.lookup()
         }
       }
     },
     mouseover() {
       this.hover = true
+      if (this.loading === true) {
+        if (this.words && this.words.length === 0) {
+          this.lookup()
+        }
+      }
     },
     async allForms() {
       let forms = [this.text.toLowerCase()]
@@ -102,8 +108,9 @@ export default {
       this.saved = !this.saved
     },
     async lookup() {
-      let words = (await this.$openRussian).lookupFuzzy(this.text)
+      let words = await (await this.$openRussian).lookupFuzzy(this.text)
       this.words = words
+      this.loading = false
     },
     speak(text) {
       if (!speechSynthesis.speaking) {

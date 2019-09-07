@@ -1,4 +1,4 @@
-export default {
+const OpenRussian = {
   words: [],
   tables: [
     // 'categories_words2', // not sure what this does

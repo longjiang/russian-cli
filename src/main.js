@@ -16,7 +16,6 @@ import Speak from '@/components/Speak'
 import ShowMoreButton from '@/components/ShowMoreButton'
 import OpenRussian from '@/lib/openrussian'
 import VueObserveVisibility from 'vue-observe-visibility'
-import PromiseWorker from 'promise-worker'
 
 Vue.config.productionTip = false
 
@@ -46,10 +45,6 @@ Vue.component('ShowMoreButton', ShowMoreButton)
 Vue.component('WordList', WordList)
 
 Vue.prototype.$openRussian = OpenRussian.load()
-let worker = new Worker('./workers/openrussian-worker.js');
-Vue.prototype.$openRussianWorker = cw((data, callback) => {
-  
-})
 
 // https://alligator.io/vuejs/vue-router-modify-head/
 // This callback runs before every route change, including on page load.
