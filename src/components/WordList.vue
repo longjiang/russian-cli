@@ -20,7 +20,7 @@
           <span
             class="wordlist-item-word ml-1"
             :data-level="word.level || 'outside'"
-            >{{ OpenRussian.accent(word.accented) }}</span
+            >{{ word.accented }}</span
           >&nbsp;
           <span v-if="word.translations" class="wordlist-item-english">
             {{ word.translations.tl }}
@@ -43,13 +43,11 @@
 </template>
 <script>
 import Helper from '@/lib/helper'
-import OpenRussian from '@/lib/openrussian'
 
 export default {
   data() {
     return {
-      Helper,
-      OpenRussian
+      Helper
     }
   },
   props: {

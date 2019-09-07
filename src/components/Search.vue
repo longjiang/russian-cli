@@ -47,7 +47,7 @@
             >{{ text }}</span
           >
           <span class="mr-1" v-if="suggestion.match"
-            >{{ stylize(suggestion.match.field) }} of <b>{{ suggestion.bare }}</b></span
+            >{{ suggestion.match.field }} of <b>{{ suggestion.bare }}</b></span
           >
           <span
             class="suggestion-english"
@@ -94,7 +94,6 @@
 <script>
 import { setTimeout } from 'timers'
 import Helper from '@/lib/helper'
-import OpenRussian from '@/lib/openrussian'
 
 export default {
   props: {
@@ -148,15 +147,11 @@ export default {
     },
     async text() {
       if (this.type === 'dictionary') {
-        this.suggestions = (await this.$openRussian).lookupFuzzy(this.text, 30)
+        this.suggestions = await (await this.$openRussian).lookupFuzzy(this.text, 30)
       }
     }
   },
   methods: {
-    stylize(name) {
-      let stylized = OpenRussian.stylize(name)
-      return stylized
-    },
     lookupKeyupEnter() {
       const url =
         $('.suggestion:first-child').attr('href')

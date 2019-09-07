@@ -69,7 +69,6 @@
 <script>
 import $ from 'jquery'
 import WordList from '@/components/WordList.vue'
-import OpenRussian from '@/lib/openrussian'
 import { mapState } from 'vuex'
 
 export default {
@@ -116,17 +115,19 @@ export default {
         }
       }
     },
-    csv() {
+    async csv() {
       if (this.savedWords.length <= 0) {
         return ''
       }
 
       return this.savedWords
-        .map(word => {
+        .map(async word => {
           let textToDisplay = ''
 
           if (this.selectedCsvOptions.includes('russian')) {
-            textToDisplay += `${OpenRussian.accent(word.accented)}\t`
+            textToDisplay += `${await (await this.openRussian).accent(
+              word.accented
+            )}\t`
           }
 
           if (this.selectedCsvOptions.includes('english')) {

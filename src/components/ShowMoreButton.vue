@@ -1,18 +1,18 @@
 <template>
   <button
     v-if="visible()"
-    class="show-more btn-medium btn-gray collapsed focus-exclude"
+    class="show-more btn-medium btn-gray focus-exclude"
+    :class="{ collapsed: collapsed }"
     v-on:click="showMoreClick"
   >
-    <span class="label-expand">
+    <span v-if="collapsed">
       <slot>Show {{ count() }} More</slot>
     </span>
-    <span class="label-collapse">Collapse</span>
+    <span v-else>Collapse</span>
   </button>
 </template>
 
 <script>
-
 export default {
   props: {
     length: {
@@ -22,8 +22,14 @@ export default {
       default: false
     }
   },
+  data() {
+    return {
+      collapsed: true
+    }
+  },
   methods: {
     showMoreClick(e) {
+      this.collapsed = !this.collapsed
       var $button = $(e.currentTarget)
       $button.siblings('[data-collapse-target]').toggleClass('collapsed')
       $button.toggleClass('collapsed')

@@ -88,7 +88,7 @@ export default {
       let forms = [this.text.toLowerCase()]
       if (this.words.length > 0) {
         for (let word of this.words) {
-          let wordForms = (await this.$openRussian).wordForms(word) || []
+          let wordForms = (await (await this.$openRussian).wordForms(word)) || []
           wordForms = wordForms
             .map(form => form.form.replace(/'/g, '').toLowerCase())
             .filter(form => form !== '' && form !== '0' && form !== '1')

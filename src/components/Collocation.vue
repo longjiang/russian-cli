@@ -4,18 +4,8 @@
     <hr class="mt-0 mb-2" />
     <div v-if="collocation">
       <ul class="collapsed gramrel pl-0" data-collapse-target>
-        <li
-          v-for="Word in collocation.Words"
-          v-if="Word.cm"
-          class="gramrel-item list-unstyled"
-        >
-          <Annotate>
-            <span
-              v-html="
-                Helper.highlightMultiple(Word.cm, words, level || 'outside')
-              "
-            ></span>
-          </Annotate>
+        <li v-for="line in lines" class="gramrel-item list-unstyled">
+          <Annotate><span v-html="line" /></Annotate>
         </li>
       </ul>
       <ShowMoreButton
@@ -52,14 +42,21 @@ export default {
       default: undefined
     }
   },
+  data() {
+    return {
+      Helper,
+      forms: [],
+      lines: []
+    }
+  },
   async beforeMount() {
     if (this.word) {
-      let forms = (await this.$openRussian)
-        .wordForms(this.word)
-        .map(form => form.form.replace(/'/g, ''))
-      this.words = forms
+      let forms = (await (await this.$openRussian).wordForms(this.word)).map(
+        form => form.form.replace(/'/g, '')
+      )
+      this.forms = forms
     } else {
-      this.words = [this.word.bare]
+      this.forms = [this.word.bare]
     }
     if (this.collocation && this.collocation.Words) {
       this.collocation.Words = this.collocation.Words.sort(
@@ -67,12 +64,19 @@ export default {
       )
         .filter(Word => !Word.cm.match(/(。|？)/))
         .slice(0, 20)
-    }
-  },
-  data() {
-    return {
-      Helper,
-      words: []
+      let lines = []
+      for (let Word of this.collocation.Words) {
+        if (Word.cm) {
+          lines.push(
+            Helper.highlightMultiple(
+              Word.cm,
+              this.forms,
+              this.level || 'outside'
+            )
+          )
+        }
+      }
+      this.lines = lines
     }
   }
 }

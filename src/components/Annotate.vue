@@ -1,5 +1,5 @@
 <template>
-  <component :is="tag" v-observe-visibility="visibilityChanged">
+  <component :is="tag">
     <slot v-if="annotatedSlots.length === 0"></slot>
     <v-runtime-template
       v-for="template of annotatedSlots"
@@ -24,15 +24,17 @@ export default {
   },
   data() {
     return {
-      annotatedSlots: []
+      annotatedSlots: [],
+      annotated: false
+    }
+  },
+  mounted() {
+    if (!this.annotated) {
+      this.annotate()
+      this.annotated = true
     }
   },
   methods: {
-    visibilityChanged(isVisible) {
-      if (isVisible && !this.annotated) {
-        this.annotate()
-      }
-    },
     annotate() {
       if (this.$slots.default) {
         for (let slot of this.$slots.default) {
@@ -44,7 +46,7 @@ export default {
     breakSentences(text) {
       text = text.replace(/([.!?:])/g, '$1SENTENCEENDING!!!')
       let sentences = text.split('SENTENCEENDING!!!')
-      return sentences
+      return sentences.filter(sentence => sentence.trim() !== '')
     },
     markRussianWords(text) {
       let html = text.replace(/([\wа-я]+)/gi, '<WordBlock>$1</WordBlock>')

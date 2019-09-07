@@ -107,9 +107,9 @@ export default {
   },
   methods: {
     async update() {
-      let forms = (await this.$openRussian)
-        .wordForms(this.word)
-        .map(form => form.form.replace(/'/g, ''))
+      let forms = (await (await this.$openRussian).wordForms(this.word)).map(
+        form => form.form.replace(/'/g, '')
+      )
       this.words = [this.word.bare].concat(forms)
       SketchEngine.concordance(this.word.bare, response => {
         this.examples = response

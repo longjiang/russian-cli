@@ -3,7 +3,10 @@
     <div class="widget-title">Word forms of “{{ word.bare }}”</div>
     <div class="jumbotron-fluid bg-light p-4">
       <div class="row">
-        <div v-if="Helper.isEmpty(tables) || tables.length === 0" class="pl-4 pr-4 text-center">
+        <div
+          v-if="Helper.isEmpty(tables) || tables.length === 0"
+          class="pl-4 pr-4 text-center"
+        >
           The word “{{ word.bare }}” seems to only take on one form.
         </div>
         <div
@@ -18,7 +21,7 @@
                   )
                 : ''
             }}
-            {{ Helper.ucFirst(OpenRussian.stylize(tableName)) }}
+            {{ Helper.ucFirst(tableName) }}
             {{
               tableName === 'adjectives'
                 ? parseInt(
@@ -37,11 +40,11 @@
                 v-if="row.field !== 'aspect' && row.field !== 'incomparable'"
               >
                 <td>
-                  {{ OpenRussian.stylize(row.field) }}
+                  {{ row.field }}
                 </td>
                 <td>
                   <b :data-level="word.level || 'outside'" class="ml-2"
-                    >{{ OpenRussian.accent(row.form) || 'n/a'
+                    >{{ row.form || 'n/a'
                     }}{{ row.field.startsWith('imperative') ? '!' : '' }}</b
                   >
                 </td>
@@ -55,7 +58,6 @@
 </template>
 
 <script>
-import OpenRussian from '@/lib/openrussian'
 import Helper from '@/lib/helper'
 
 export default {
@@ -67,7 +69,6 @@ export default {
   data() {
     return {
       Helper,
-      OpenRussian,
       tables: []
     }
   },
@@ -82,9 +83,9 @@ export default {
           return groups
         }, {})
       }
-      this.tables = (await this.$openRussian)
-        .wordForms(this.word)
-        .groupBy('table')
+      this.tables = (await (await this.$openRussian).wordForms(
+        this.word
+      )).groupBy('table')
     }
   },
   mounted() {

@@ -151,7 +151,7 @@ export default {
           if (this.args === 'random') {
             this.random()
           } else {
-            this.entry = (await this.$openRussian).get(this.args)
+            this.entry = await (await this.$openRussian).get(this.args)
           }
         } else {
           if (!this.entry) {
@@ -162,9 +162,8 @@ export default {
     },
     async random() {
       // TODO show random entry
-      location.hash = `#/dictionary/openrussian/${
-        (await this.$openRussian).random().id
-      }`
+      location.hash = `#/dictionary/openrussian/${await (await this
+        .$openRussian).random().id}`
     }
   },
   watch: {
