@@ -1,5 +1,6 @@
 const OpenRussian = {
   words: [],
+  cache: {},
   tables: [
     // 'categories_words2', // not sure what this does
     // 'expressions_words', // not sure what this does
@@ -210,33 +211,10 @@ const OpenRussian = {
     return forms
   },
   matchForms(text) {
-    let matches = []
-    console.log('looking')
-    for (let word of this.words) {
-      for (let form of this.wordForms(word)) {
-        if (
-          form.form.replace(/ё/gi, 'е').replace("'", '') ===
-          text.replace(/ё/gi, 'е')
-        ) {
-          let numbers = []
-          if (form.table === 'decl_pl') {
-            numbers.push('plural')
-          }
-          if (form.table === 'decl_sg') {
-            numbers.push('singular')
-          }
-          form.number = numbers.join(' and ')
-          form.word = word
-          matches.push(form)
-        }
-      }
-    }
-    return matches
-  },
-  lookupFuzzy(text) {
-    // find exact (case-insensitive matches)
+    text = text.toLowerCase().replace(/ё/gi, 'е')
+    console.log('matching', text)
     /*
-    words = [
+    foundWords = [
       {
         id: ...
         bare: ...
@@ -247,15 +225,41 @@ const OpenRussian = {
       }
     ]
     */
-    let words = this.words.filter(
-      word => word && word.bare.toLowerCase() === text.toLowerCase()
-    )
-    for (let match of this.matchForms(text)) {
-      let word = match.word
-      word.matches = [match]
-      words.push(word)
+    // Find exact matches first
+    if (this.cache[text]) {
+      return this.cache[text]
     }
-    return words
+    this.cache[text] = []
+    let foundWords = this.words.filter(
+      word => word && word.bare.replace(/ё/gi, 'е').toLowerCase() === text
+    )
+    for (let word of this.words) {
+      for (let form of this.wordForms(word)) {
+        if (form.form.replace(/ё/gi, 'е').replace("'", '') === text) {
+          let numbers = []
+          if (form.table === 'decl_pl') {
+            numbers.push('plural')
+          }
+          if (form.table === 'decl_sg') {
+            numbers.push('singular')
+          }
+          form.number = numbers.join(' and ')
+          let foundWord = foundWords.find(w => w.id === word.id)
+          if (!foundWord) {
+            foundWords.push(word)
+          } else {
+            word = foundWord
+          }
+          word.matches = word.matches || []
+          word.matches.push(form)
+        }
+      }
+    }
+    this.cache[text] = foundWords
+    return foundWords
+  },
+  lookupFuzzy(text) {
+    return this.matchForms(text)
   },
   randomArrayItem(array, start = 0, length = false) {
     length = length || array.length

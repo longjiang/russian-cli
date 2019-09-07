@@ -50,7 +50,7 @@ export default {
       return sentences.filter(sentence => sentence.trim() !== '')
     },
     markRussianWords(text) {
-      let html = text.replace(/([\wа-я]+)/gi, '<WordBlock>$1</WordBlock>')
+      let html = text.replace(/([\wа-яё]+)/gi, '<WordBlock>$1</WordBlock>')
       return html
     },
     recursive(node) {
