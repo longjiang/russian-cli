@@ -77,23 +77,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.booklist {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-}
-.booklist-item {
-  flex: 1;
-  min-width: 10rem;
-  margin: 1rem;
-  border-radius: 0.3rem;
-}
-.booklist-item-thumb {
-  width: 5rem;
-  height: calc(5rem * 1.33);
-  display: inline-block;
-}
-</style>

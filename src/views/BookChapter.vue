@@ -28,7 +28,12 @@
           ><span>{{ chapterTitle }}</span></Annotate
         >
         <div class="chapter-content" v-if="chapterContent">
+          <div
+            v-html="chapterContent"
+            v-if="this.args.includes('lib.ru')"
+          ></div>
           <SpeechBar
+            v-if="!this.args.includes('lib.ru')"
             :html="
               chapterContent.replace(
                 /href=&quot;([^&quot;]+)&quot;/g,
@@ -65,7 +70,9 @@
             class="mb-4 shadow book-thumb"
           />
           <Annotate v-if="bookTitle">
-            <h6>《{{ bookTitle }}》</h6>
+            <h6>
+              <em>{{ bookTitle }}</em>
+            </h6>
             <p>{{ bookAuthor }}</p>
           </Annotate>
         </a>
