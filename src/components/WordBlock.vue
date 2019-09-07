@@ -25,7 +25,7 @@
         <div>
           <div v-for="match in word.matches" style="color: #999">
             <b>{{ match.field }} {{ match.number }}</b>
-            {{ match.table !== 'declensions' ? match.table : '' }}
+            {{ match.table !== 'declension' ? match.table : '' }}
             of
           </div>
           <b :data-level="word.level || 'outside'" style="font-size: 1.5rem">{{
@@ -109,6 +109,19 @@ export default {
     },
     async lookup() {
       let words = await (await this.$openRussian).lookupFuzzy(this.text)
+      if (words) {
+        for (let word of words) {
+          if (word.matches) {
+            for (let match of word.matches) {
+              match.field = await (await this.$openRussian).stylize(match.field)
+              match.number = await (await this.$openRussian).stylize(
+                match.number
+              )
+              match.table = await (await this.$openRussian).stylize(match.table)
+            }
+          }
+        }
+      }
       this.words = words
       this.loading = false
     },
