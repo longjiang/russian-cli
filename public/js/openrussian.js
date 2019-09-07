@@ -47,6 +47,49 @@ const OpenRussian = {
       ]
     }
   ],
+  loadDeclensions() {
+    return new Promise(resolve => {
+      console.log(`OpenRussian: Loading declensions`)
+      Papa.parse(`/data/declensions.csv.txt`, {
+        download: true,
+        header: true,
+        complete: results => {
+          let declensions = []
+          for (let row of results.data) {
+            declensions[row.id] = row
+          }
+          for (let word of this.words) {
+            if (word) {
+              word.declensions = {}
+              if (word.nouns) {
+                if (word.nouns.decl_pl_id) {
+                  word.decl_pl = declensions[word.nouns.decl_pl_id]
+                }
+                if (word.nouns.decl_sg_id) {
+                  word.decl_sg = declensions[word.nouns.decl_sg_id]
+                }
+              }
+              if (word.adjectives) {
+                if (word.adjectives.decl_f_id) {
+                  word.decl_f = declensions[word.adjectives.decl_f_id]
+                }
+                if (word.adjectives.decl_m_id) {
+                  word.decl_m = declensions[word.adjectives.decl_m_id]
+                }
+                if (word.adjectives.decl_n_id) {
+                  word.decl_n = declensions[word.adjectives.decl_n_id]
+                }
+                if (word.adjectives.decl_p_id) {
+                  word.decl_pl = declensions[word.adjectives.decl_pl_id]
+                }
+              }
+            }
+          }
+          resolve(this)
+        }
+      })
+    })
+  },
   loadTable(table) {
     return new Promise(resolve => {
       console.log(`OpenRussian: Loading table "${table}"`)
@@ -59,7 +102,10 @@ const OpenRussian = {
             results.data = results.data.filter(row => row.lang === 'en')
           }
           for (let row of results.data) {
-            this[table][table === 'declensions' ? row.id : row.word_id] = row
+            let word = this.words[row.word_id]
+            if (word) {
+              word[table] = row
+            }
           }
           resolve(this)
         }
@@ -87,31 +133,21 @@ const OpenRussian = {
       })
     })
   },
-  loadTranslations() {
-    return new Promise(resolve => {
-      console.log('OpenRussian: Loading translations')
-      Papa.parse('/data/translations.csv', {
-        download: true,
-        header: true,
-        complete: results => {
-          for (let row of results.data.filter(row => row.lang === 'en')) {
-            this.translations[row.word_id] = row
-          }
-          resolve(this)
-        }
-      })
-    })
-  },
   load() {
     return new Promise(async resolve => {
       let promises = [this.loadWords()]
-      for (let table of this.tables) {
+      for (let table of this.tables.filter(
+        table => table.name !== 'declensions'
+      )) {
         promises.push(this.loadTable(table.name))
       }
+      promises.push(this.loadDeclensions())
       await Promise.all(promises)
+      console.log(this.get(127))
       resolve(this)
     })
   },
+  /*
   augment(word) {
     for (let table of this.tables) {
       if (table.name !== 'declensions') {
@@ -124,35 +160,49 @@ const OpenRussian = {
     }
     return word
   },
+  */
   get(id) {
-    return this.augment(this.words[id])
+    return this.words[id]
   },
   lookup(text) {
     let word = this.words.find(word => word && word.bare === text)
-    if (word) {
-      return this.augment(word)
-    }
+    return word
   },
   wordForms(word) {
     let forms = []
-    for (let table of this.tables.concat([
-      {
-        name: 'decl_pl',
-        fields: ['acc', 'dat', 'gen', 'inst', 'nom', 'prep']
-      },
-      {
-        name: 'decl_sg',
-        fields: ['acc', 'dat', 'gen', 'inst', 'nom', 'prep']
-      }
-    ])) {
-      for (let field of table.fields) {
-        if (word[table.name]) {
-          for (let form of word[table.name][field].split(',')) {
-            forms.push({
-              table: table.name,
-              field: field,
-              form: form.trim()
-            })
+    let decl_fields = ['acc', 'dat', 'gen', 'inst', 'nom', 'prep']
+    if (word) {
+      for (let table of this.tables.concat([
+        {
+          name: 'decl_pl', // adjective and nouns
+          fields: decl_fields
+        },
+        {
+          name: 'decl_sg', // nouns
+          fields: decl_fields
+        },
+        {
+          name: 'decl_m', // adjectives
+          fields: decl_fields
+        },
+        {
+          name: 'decl_f', // adjectives
+          fields: decl_fields
+        },
+        {
+          name: 'decl_n', // adjectives
+          fields: decl_fields
+        }
+      ])) {
+        for (let field of table.fields) {
+          if (word[table.name] && word[table.name][field]) {
+            for (let form of word[table.name][field].split(',')) {
+              forms.push({
+                table: table.name,
+                field: field,
+                form: form.trim()
+              })
+            }
           }
         }
       }
@@ -161,32 +211,23 @@ const OpenRussian = {
   },
   matchForms(text) {
     let matches = []
-    for (let table of this.tables) {
-      for (let index in this[table.name]) {
-        let row = this[table.name][index]
-        for (let field of table.fields) {
-          if (
-            row[field] &&
-            row[field].replace(/ё/gi, 'е').replace("'", '') ===
-              text.replace(/ё/gi, 'е')
-          ) {
-            let numbers = []
-            if (table.name === 'declensions') {
-              let word = this.augment(this.get(row.word_id))
-              if (word.decl_sg && row[field] === word.decl_sg[field])
-                numbers.push('singular')
-              if (word.decl_pl && row[field] === word.decl_pl[field])
-                numbers.push('plural')
-            }
-            matches.push({
-              form: row[field],
-              number: numbers.join(' and '),
-              table: table.name,
-              field: field,
-              word_id: row.word_id,
-              row: row
-            })
+    console.log('looking')
+    for (let word of this.words) {
+      for (let form of this.wordForms(word)) {
+        if (
+          form.form.replace(/ё/gi, 'е').replace("'", '') ===
+          text.replace(/ё/gi, 'е')
+        ) {
+          let numbers = []
+          if (form.table === 'decl_pl') {
+            numbers.push('plural')
           }
+          if (form.table === 'decl_sg') {
+            numbers.push('singular')
+          }
+          form.number = numbers.join(' and ')
+          form.word = word
+          matches.push(form)
         }
       }
     }
@@ -209,17 +250,11 @@ const OpenRussian = {
     let words = this.words.filter(
       word => word && word.bare.toLowerCase() === text.toLowerCase()
     )
-    let matches = this.matchForms(text)
-    for (let match of matches) {
-      let word = words.find(word => word.id === match.word_id)
-      if (!word) {
-        word = this.get(match.word_id)
-        words.push(word)
-      }
-      word.matches = word.mathces || []
-      word.matches.push(match)
+    for (let match of this.matchForms(text)) {
+      let word = match.word
+      word.matches = [match]
+      words.push(word)
     }
-    words = words.map(word => this.augment(word))
     return words
   },
   randomArrayItem(array, start = 0, length = false) {
@@ -234,7 +269,7 @@ const OpenRussian = {
     return obj[keys[(keys.length * Math.random()) << 0]]
   },
   random() {
-    return this.augment(this.randomProperty(this.words))
+    return this.randomProperty(this.words)
   },
   stylize(name) {
     const stylize = {
@@ -255,6 +290,9 @@ const OpenRussian = {
       declensions: 'declension',
       decl_sg: 'singular',
       decl_pl: 'plural',
+      decl_f: 'feminine',
+      decl_m: 'masculine',
+      decl_n: 'neuter',
       acc: 'accusative',
       dat: 'dative',
       gen: 'genitive',

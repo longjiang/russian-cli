@@ -21,7 +21,7 @@
     </div>
     <template slot="popover">
       <div v-for="word in words" class="tooltip-entry">
-        <div>
+        <div v-if="word">
           <div v-for="match in word.matches" style="color: #999">
             <b>{{ match.field }} {{ match.number }}</b>
             {{ match.table !== 'declension' ? match.table : '' }}
@@ -67,14 +67,6 @@ export default {
     }
   },
   methods: {
-    async stylize(name) {
-      let result = await (await this.$openRussian).stylize(name)
-      // return result
-    },
-    async accent(accented) {
-      let result = await (await this.$openRussian).accent(accented)
-      // return result
-    },
     async mouseover() {
       this.hover = true
       if (this.loading === true) {
@@ -111,7 +103,7 @@ export default {
       let words = await (await this.$openRussian).lookupFuzzy(this.text)
       if (words) {
         for (let word of words) {
-          if (word.matches) {
+          if (word && word.matches) {
             for (let match of word.matches) {
               match.field = await (await this.$openRussian).stylize(match.field)
               match.number = await (await this.$openRussian).stylize(
