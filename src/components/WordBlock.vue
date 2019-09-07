@@ -30,7 +30,14 @@
           </div>
           <b :data-level="word.level || 'outside'" style="font-size: 1.5rem">{{
             word.accented
-          }}</b>
+          }}</b
+          ><span
+            v-if="word.level"
+            :data-bg-level="word.level"
+            class="pl-1 pr-1 ml-1 rounded d-inlin-block"
+            style="font-size: 0.8em; position:relative; bottom: 0.2rem;"
+            >{{ word.level }}</span
+          >
           <Speak :text="word.bare" class="ml-1" />
         </div>
         <div v-if="word.translations">
@@ -88,7 +95,8 @@ export default {
       let forms = [this.text.toLowerCase()]
       if (this.words.length > 0) {
         for (let word of this.words) {
-          let wordForms = (await (await this.$openRussian).wordForms(word)) || []
+          let wordForms =
+            (await (await this.$openRussian).wordForms(word)) || []
           wordForms = wordForms
             .map(form => form.form.replace(/'/g, '').toLowerCase())
             .filter(form => form !== '' && form !== '0' && form !== '1')
