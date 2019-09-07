@@ -1,7 +1,8 @@
 <template>
-  <component :is="tag">
-    <slot v-if="annotatedSlots.length === 0"></slot>
+  <component :is="tag" v-observe-visibility="visibilityChanged">
+    <slot v-if="!this.annotated"></slot>
     <v-runtime-template
+      v-else
       v-for="template of annotatedSlots"
       :template="template"
     />
@@ -28,13 +29,13 @@ export default {
       annotated: false
     }
   },
-  mounted() {
-    if (!this.annotated) {
-      this.annotate()
-      this.annotated = true
-    }
-  },
   methods: {
+    visibilityChanged(isVisible) {
+      if (isVisible && !this.annotated) {
+        this.annotated = true
+        this.annotate()
+      }
+    },
     annotate() {
       if (this.$slots.default) {
         for (let slot of this.$slots.default) {

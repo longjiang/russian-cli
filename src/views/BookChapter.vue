@@ -65,7 +65,9 @@
             class="mb-4 shadow book-thumb"
           />
           <Annotate v-if="bookTitle">
-            <h6>《{{ bookTitle }}》</h6>
+            <h6>
+              <em>{{ bookTitle }}</em>
+            </h6>
             <p>{{ bookAuthor }}</p>
           </Annotate>
         </a>

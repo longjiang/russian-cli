@@ -27,7 +27,7 @@
       tag="div"
       v-for="line of html
         .trim()
-        .replace(/<(div|p|h1|h2|h3|h4|h5|h6)/g, 'ANNOTATORSEPARATOR!!!<$1')
+        .replace(/<(div|p|h1|h2|h3|h4|h5|h6|dd)/g, 'ANNOTATORSEPARATOR!!!<$1')
         .split('ANNOTATORSEPARATOR!!!')"
       v-if="line.trim().length > 0"
       class="mb-4"

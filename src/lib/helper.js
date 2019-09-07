@@ -49,12 +49,12 @@ export default {
       return response ? callback($html, response, text) : null
     })
   },
-  async scrape2(url, cacheLife = -1) {
+  async scrape2(url, cacheLife = -1, encoding = false) {
     return new Promise(resolve => {
       $.ajax(
         `${Config.scrape2}?url=${encodeURIComponent(
           url
-        )}&cache_life=${cacheLife}`
+        )}&cache_life=${cacheLife}` + (encoding ? `&encoding=${encoding}` : '')
       ).done(response => {
         if (response) {
           var ownerDocument = document.implementation.createHTMLDocument(

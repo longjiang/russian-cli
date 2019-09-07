@@ -3,9 +3,10 @@ import Wikipedia from '@/lib/library-sources/wikipedia'
 import WOL from '@/lib/library-sources/wol'
 import litnet from '@/lib/library-sources/litnet'
 import LibreBook from '@/lib/library-sources/librebook'
+import LibRu from '@/lib/library-sources/libru'
 
 export default {
-  sources: [LibreBook, litnet, WOL, Wikipedia, Wikisource],
+  sources: [LibreBook, LibRu, litnet, WOL, Wikipedia, Wikisource],
   source(url) {
     const host = url.replace(/.*\/\/([^/]*).*/, '$1')
     const source = this.sources.find(source => host.match(source.host))

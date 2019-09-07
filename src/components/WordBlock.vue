@@ -1,5 +1,4 @@
 <template>
-  <!-- v-observe-visibility="visibilityChanged" -->
   <v-popover
     offset="6"
     placement="top"
@@ -76,14 +75,7 @@ export default {
       let result = await (await this.$openRussian).accent(accented)
       // return result
     },
-    visibilityChanged(isVisible) {
-      if (isVisible && this.loading === true) {
-        if (this.words.length === 0) {
-          this.lookup()
-        }
-      }
-    },
-    mouseover() {
+    async mouseover() {
       this.hover = true
       if (this.loading === true) {
         if (this.words && this.words.length === 0) {
