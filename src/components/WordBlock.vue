@@ -68,8 +68,10 @@ export default {
   methods: {
     visibilityChanged(isVisible) {
       if (isVisible && this.loading === true) {
+        this.loading = false
         if (this.words.length === 0) {
-          this.lookup()
+          console.log('lookup', this.text)
+          // this.lookup()
         }
       }
     },
@@ -102,7 +104,6 @@ export default {
     async lookup() {
       let words = (await this.$openRussian).lookupFuzzy(this.text)
       this.words = words
-      this.loading = false
     },
     speak(text) {
       if (!speechSynthesis.speaking) {
