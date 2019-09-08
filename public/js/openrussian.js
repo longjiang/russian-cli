@@ -118,7 +118,7 @@ const OpenRussian = {
   loadWords() {
     return new Promise(resolve => {
       console.log('OpenRussian: Loading words')
-      Papa.parse('/data/words.csv', {
+      Papa.parse('/data/words.csv.txt', {
         download: true,
         header: true,
         complete: results => {
@@ -197,6 +197,8 @@ const OpenRussian = {
         this.index[bareForm] = indexedForm
       }
     }
+    console.log('index finished')
+    console.log(this)
     console.log(`this.index['систем']`, this.index['систем'])
   },
   formTable() {
