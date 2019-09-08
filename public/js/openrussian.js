@@ -280,9 +280,11 @@ const OpenRussian = {
     ]
     */
     // First get matched head word (lemma) if there is one
-    let foundWords = this.words.filter(
-      word => word && word.bare.replace(/ё/gi, 'е').toLowerCase() === text
-    )
+    let foundWords = this.words
+      .filter(
+        word => word && word.bare.replace(/ё/gi, 'е').toLowerCase() === text
+      )
+      .map(word => Object.assign({}, word))
     let indexed = this.index[text]
     if (indexed && indexed.matches) {
       for (let match of indexed.matches) {
@@ -297,7 +299,7 @@ const OpenRussian = {
         match.number = numbers.join(' and ')
         let word = undefined
         if (!foundWord) {
-          word = this.get(match.word_id)
+          word = Object.assign({}, this.get(match.word_id))
           foundWords.push(word)
         } else {
           word = foundWord
