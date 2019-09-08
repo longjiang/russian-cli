@@ -45,7 +45,9 @@
                 <td>
                   <b :data-level="word.level || 'outside'" class="ml-2"
                     >{{ row.form || 'n/a'
-                    }}{{ row.field.startsWith('imperative') ? '!' : '' }}</b
+                    }}{{
+                      row.field && row.field.startsWith('imperative') ? '!' : ''
+                    }}</b
                   >
                 </td>
               </tr>
@@ -83,9 +85,14 @@ export default {
           return groups
         }, {})
       }
-      this.tables = (await (await this.$openRussian).wordForms(
-        this.word
-      )).groupBy('table')
+      let forms = await (await this.$openRussian).wordForms(this.word)
+      for (let form of forms) {
+        form.form = await (await this.$openRussian).accent(form.form)
+        form.field = await (await this.$openRussian).stylize(form.field)
+        form.table = await (await this.$openRussian).stylize(form.table)
+      }
+      this.tables = forms.groupBy('table')
+      console.log(this.tables)
     }
   },
   mounted() {
