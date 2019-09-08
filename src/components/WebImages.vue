@@ -8,19 +8,14 @@
         v-cloak
         v-if="images && images.length > 0"
       >
-        <a
+        <img
+          alt
+          class="image-wall-image"
           v-for="(image, index) in images.slice(0, limit)"
-          class="image-wall-image-wrapper"
-          :href="image.link"
-          target="_blank"
-        >
-          <img
-            alt
-            class="image-wall-image"
-            :key="`web-images-${text}-${index}`"
-            :src="`${Config.imageProxy}?${image.src}`"
-          />
-        </a>
+          :key="`web-images-${text}-${index}`"
+          :src="`${Config.imageProxy}?${image.src}`"
+          @click="goto(image.url)"
+        />
       </div>
       <hr />
       <div class="mt-2">
@@ -69,6 +64,9 @@ export default {
         this.limit
       )
       this.images = images
+    },
+    goto(url) {
+      window.open(url)
     }
   },
   watch: {
@@ -92,23 +90,18 @@ export default {
 .image-wall {
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
-}
-
-.image-wall-image-wrapper {
-  height: 10rem;
-  width: calc(50% - 1rem);
-  max-width: 10rem;
-  flex: 1 0 auto;
-  display: block;
-  margin: 0 0.5rem 0.5rem 0;
 }
 
 .image-wall-image {
   object-fit: cover;
-  height: 100%;
-  width: 100%;
+  flex: 1;
+  height: 5rem;
+  width: auto;
   background-color: #f5f5f5;
   cursor: pointer;
+  margin: 0.2rem;
+}
+.image-wall-image:last-child {
+  flex: 0;
 }
 </style>
