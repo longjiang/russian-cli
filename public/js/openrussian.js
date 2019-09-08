@@ -82,7 +82,7 @@ const OpenRussian = {
                 if (word.adjectives.decl_n_id) {
                   word.decl_n = declensions[word.adjectives.decl_n_id]
                 }
-                if (word.adjectives.decl_p_id) {
+                if (word.adjectives.decl_pl_id) {
                   word.decl_pl = declensions[word.adjectives.decl_pl_id]
                 }
               }
