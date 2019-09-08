@@ -361,15 +361,15 @@ const OpenRussian = {
       inst: 'instrumental',
       nom: 'nominative',
       prep: 'prepositional',
-      verbs: 'verb',
+      verbs: '',
       aspect: 'aspect',
       imperative_pl: 'imperative plural',
       imperative_sg: 'imperative singular',
       partner: 'partner',
-      past_f: 'past (feminine)',
-      past_m: 'past (masculine)',
-      past_n: 'past (neuter)',
-      past_pl: 'past (plural)'
+      past_f: 'past tense (feminine)',
+      past_m: 'past tense (masculine)',
+      past_n: 'past tense (neuter)',
+      past_pl: 'past tense (plural)'
     }
     return stylize[name]
   }

@@ -4,9 +4,10 @@
     :open="hover"
     trigger="manual"
     :open-group="'id' + _uid"
+    :id="id"
     style="display: inline-block"
   >
-    <div
+    <span
       :class="{
         'word-block': true,
         saved: saved
@@ -16,16 +17,14 @@
       "
       @click="click"
       @mouseover="mouseover"
-      @mouseleave="mouseleave"
-    >
-      <span v-if="(hover || saved) && words && words.length > 0"
+      @mouseout="mouseout"
+      ><span v-if="saved && words && words.length > 0"
         ><span v-if="words[0].matches && words[0].matches.length > 0">{{
           matchCase(words[0].matches[0].form)
         }}</span
         ><span v-else>{{ matchCase(words[0].accented) }}</span></span
-      >
-      <span v-else><slot></slot></span>
-    </div>
+      ><span v-else><slot></slot></span
+    ></span>
     <template slot="popover">
       <div v-for="word in words" class="tooltip-entry">
         <div v-if="word">
@@ -34,9 +33,12 @@
             {{ match.table !== 'declension' ? match.table : '' }}
             of
           </div>
-          <b :data-level="word.level || 'outside'" style="font-size: 1.5rem">{{
-            word.accented
-          }}</b
+          <a :href="`#/dictionary/openrussian/${words[0].id}`"
+            ><b
+              :data-level="word.level || 'outside'"
+              style="font-size: 1.5rem"
+              >{{ word.accented }}</b
+            ></a
           ><span
             v-if="word.level"
             :data-bg-level="word.level"
@@ -46,15 +48,41 @@
           >
           <Speak :text="word.bare" class="ml-1" />
         </div>
-        <div v-if="word.translations">
-          <em>{{ word.translations.tl }}</em>
+        <div>
+          <span
+            class="word-type"
+            v-if="word.type !== 'other'"
+            style="color: #999"
+            >{{ word.verbs ? abbreviate(word.verbs.aspect) : '' }}
+            {{ abbreviate(word.type) }}
+          </span>
+          <span class="word-translation" v-if="word.translations">
+            <em>{{ word.translations.tl }}</em>
+          </span>
         </div>
       </div>
       <div v-if="loading === true">
         💭 Thinking...
       </div>
       <div v-if="words.length === 0 && loading === false">
-        🤷‍ No clue
+        🤷‍ No clue.<br />
+        <a :href="`https://www.google.com/search?q=${this.text}`" target="_blank"
+          >Google</a
+        >
+        |
+        <a :href="`https://en.wiktionary.org/wiki/${this.text}`" target="_blank"
+          >Wiktionary</a
+        >
+        |
+        <a :href="`https://en.openrussian.org/ru/${text}`" target="_blank"
+          >OpenRussian.org</a
+        >
+        |
+        <a
+          :href="`https://www.russiandict.net/translate/${text}`"
+          target="_blank"
+          >RussianDict</a
+        >
       </div>
     </template>
   </v-popover>
@@ -66,6 +94,7 @@ import Helper from '@/lib/helper'
 export default {
   data() {
     return {
+      id: `wordblock-${Helper.uniqueId()}`,
       hover: false,
       loading: true,
       text: this.$slots.default[0].text,
@@ -76,7 +105,11 @@ export default {
   methods: {
     matchCase(text) {
       if (this.text.match(/^[\wА-ЯЁ]/)) {
-        return Helper.ucFirst(text)
+        if (this.text.match(/^.[\wА-ЯЁ]/)) {
+          return text.toUpperCase()
+        } else {
+          return Helper.ucFirst(text)
+        }
       } else {
         return text
       }
@@ -93,7 +126,7 @@ export default {
         }
       }, 300) // Allow user to interact with previous popover
     },
-    mouseleave() {
+    mouseout() {
       setTimeout(() => {
         // Allow user to interact with popover
         if ($('.popover:hover').length === 0) {
@@ -115,8 +148,9 @@ export default {
       }
       return Helper.unique(forms)
     },
-    async click() {
+    async click(e) {
       // [ [...all word forms, lowercase] ]
+      this.hover = true
       if (this.saved) {
         this.$store.dispatch('removeSavedWord', this.text)
       } else {
@@ -124,6 +158,7 @@ export default {
         this.$store.dispatch('addSavedWord', await this.allForms())
       }
       this.saved = !this.saved
+      return false
     },
     async lookup() {
       let words = await (await this.$openRussian).lookupFuzzy(this.text)
@@ -143,6 +178,17 @@ export default {
       }
       this.words = words
       this.loading = false
+    },
+    abbreviate(type) {
+      let abb = {
+        noun: 'n.',
+        adjective: 'adj.',
+        verb: 'v.',
+        pronoun: 'pron.',
+        perfective: 'perf.',
+        imperfective: 'imperf.'
+      }
+      return abb[type] || type
     },
     speak(text) {
       if (!speechSynthesis.speaking) {
