@@ -13,6 +13,7 @@ export default {
       content: $chapterHTML.find('.b-chapter').html(),
       title: $chapterHTML
         .find('#chapterSelectorSelect option[selected]')
+        .eq(0)
         .text()
         .trim()
     }
