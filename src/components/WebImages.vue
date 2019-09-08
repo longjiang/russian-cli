@@ -59,6 +59,7 @@ export default {
       if (this.entry) {
         Vue.set(this.entry, 'images', this.images)
       }
+      this.images = []
       let images = (await WordPhotos.getGoogleImages(this.text)).slice(
         0,
         this.limit
