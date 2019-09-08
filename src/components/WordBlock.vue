@@ -1,8 +1,9 @@
 <template>
   <v-popover
-    offset="6"
     placement="top"
     :open="hover"
+    trigger="manual"
+    :open-group="'id' + _uid"
     style="display: inline-block"
   >
     <div
@@ -13,9 +14,9 @@
       :data-hover-level="
         words && words.length > 0 ? words[0].level || 'outside' : 'outside'
       "
-      @mouseover="mouseover"
-      @mouseleave="hover = false"
       @click="click"
+      @mouseover="mouseover"
+      @mouseleave="mouseleave"
     >
       <span v-if="(hover || saved) && words && words.length > 0"
         ><span v-if="words[0].matches && words[0].matches.length > 0">{{
@@ -75,19 +76,30 @@ export default {
   methods: {
     matchCase(text) {
       if (this.text.match(/^[\wА-ЯЁ]/)) {
-        console.log(text, Helper.ucFirst(text))
         return Helper.ucFirst(text)
       } else {
         return text
       }
     },
-    async mouseover() {
-      this.hover = true
+    mouseover() {
       if (this.loading === true) {
         if (this.words && this.words.length === 0) {
           this.lookup()
         }
       }
+      setTimeout(() => {
+        if ($('.popover:hover').length === 0) {
+          this.hover = true
+        }
+      }, 300) // Allow user to interact with previous popover
+    },
+    mouseleave() {
+      setTimeout(() => {
+        // Allow user to interact with popover
+        if ($('.popover:hover').length === 0) {
+          this.hover = false
+        }
+      }, 300)
     },
     async allForms() {
       let forms = [this.text.toLowerCase()]
@@ -164,12 +176,9 @@ export default {
 
 .tooltip {
   display: block !important;
-  z-index: 10000;
 
   .tooltip-inner {
-    background: black;
-    color: white;
-    border-radius: 16px;
+    border-radius: 1rem;
     text-align: left;
     max-width: 30rem;
   }
@@ -180,8 +189,6 @@ export default {
     border-style: solid;
     position: absolute;
     margin: 5px;
-    border-color: black;
-    z-index: 1;
   }
 
   &[x-placement^='top'] {
