@@ -4,6 +4,7 @@
       <div class="row">
         <div class="col-sm-12">
           <Annotate>
+            <div>систе́мой водой</div>
             <div id="artist_right">
               <h3>Краткая биография КИНО</h3>
               <div class="text">

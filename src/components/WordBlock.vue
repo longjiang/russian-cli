@@ -17,7 +17,13 @@
       @mouseleave="hover = false"
       @click="click"
     >
-      <slot></slot>
+      <span v-if="(hover || saved) && words && words.length > 0"
+        ><span v-if="words[0].matches && words[0].matches.length > 0">{{
+          matchCase(words[0].matches[0].form)
+        }}</span
+        ><span v-else>{{ matchCase(words[0].accented) }}</span></span
+      >
+      <span v-else><slot></slot></span>
     </div>
     <template slot="popover">
       <div v-for="word in words" class="tooltip-entry">
@@ -67,6 +73,14 @@ export default {
     }
   },
   methods: {
+    matchCase(text) {
+      if (this.text.match(/^[\wА-ЯЁ]/)) {
+        console.log(text, Helper.ucFirst(text))
+        return Helper.ucFirst(text)
+      } else {
+        return text
+      }
+    },
     async mouseover() {
       this.hover = true
       if (this.loading === true) {
@@ -105,6 +119,7 @@ export default {
         for (let word of words) {
           if (word && word.matches) {
             for (let match of word.matches) {
+              match.form = await (await this.$openRussian).accent(match.form)
               match.field = await (await this.$openRussian).stylize(match.field)
               match.number = await (await this.$openRussian).stylize(
                 match.number

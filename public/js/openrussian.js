@@ -235,7 +235,12 @@ const OpenRussian = {
     )
     for (let word of this.words) {
       for (let form of this.wordForms(word)) {
-        if (form.form.replace(/ё/gi, 'е').replace("'", '') === text) {
+        if (
+          form.form
+            .replace(/ё/gi, 'е')
+            .replace("'", '')
+            .toLowerCase() === text
+        ) {
           let numbers = []
           if (form.table === 'decl_pl') {
             numbers.push('plural')
