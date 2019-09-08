@@ -18,18 +18,22 @@
             alt
             class="image-wall-image"
             :key="`web-images-${text}-${index}`"
-            :src="`${Config.imageProxy}?${image.img}`"
+            :src="`${Config.imageProxy}?${image.src}`"
           />
         </a>
       </div>
       <hr />
       <div class="mt-2">
         Image search by
-        <a :href="`https://image.so.com/i?q=${text}&src=srp`">
+        <a
+          :href="
+            `https://www.google.com/search?q=${text}&tbm=isch&sout=1#spf=1567955197854`
+          "
+        >
           <img
-            src="img/logo-360-image-search.png"
-            alt="360 Image Search"
-            class="ml-2"
+            src="img/logo-google-images.png"
+            alt="Google Images"
+            class="logo-small ml-2"
           />
         </a>
       </div>
@@ -56,22 +60,15 @@ export default {
     }
   },
   methods: {
-    update() {
+    async update() {
       if (this.entry) {
         Vue.set(this.entry, 'images', this.images)
       }
-      this.images = []
-      WordPhotos.getWebImages(this.text, images => {
-        WordPhotos.testImages(images.slice(0, this.limit), image => {
-          this.images.push(image)
-          $('meta[property=og\\:image]').attr(
-            'content',
-            `${Config.imageProxy}?${this.images[0].img}`
-          )
-          this.webImagesKey++
-          this.imgKey++
-        })
-      })
+      let images = (await WordPhotos.getGoogleImages(this.text)).slice(
+        0,
+        this.limit
+      )
+      this.images = images
     }
   },
   watch: {
@@ -84,7 +81,6 @@ export default {
   },
   data() {
     return {
-      webImagesKey: 0,
       Config,
       images: []
     }
