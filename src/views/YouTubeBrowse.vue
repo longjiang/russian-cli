@@ -5,7 +5,7 @@
         <h1 class="mb-5 text-center">Study YouTube Subtitles</h1>
         <h4 class="mt-5 mb-5 text-center">Search YouTube</h4>
         <SimpleSearch
-          placeholder="Enter a search term in Chinese..."
+          placeholder="Enter a search term in Russian..."
           :action="
             url => {
               location.hash = '#/youtube/search/' + encodeURIComponent(url)
@@ -25,14 +25,14 @@
 
         <h4 class="mt-5 mb-5">
           Study
-          <em>any</em> YouTube video that has Chinese closed captions
+          <em>any</em> YouTube video that has Russian closed captions
         </h4>
 
         <div class="jumbotron bg-light pt-4 pb-3 mt-3 mb-3">
           <YouTubeNav class="mb-4" />
           <ol>
             <li>
-              Go to YouTube, search a Chinese word. For example
+              Go to YouTube, search a Russian word. For example
               <b>纪录片</b>.
             </li>
             <li>
@@ -43,7 +43,7 @@
             <li>
               Open a video that interests you. <br /><small
                 ><b>Note:</b> Many have closed captions, but they are in
-                <em>English.</em> You need to look for <em>Chinese</em> closed
+                <em>English.</em> You need to look for <em>Russian</em> closed
                 captions. These are hard to find. If you cannot find any, look
                 in the suggested channels listed on this page.</small
               >

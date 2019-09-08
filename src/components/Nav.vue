@@ -28,7 +28,7 @@
             $route.name === 'analyzer')
       }"
       :to="{ name: 'noun-cases' }"
-      title="Chinese grammar cheatsheet"
+      title="Russian grammar tools"
     >
       <font-awesome-icon icon="list" />Grammar
     </router-link>

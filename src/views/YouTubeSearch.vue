@@ -2,7 +2,7 @@
   <div class="container pt-5 pb-5 main">
     <h1 class="text-center mb-5">Study YouTube Subtitles</h1>
     <SimpleSearch
-      placeholder="Enter a search term in Chinese..."
+      placeholder="Enter a search term in Russian..."
       :action="
         url => {
           location.hash = '#/youtube/search/' + encodeURIComponent(url)
