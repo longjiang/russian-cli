@@ -161,9 +161,8 @@ export default {
       }
     },
     async random() {
-      // TODO show random entry
-      location.hash = `#/dictionary/openrussian/${await (await this
-        .$openRussian).random().id}`
+      let randomId = (await (await this.$openRussian).random()).id
+      location.hash = `#/dictionary/openrussian/${randomId}`
     }
   },
   watch: {
