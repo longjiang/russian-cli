@@ -84,7 +84,6 @@
         <div class="row">
           <div class="col-sm-12">
             <EntryYouTube
-              :key="`youtube-${args}`"
               :text="entry.bare"
               class="mb-5"
             />
