@@ -44,6 +44,15 @@ export default {
         url: url.replace('/book/', '/reader/') + '?c=' + $(li).attr('value')
       })
     }
+    if (book.chapters.length === 0) {
+      book.chapters.push({
+        title: 1,
+        url:
+          'https://' +
+          this.host +
+          $bookHTML.find('.btn-primary-new').attr('href')
+      })
+    }
     return book
   },
   async getBooklist(url) {

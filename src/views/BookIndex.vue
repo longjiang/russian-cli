@@ -91,13 +91,11 @@ export default {
       let url = decodeURIComponent(this.args)
       this.$refs.search.text = url
       let book = await Library.getBook(url)
-      if (book.chapters.length > 0) {
+      if (book) {
         this.bookThumbnail = book.thumbnail
         this.bookTitle = book.title
         this.bookAuthor = book.author
-        this.chapters = book.chapters
-      } else {
-        location.hash = '#/book/chapter/' + encodeURIComponent(this.args)
+        this.chapters = book.chapters || []
       }
     }
   },
