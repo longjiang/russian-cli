@@ -26,6 +26,20 @@
       ><span v-else><slot></slot></span
     ></span>
     <template slot="popover">
+      <div
+        class="tooltip-images"
+        :key="`tooltip-images-${text}`"
+        v-cloak
+        v-if="images && images.length > 0"
+      >
+        <img
+          alt
+          class="image-wall-image"
+          v-for="(image, index) in images"
+          :key="`web-images-${text}-${index}`"
+          :src="`${Config.imageProxy}?${image.src}`"
+        />
+      </div>
       <div v-for="word in words" class="tooltip-entry">
         <div v-if="word">
           <div v-for="match in word.matches" style="color: #999">
@@ -66,7 +80,9 @@
       </div>
       <div v-if="words.length === 0 && loading === false">
         🤷‍ No clue.<br />
-        <a :href="`https://www.google.com/search?q=${this.text}`" target="_blank"
+        <a
+          :href="`https://www.google.com/search?q=${this.text}`"
+          target="_blank"
           >Google</a
         >
         |
@@ -90,6 +106,8 @@
 
 <script>
 import Helper from '@/lib/helper'
+import Config from '@/lib/config'
+import WordPhotos from '@/lib/word-photos'
 
 export default {
   data() {
@@ -99,7 +117,9 @@ export default {
       loading: true,
       text: this.$slots.default[0].text,
       saved: this.$store.getters.hasSavedWord(this.$slots.default[0].text),
-      words: []
+      images: [],
+      words: [],
+      Config
     }
   },
   methods: {
@@ -178,6 +198,7 @@ export default {
       }
       this.words = words
       this.loading = false
+      this.images = (await WordPhotos.getGoogleImages(this.text)).slice(0, 5)
     },
     abbreviate(type) {
       let abb = {
@@ -202,6 +223,18 @@ export default {
 </script>
 
 <style lang="scss">
+.tooltip-images {
+  width: 3rem;
+  float: right;
+  margin-left: 0.5rem;
+}
+
+.tooltip-images img {
+  width: 3rem;
+  height: auto;
+  margin: 0.2rem 0;
+}
+
 .word-block {
   cursor: pointer;
 }
@@ -314,6 +347,9 @@ export default {
     border: none;
 
     .popover-inner {
+      overflow: scroll;
+      max-height: 15rem;
+      min-width: 15rem;
       background: $color;
       color: black;
       padding: 1rem;
