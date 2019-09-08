@@ -50,22 +50,29 @@ export default {
     let $html = await Helper.scrape2(url)
     let list = []
     for (let li of $html.find('.review-short-description, .tiles .tile')) {
-      list.push({
-        url: `https://${this.host}${$(li)
-          .find('h3 a')
-          .attr('href')}`,
-        title: $(li)
-          .find('h3 a')
+      if (
+        $(li)
+          .find('.chapters')
           .text()
-          .trim(),
-        thumbnail:
-          $(li)
-            .find('img.small-avatar')
-            .attr('src') ||
-          $(li)
-            .find('.img img')
-            .attr('data-original')
-      })
+          .trim() === 'Online'
+      ) {
+        list.push({
+          url: `https://${this.host}${$(li)
+            .find('h3 a')
+            .attr('href')}`,
+          title: $(li)
+            .find('h3 a')
+            .text()
+            .trim(),
+          thumbnail:
+            $(li)
+              .find('img.small-avatar')
+              .attr('src') ||
+            $(li)
+              .find('.img img')
+              .attr('data-original')
+        })
+      }
     }
 
     return list
