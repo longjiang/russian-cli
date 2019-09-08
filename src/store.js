@@ -35,7 +35,6 @@ export default new Vuex.Store({
   },
   actions: {
     addSavedWord({ commit, dispatch }, wordForms) {
-      // id = 'traditional,pinyin,index'
       commit('ADD_SAVED_WORD', wordForms)
       dispatch('updateSavedWordsDisplay')
     },

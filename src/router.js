@@ -113,7 +113,22 @@ export default new Router({
           {
             name: 'description',
             content:
-              'Read free, open Russian books with pinyin annotation and save new words for review.'
+              'Read free, open Russian books with hover dictionary and save new words for review.'
+          }
+        ]
+      }
+    },
+    {
+      path: '/reader/:method?/:arg?',
+      name: 'reader',
+      component: () => import('./views/Reader.vue'),
+      meta: {
+        title: 'Reader | Russian Zero to Hero',
+        metaTags: [
+          {
+            name: 'description',
+            content:
+              'Read Russian text with annotation and save new words for review.'
           }
         ]
       }
@@ -129,7 +144,7 @@ export default new Router({
           {
             name: 'description',
             content:
-              'Read free, open Russian books with pinyin annotation and save new words for review.'
+              'Read free, open Russian books with hover dictionary and save new words for review.'
           }
         ]
       }
@@ -145,7 +160,7 @@ export default new Router({
           {
             name: 'description',
             content:
-              'Read free, open Russian books with pinyin annotation and save new words for review.'
+              'Read free, open Russian books with hover dictionary and save new words for review.'
           }
         ]
       }
@@ -161,7 +176,7 @@ export default new Router({
           {
             name: 'description',
             content:
-              'Read free, open Russian books with pinyin annotation and save new words for review.'
+              'Read free, open Russian books with hover dictionary and save new words for review.'
           }
         ]
       }

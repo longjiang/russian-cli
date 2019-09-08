@@ -10,8 +10,7 @@
             $route.name === 'levels' ||
             $route.name === 'learn' ||
             $route.name === 'saved-words' ||
-            $route.name.startsWith('explore') ||
-            $route.name === 'pinyin-list')
+            $route.name.startsWith('explore'))
       "
     >
       <router-link class="secondary-menu-item" :to="{ name: 'dictionary' }">
@@ -59,6 +58,22 @@
         title="Figure out the dictionary form and case by looking up the ending."
         >Case Ending Lookup</router-link
       >
+    </nav>
+
+    <nav
+      class="secondary-menu text-center"
+      v-if="
+        ($route.name &&
+          ($route.name.startsWith('book') || $route.name === 'library')) ||
+          $route.name === 'reader'
+      "
+    >
+      <router-link class="secondary-menu-item" :to="{ name: 'library' }">
+        <font-awesome-icon icon="book-open" />Library
+      </router-link>
+      <router-link class="secondary-menu-item" :to="{ name: 'reader' }">
+        <font-awesome-icon icon="file-alt" />Text Reader
+      </router-link>
     </nav>
   </div>
 </template>

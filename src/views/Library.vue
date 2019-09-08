@@ -5,7 +5,7 @@
         <h1 class="mb-5 text-center">Library</h1>
         <p class="text-center lead" style="margin-bottom: 5rem">
           This is where you can enjoy reading a variety of Russian books with
-          the help of pinyin annotation and dictionary tools.
+          the help of hover dictionary and the ability to save words.
         </p>
         <ul class="list-unstyled p-0 mb-5 booklists">
           <li v-for="booklist in booklists" class="text-center mb-5">
