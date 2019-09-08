@@ -24,7 +24,7 @@
             <i class="glyphicon glyphicon-trash"></i>
             Clear
           </button>
-          <div class="export-wrapper hidden text-left mt-4">
+          <div class="export-wrapper text-left mt-4" v-if="showExport">
             <p>
               <b>Copy</b> the text below and <b>paste</b> into your spreadsheet
               program, or a flashcard app like Anki or Quizlet.
@@ -40,6 +40,7 @@
               class="mt-2 mb-2 form-control"
               cols="30"
               rows="10"
+              v-model="csvText"
             ></textarea>
           </div>
         </div>
@@ -79,6 +80,8 @@ export default {
   data() {
     return {
       loaded: false,
+      csvText: '',
+      showExport: false,
       savedWords: [],
       savedTexts: [],
       selectedCsvOptions: ['russian', 'english'],
@@ -107,7 +110,7 @@ export default {
       this.savedWords = []
       this.savedTexts = []
       for (let wordForms of this.$store.state.savedWords) {
-        let word = (await this.$openRussian).lookup(wordForms[0])
+        let word = await (await this.$openRussian).lookup(wordForms[0])
         if (word) {
           this.savedWords.push(word)
         } else {
@@ -120,32 +123,26 @@ export default {
         return ''
       }
 
-      return this.savedWords
-        .map(async word => {
-          let textToDisplay = ''
+      let csv = ''
+      for (let word of this.savedWords) {
+        if (this.selectedCsvOptions.includes('russian')) {
+          let a = word.accented
+          csv += `${a}\t`
+        }
 
-          if (this.selectedCsvOptions.includes('russian')) {
-            textToDisplay += `${await (await this.openRussian).accent(
-              word.accented
-            )}\t`
-          }
-
-          if (this.selectedCsvOptions.includes('english')) {
-            textToDisplay += `${
-              word.translations ? word.translations.tl : ''
-            }\t`
-          }
-
-          return textToDisplay
-        })
-        .join('\n')
+        if (this.selectedCsvOptions.includes('english')) {
+          csv += `${word.translations ? word.translations.tl : ''}\t`
+        }
+        csv += '\n'
+      }
+      return csv
     },
     showImportClick() {
       $('.import-wrapper').toggleClass('hidden')
     },
-    showExportClick() {
-      $('#export-textarea').val(this.csv())
-      $('.export-wrapper').toggleClass('hidden')
+    async showExportClick() {
+      this.showExport = !this.showExport
+      this.csvText = this.csv()
     },
     removeAllClick() {
       const confirmed = confirm(
