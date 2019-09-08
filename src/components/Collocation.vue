@@ -5,7 +5,7 @@
     <div v-if="collocation">
       <ul class="collapsed gramrel pl-0" data-collapse-target>
         <li v-for="line in lines" class="gramrel-item list-unstyled">
-          <Annotate><span v-html="line" /></Annotate>
+          <Annotate><span v-html="line"/></Annotate>
         </li>
       </ul>
       <ShowMoreButton
@@ -50,7 +50,6 @@ export default {
     }
   },
   async beforeMount() {
-    /*
     if (this.word) {
       let forms = (await (await this.$openRussian).wordForms(this.word)).map(
         form => form.form.replace(/'/g, '')
@@ -59,7 +58,6 @@ export default {
     } else {
       this.forms = [this.word.bare]
     }
-    */
     if (this.collocation && this.collocation.Words) {
       this.collocation.Words = this.collocation.Words.sort(
         (a, b) => a.cm.length - b.cm.length
@@ -70,14 +68,11 @@ export default {
       for (let Word of this.collocation.Words) {
         if (Word.cm) {
           lines.push(
-            /*
             Helper.highlightMultiple(
               Word.cm,
               this.forms,
               this.level || 'outside'
             )
-            */
-           Word.cm
           )
         }
       }
