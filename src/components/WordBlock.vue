@@ -60,7 +60,7 @@
             style="font-size: 0.8em; position:relative; bottom: 0.2rem;"
             >{{ word.level }}</span
           >
-          <Speak :text="word.bare" class="ml-1" />
+          <Speak :text="word.bare" :mp3="word.audio" class="ml-1" />
         </div>
         <div>
           <span

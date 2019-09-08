@@ -5,11 +5,22 @@
       <div class="entry-word-wrapper" style="display:inline-block">
         <div class="mb-2">
           <Star :word="entry"></Star>
-          <Speak class="ml-1" :text="entry.bare" />
+          <Speak class="ml-1" :text="entry.bare" :mp3="entry.audio" />
         </div>
         <div>
           <a :href="`#/dictionary/openrussian/${entry.bare}`">
-            <span class="entry-word" :data-level="entry.level || 'outside'" v-html="entry.accented"></span>
+            <span
+              class="entry-word"
+              :data-level="entry.level || 'outside'"
+              v-html="entry.accented"
+            ></span>
+            <span
+              v-if="entry.level"
+              class="entry-level p-1 rounded ml-2"
+              style="position: relative; bottom: 0.5em"
+              :data-bg-level="entry.level"
+              >{{ entry.level }}</span
+            >
           </a>
         </div>
         <div v-if="entry.hanja && entry.hanja !== 'NULL'" class="mt-1">
