@@ -1,5 +1,7 @@
 const OpenRussian = {
   words: [],
+  merged: [],
+  index: {},
   cache: {},
   tables: [
     // 'categories_words2', // not sure what this does
@@ -143,8 +145,10 @@ const OpenRussian = {
         promises.push(this.loadTable(table.name))
       }
       promises.push(this.loadDeclensions())
+      promises.push(this.merge())
+      promises.push(this.createIndex())
       await Promise.all(promises)
-      console.log(this.get(127))
+      console.log(this)
       resolve(this)
     })
   },
@@ -169,32 +173,83 @@ const OpenRussian = {
     let word = this.words.find(word => word && word.bare === text)
     return word
   },
+  merge() {
+    console.log('Merging...')
+    for (let word of this.words) {
+      let w = {}
+      for (let key in word) {
+        if (typeof word[key] !== 'object' && !Array.isArray(word[key])) {
+          w[key] = word[key]
+        }
+      }
+      for (let form of this.wordForms(word)) {
+        w[`${form.table}_${form.field}`] = form.form
+          .replace(/ё/gi, 'е')
+          .replace("'", '')
+          .toLowerCase()
+      }
+      this.merged[w.id] = w
+    }
+  },
+  createIndex() {
+    console.log('Indexing...')
+
+    for (let word of this.words) {
+      let w = {}
+      for (let key in word) {
+        if (typeof word[key] !== 'object' && !Array.isArray(word[key])) {
+          w[key] = word[key]
+        }
+      }
+      for (let form of this.wordForms(word)) {
+        let bareForm = form.form
+          .replace(/ё/gi, 'е')
+          .replace("'", '')
+          .toLowerCase()
+        let match = {
+          word_id: word.id,
+          table: form.table,
+          field: form.field,
+          form: form.form // with accents
+        }
+        let indexedForm = this.index[bareForm] || {
+          matches: []
+        }
+        indexedForm.matches.push(match)
+        this.index[bareForm] = indexedForm
+      }
+    }
+    console.log(this.index['систем'])
+  },
+  formTable() {
+    let decl_fields = ['acc', 'dat', 'gen', 'inst', 'nom', 'prep']
+    return this.tables.concat([
+      {
+        name: 'decl_pl', // adjective and nouns
+        fields: decl_fields
+      },
+      {
+        name: 'decl_sg', // nouns
+        fields: decl_fields
+      },
+      {
+        name: 'decl_m', // adjectives
+        fields: decl_fields
+      },
+      {
+        name: 'decl_f', // adjectives
+        fields: decl_fields
+      },
+      {
+        name: 'decl_n', // adjectives
+        fields: decl_fields
+      }
+    ])
+  },
   wordForms(word) {
     let forms = []
-    let decl_fields = ['acc', 'dat', 'gen', 'inst', 'nom', 'prep']
     if (word) {
-      for (let table of this.tables.concat([
-        {
-          name: 'decl_pl', // adjective and nouns
-          fields: decl_fields
-        },
-        {
-          name: 'decl_sg', // nouns
-          fields: decl_fields
-        },
-        {
-          name: 'decl_m', // adjectives
-          fields: decl_fields
-        },
-        {
-          name: 'decl_f', // adjectives
-          fields: decl_fields
-        },
-        {
-          name: 'decl_n', // adjectives
-          fields: decl_fields
-        }
-      ])) {
+      for (let table of this.formTable()) {
         for (let field of table.fields) {
           if (word[table.name] && word[table.name][field]) {
             for (let form of word[table.name][field].split(',')) {
@@ -209,6 +264,117 @@ const OpenRussian = {
       }
     }
     return forms
+  },
+  matchFormsIndexed(text) {
+    text = text.toLowerCase().replace(/ё/gi, 'е')
+    console.log('matching from index', text)
+    if (this.cache[text]) {
+      return this.cache[text]
+    }
+    this.cache[text] = []
+    /*
+    We have:
+    this.indexed['систем'] = {
+      form: "систе'м"
+      matches: [
+        {
+          field: "gen"
+          table: "decl_pl"
+          word_id: "341"
+        }
+      ]
+    }
+
+    We want:
+    foundWords = [
+      {
+        id: 341
+        bare: систем
+        matches: [
+          {
+            field: "gen"
+            table: "decl_pl",
+            form: "систе'м"
+          },
+          {...}, ...
+        ]
+        // augmented word data
+      }
+    ]
+    */
+    // First get matched head word (lemma) if there is one
+    let foundWords = this.words.filter(
+      word => word && word.bare.replace(/ё/gi, 'е').toLowerCase() === text
+    )
+    let indexed = this.index[text]
+    if (indexed && indexed.matches) {
+      for (let match of indexed.matches) {
+        let foundWord = foundWords.find(w => w.id === match.word_id)
+        let numbers = []
+        if (match.table === 'decl_pl') {
+          numbers.push('plural')
+        }
+        if (match.table === 'decl_sg') {
+          numbers.push('singular')
+        }
+        match.number = numbers.join(' and ')
+        let word = undefined
+        if (!foundWord) {
+          word = this.get(match.word_id)
+          foundWords.push(word)
+        } else {
+          word = foundWord
+        }
+        word.matches = word.matches || []
+        word.matches.push(match)
+      }
+    }
+    this.cache[text] = foundWords
+    return foundWords
+  },
+  matchFormsMerged(text) {
+    text = text.toLowerCase().replace(/ё/gi, 'е')
+    console.log('matching from merged', text)
+    if (this.cache[text]) {
+      return this.cache[text]
+    }
+    this.cache[text] = []
+    // First get matched head word (lemma) if there is one
+    let foundWords = this.words.filter(
+      word => word && word.bare.replace(/ё/gi, 'е').toLowerCase() === text
+    )
+    let formTable = this.formTable()
+    for (let word of this.merged) {
+      for (let table of formTable) {
+        for (let field of table.fields) {
+          if (word && word[`${table}_${field}`] === text) {
+            let form = {
+              table: table,
+              field: field,
+              form: word[table][field]
+            }
+            let numbers = []
+            if (table === 'decl_pl') {
+              numbers.push('plural')
+            }
+            if (table === 'decl_sg') {
+              numbers.push('singular')
+            }
+            form.number = numbers.join(' and ')
+            let foundWord = foundWords.find(w => w.id === word.id)
+            if (!foundWord) {
+              foundWords.push(word)
+            } else {
+              word = foundWord
+            }
+            word.matches = word.matches || []
+            word.matches.push(form)
+          }
+        }
+      }
+    }
+    this.cache[text] = foundWords
+    return foundWords
   },
   matchForms(text) {
     text = text.toLowerCase().replace(/ё/gi, 'е')
@@ -264,7 +430,7 @@ const OpenRussian = {
     return foundWords
   },
   lookupFuzzy(text) {
-    return this.matchForms(text)
+    return this.matchFormsIndexed(text)
   },
   randomArrayItem(array, start = 0, length = false) {
     length = length || array.length
