@@ -197,9 +197,7 @@ const OpenRussian = {
         this.index[bareForm] = indexedForm
       }
     }
-    console.log('index finished')
-    console.log(this)
-    console.log(`this.index['систем']`, this.index['систем'])
+    console.log('... finished')
   },
   formTable() {
     let decl_fields = ['acc', 'dat', 'gen', 'inst', 'nom', 'prep']
