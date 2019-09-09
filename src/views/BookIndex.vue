@@ -95,7 +95,17 @@ export default {
         this.bookThumbnail = book.thumbnail
         this.bookTitle = book.title
         this.bookAuthor = book.author
-        this.chapters = book.chapters || []
+        this.chapters =
+          book.chapters && book.chapters.length > 0
+            ? book.chapters
+            : [
+                {
+                  title: 'Read',
+                  url: encodeURIComponent(this.args)
+                }
+              ]
+      } else {
+        location.hash = '#/book/chapter/' + encodeURIComponent(this.args)
       }
     }
   },
