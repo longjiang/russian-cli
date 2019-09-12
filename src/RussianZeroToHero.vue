@@ -30,21 +30,8 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-12">
-            <div class="zerotohero">
-              <a
-                v-for="language in languages"
-                :href="language.url"
-                target="_blank"
-                class="mr-4"
-                ><img
-                  :src="
-                    `${Config.server}img/logo-${language.code}-zth-light.png`
-                  "
-                  :alt="`${language.name} Zero to Hero`"
-                  class="logo-footer"
-              /></a>
-            </div>
-            <hr class="border-light mt-0 mb-4" style="opacity: 0.5" />
+            <LanguageLogos />
+            <hr class="border-light" style="opacity: 0.5" />
             <p>
               <b>Zero to Hero Education, Canada.</b>
             </p>
@@ -65,11 +52,13 @@
 import Nav from '@/components/Nav'
 import SubNav from '@/components/SubNav'
 import Config from '@/lib/config'
+import LanguageLogos from '@/components/LanguageLogos'
 
 export default {
   components: {
     Nav,
-    SubNav
+    SubNav,
+    LanguageLogos
   },
   data() {
     return {
